@@ -1,0 +1,6 @@
+framework module Pods_CH_Drone_2 {
+  umbrella header "Pods-CH Drone 2-umbrella.h"
+
+  export *
+  module * { export * }
+}

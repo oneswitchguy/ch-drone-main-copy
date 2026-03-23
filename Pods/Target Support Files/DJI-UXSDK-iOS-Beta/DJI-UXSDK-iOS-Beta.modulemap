@@ -1,0 +1,6 @@
+framework module DJIUXSDKBeta {
+  umbrella header "DJI-UXSDK-iOS-Beta-umbrella.h"
+
+  export *
+  module * { export * }
+}

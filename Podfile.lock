@@ -1,0 +1,48 @@
+PODS:
+  - DJI-SDK-iOS (4.16.2)
+  - DJI-UXSDK-iOS-Beta (0.4.2):
+    - DJI-UXSDK-iOS-Beta-Accessory (= 0.4.2)
+    - DJI-UXSDK-iOS-Beta-Core (= 0.4.2)
+    - DJI-UXSDK-iOS-Beta-Flight (= 0.4.2)
+    - DJI-UXSDK-iOS-Beta-Map (= 0.4.2)
+  - DJI-UXSDK-iOS-Beta-Accessory (0.4.2):
+    - DJI-UXSDK-iOS-Beta-Core (~> 0.4.2)
+  - DJI-UXSDK-iOS-Beta-Core (0.4.2):
+    - DJI-SDK-iOS (~> 4.14)
+    - DJIWidget (~> 1.6.4)
+  - DJI-UXSDK-iOS-Beta-Flight (0.4.2):
+    - DJI-UXSDK-iOS-Beta-Core (~> 0.4.2)
+  - DJI-UXSDK-iOS-Beta-Map (0.4.2):
+    - DJI-UXSDK-iOS-Beta-Core (~> 0.4.2)
+  - DJIFlySafeDatabaseResource (01.00.01.18)
+  - DJIWidget (1.6.8)
+
+DEPENDENCIES:
+  - DJI-SDK-iOS (~> 4.15)
+  - DJI-UXSDK-iOS-Beta (~> 0.4.2)
+  - DJIFlySafeDatabaseResource (~> 01.00.01.18)
+
+SPEC REPOS:
+  trunk:
+    - DJI-SDK-iOS
+    - DJI-UXSDK-iOS-Beta
+    - DJI-UXSDK-iOS-Beta-Accessory
+    - DJI-UXSDK-iOS-Beta-Core
+    - DJI-UXSDK-iOS-Beta-Flight
+    - DJI-UXSDK-iOS-Beta-Map
+    - DJIFlySafeDatabaseResource
+    - DJIWidget
+
+SPEC CHECKSUMS:
+  DJI-SDK-iOS: 44308a021c3b95a912be52c4e7a8e0a27e5434f5
+  DJI-UXSDK-iOS-Beta: 78c627a5c7688fa4a864b383c76bd91c8ccd5d75
+  DJI-UXSDK-iOS-Beta-Accessory: 2dfc2a173745aad17b390b715d54928a072f4b5a
+  DJI-UXSDK-iOS-Beta-Core: b147eceee84e494587db6ca188cb0de9187924bb
+  DJI-UXSDK-iOS-Beta-Flight: cfa82f2f0858afa72cf41ae73fda404a640b001a
+  DJI-UXSDK-iOS-Beta-Map: af8b5026f7ab2eb38a252e475cefe2bd8298cd59
+  DJIFlySafeDatabaseResource: 400e1856340042bd6943e53c2d4b374ac8409702
+  DJIWidget: 9d92abb52888cd6296717c93feacd8a703bf678a
+
+PODFILE CHECKSUM: 2b47a0a91fef996e18d93673df79671a9f7c9348
+
+COCOAPODS: 1.16.2

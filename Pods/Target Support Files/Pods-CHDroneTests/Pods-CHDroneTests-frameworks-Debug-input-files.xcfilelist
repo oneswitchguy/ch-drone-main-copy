@@ -1,0 +1,9 @@
+${PODS_ROOT}/Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests-frameworks.sh
+${PODS_ROOT}/DJI-SDK-iOS/iOS_Mobile_SDK/DJISDK.framework
+${BUILT_PRODUCTS_DIR}/DJI-UXSDK-iOS-Beta/DJIUXSDKBeta.framework
+${BUILT_PRODUCTS_DIR}/DJI-UXSDK-iOS-Beta-Accessory/UXSDKAccessory.framework
+${BUILT_PRODUCTS_DIR}/DJI-UXSDK-iOS-Beta-Core/UXSDKCore.framework
+${BUILT_PRODUCTS_DIR}/DJI-UXSDK-iOS-Beta-Flight/UXSDKFlight.framework
+${BUILT_PRODUCTS_DIR}/DJI-UXSDK-iOS-Beta-Map/UXSDKMap.framework
+${PODS_ROOT}/DJIWidget/FFmpeg/FFmpeg.framework
+${BUILT_PRODUCTS_DIR}/DJIWidget/DJIWidget.framework

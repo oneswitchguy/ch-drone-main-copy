@@ -1,0 +1,6 @@
+framework module UXSDKFlight {
+  umbrella header "DJI-UXSDK-iOS-Beta-Flight-umbrella.h"
+
+  export *
+  module * { export * }
+}

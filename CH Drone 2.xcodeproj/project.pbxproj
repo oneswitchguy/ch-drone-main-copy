@@ -1,0 +1,947 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1061A59C3AE1209FFDD7924E /* Pods_CH_Drone_2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2018BBC664E2337FCC69F063 /* Pods_CH_Drone_2.framework */; };
+		27D9BDE3C261D1D4217F2AC3 /* Pods_CHDroneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12F0523F43C1FA70357BD7C9 /* Pods_CHDroneTests.framework */; };
+		DA4BD11E2F62E75A0019ED38 /* File.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA4BD11D2F62E75A0019ED38 /* File.txt */; };
+		DA8B64112F72498800387E26 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = DA8B64102F72498800387E26 /* AppIcon.icon */; };
+		DA8B64122F72498800387E26 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = DA8B64102F72498800387E26 /* AppIcon.icon */; };
+		FA0A939127B26F3E0031B589 /* AXWatchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0A939027B26F3E0031B589 /* AXWatchdog.swift */; };
+		FA0AD6DF26BC00B6001251E7 /* Publisher+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0AD6DE26BC00B6001251E7 /* Publisher+Utilities.swift */; };
+		FA0AD6E126BC00E8001251E7 /* AsyncSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0AD6E026BC00E8001251E7 /* AsyncSetting.swift */; };
+		FA0AD6ED26BD4DF6001251E7 /* Comparable+Clamped.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0AD6EC26BD4DF6001251E7 /* Comparable+Clamped.swift */; };
+		FA190A13283B9AA4009A396F /* CHDBetaVisionWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = FA190A12283B9AA3009A396F /* CHDBetaVisionWidget.m */; };
+		FA196F012E7985EF0007007B /* MainQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA196F002E7985EF0007007B /* MainQueue.swift */; };
+		FA24E6D826BDFE4000472A18 /* ClosedRange+Interpolated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA24E6D726BDFE4000472A18 /* ClosedRange+Interpolated.swift */; };
+		FA24E6E026BE00DA00472A18 /* CHDroneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA24E6DF26BE00DA00472A18 /* CHDroneTests.swift */; };
+		FA301AC92750E5BA00248768 /* CommandPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA301AC82750E5BA00248768 /* CommandPair.swift */; };
+		FA38D3042CB1EE4E002AE4D3 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = FA38D3032CB1EE4E002AE4D3 /* Sentry */; };
+		FA38D3062CB1EF09002AE4D3 /* SentryLogHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA38D3052CB1EF09002AE4D3 /* SentryLogHandler.swift */; };
+		FA41B27027A3F1D9005A5DA0 /* MovementMultipliers.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA41B26F27A3F1D9005A5DA0 /* MovementMultipliers.swift */; };
+		FA41B27227A3F89E005A5DA0 /* MultiplierCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA41B27127A3F89E005A5DA0 /* MultiplierCellViewController.swift */; };
+		FA41B27427A3FB91005A5DA0 /* MultiplierPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA41B27327A3FB91005A5DA0 /* MultiplierPickerViewController.swift */; };
+		FA41B27627A3FDC7005A5DA0 /* MultiplierFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA41B27527A3FDC7005A5DA0 /* MultiplierFormatter.swift */; };
+		FA41B27827A40848005A5DA0 /* MultiplierLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA41B27727A40848005A5DA0 /* MultiplierLevel.swift */; };
+		FA42CACE284F240C0021EAE0 /* JoystickState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA42CACD284F240C0021EAE0 /* JoystickState.swift */; };
+		FA42CAD0284F24520021EAE0 /* JoystickCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA42CACF284F24520021EAE0 /* JoystickCommands.swift */; };
+		FA42CAD2284F657B0021EAE0 /* TouchTransparentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA42CAD1284F657B0021EAE0 /* TouchTransparentView.swift */; };
+		FA4D898527AD2EAF00CFBB1A /* TakeOffWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4D898427AD2EAF00CFBB1A /* TakeOffWidget.swift */; };
+		FA4D898727AF4F6E00CFBB1A /* ReturnHomeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4D898627AF4F6E00CFBB1A /* ReturnHomeWidget.swift */; };
+		FA5D452427AF550500C36D73 /* StartStopMotorsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5D452327AF550500C36D73 /* StartStopMotorsWidget.swift */; };
+		FA5D452627AF55F800C36D73 /* StartStopMotorsWidgetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5D452527AF55F800C36D73 /* StartStopMotorsWidgetModel.swift */; };
+		FA5D452827AF926D00C36D73 /* ObstacleAvoidanceStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5D452727AF926D00C36D73 /* ObstacleAvoidanceStateViewController.swift */; };
+		FA5D452A27AFCA5700C36D73 /* ObstacleAvoiding.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5D452927AFCA5700C36D73 /* ObstacleAvoiding.swift */; };
+		FA6427FF2852E33800255729 /* UserDefaults+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6427FE2852E33800255729 /* UserDefaults+Tests.swift */; };
+		FA657D9C26EE04CB00C81348 /* GamePadObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA657D9B26EE04CA00C81348 /* GamePadObserver.swift */; };
+		FA67B78D28515C59005A435A /* JoystickCommandsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67B78C28515C59005A435A /* JoystickCommandsTests.swift */; };
+		FA76D341279E30CE00D6D36E /* SystemStatusWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA76D340279E30CE00D6D36E /* SystemStatusWidget.swift */; };
+		FA7CFE192754E2520074FDC9 /* AccessibilityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CFE182754E2520074FDC9 /* AccessibilityView.swift */; };
+		FA7DE260286C5FCF00B5ED84 /* TelemetryLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DE25F286C5FCF00B5ED84 /* TelemetryLogger.swift */; };
+		FA7EA913286DB60000226108 /* FileManager+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7EA912286DB60000226108 /* FileManager+Utilities.swift */; };
+		FA8018092823D155004C4FB2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8018082823D155004C4FB2 /* main.swift */; };
+		FA8685512E9B139400A0F6A4 /* JoystickControlsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8685502E9B138D00A0F6A4 /* JoystickControlsModel.swift */; };
+		FA893FAB2790392200B805F8 /* FlightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA893FAA2790392200B805F8 /* FlightViewController.swift */; };
+		FA893FAD2790395200B805F8 /* FPVCustomizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA893FAC2790395200B805F8 /* FPVCustomizations.swift */; };
+		FA893FAF279039EB00B805F8 /* ControlsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA893FAE279039EB00B805F8 /* ControlsContainerViewController.swift */; };
+		FA893FB127903B0A00B805F8 /* Configurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA893FB027903B0A00B805F8 /* Configurable.swift */; };
+		FA8AE61426B641EE00913CE1 /* UIView+Containment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8AE60E26B641EE00913CE1 /* UIView+Containment.swift */; };
+		FA8AE61526B641EE00913CE1 /* ScrollingContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8AE60F26B641EE00913CE1 /* ScrollingContentViewController.swift */; };
+		FA8AE61626B641EE00913CE1 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8AE61026B641EE00913CE1 /* ContainerViewController.swift */; };
+		FA8AE61726B641EE00913CE1 /* UIViewController+Containment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8AE61126B641EE00913CE1 /* UIViewController+Containment.swift */; };
+		FA8AE61826B641EE00913CE1 /* StackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8AE61226B641EE00913CE1 /* StackViewController.swift */; };
+		FA8AE61926B641EE00913CE1 /* ColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8AE61326B641EE00913CE1 /* ColorViewController.swift */; };
+		FA8AE61B26B644A800913CE1 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8AE61A26B644A800913CE1 /* ConnectionManager.swift */; };
+		FA8AE61D26B657C400913CE1 /* ValueSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8AE61C26B657C400913CE1 /* ValueSubject.swift */; };
+		FAA9CFD226C27C8400773513 /* VirtualControlsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA9CFD126C27C8400773513 /* VirtualControlsState.swift */; };
+		FAA9CFD426C2829200773513 /* MovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA9CFD326C2829200773513 /* MovementType.swift */; };
+		FAA9CFD826C28D7700773513 /* CommandState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA9CFD726C28D7700773513 /* CommandState.swift */; };
+		FAA9CFDA26C2ACC100773513 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA9CFD926C2ACC100773513 /* Command.swift */; };
+		FAAA25E5284F172A00CE989B /* JoystickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAA25E4284F172A00CE989B /* JoystickViewController.swift */; };
+		FAB2ED1D27B8BD3800208AC1 /* DistortionResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FAB2ED1C27B8BD3800208AC1 /* DistortionResource.bundle */; };
+		FAC68600286E591500F12E13 /* TelemetryLoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC685FF286E591500F12E13 /* TelemetryLoggerTests.swift */; };
+		FAC68603286E5EC300F12E13 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = FAC68602286E5EC300F12E13 /* OrderedCollections */; };
+		FAC68606286E65A400F12E13 /* Array+CSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC68605286E65A400F12E13 /* Array+CSV.swift */; };
+		FAC68608286E675800F12E13 /* String+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC68607286E675800F12E13 /* String+Utilities.swift */; };
+		FAC978D82743C20A0098BEB0 /* ControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC978D62743C20A0098BEB0 /* ControlsViewController.swift */; };
+		FAC978DB2743C2160098BEB0 /* FlightViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC978DA2743C2160098BEB0 /* FlightViewModel.swift */; };
+		FAC978DD2743C77F0098BEB0 /* Aircraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC978DC2743C77F0098BEB0 /* Aircraft.swift */; };
+		FAC978DF2745153F0098BEB0 /* CommandGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC978DE2745153F0098BEB0 /* CommandGrid.swift */; };
+		FAC978E1274E5A360098BEB0 /* ControlRowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC978E0274E5A360098BEB0 /* ControlRowViewController.swift */; };
+		FAD509D526B6350900744F9E /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD509D426B6350900744F9E /* AppCoordinator.swift */; };
+		FAD509DA26B63DC800744F9E /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD509D826B63DC800744F9E /* SetupViewController.swift */; };
+		FAD509DB26B63DC800744F9E /* SetupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAD509D926B63DC800744F9E /* SetupViewController.xib */; };
+		FAD969AA26B634D6007E3E58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD969A926B634D6007E3E58 /* AppDelegate.swift */; };
+		FAD969B326B634D7007E3E58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAD969B226B634D7007E3E58 /* Assets.xcassets */; };
+		FAD969B626B634D7007E3E58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAD969B426B634D7007E3E58 /* LaunchScreen.storyboard */; };
+		FAE17DF7283251F600BAE165 /* ObstacleAvoidanceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE17DF6283251F600BAE165 /* ObstacleAvoidanceState.swift */; };
+		FAF991462CB1ED3B0024A579 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = FAF991452CB1ED3B0024A579 /* Logging */; };
+		FAFABA5E27563E900069C5C4 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FAFABA5D27563E900069C5C4 /* Settings.bundle */; };
+		FAFABA6027563FAD0069C5C4 /* UserDefaults+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFABA5F27563FAD0069C5C4 /* UserDefaults+Settings.swift */; };
+		FAFB8010283CDFC100871196 /* LandingAssisting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFB800F283CDFC100871196 /* LandingAssisting.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FA24E6E126BE00DA00472A18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAD9699E26B634D6007E3E58 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FAD969A526B634D6007E3E58;
+			remoteInfo = "CH Drone";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		12F0523F43C1FA70357BD7C9 /* Pods_CHDroneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CHDroneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2018BBC664E2337FCC69F063 /* Pods_CH_Drone_2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CH_Drone_2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D1CDC09332100C4EE8E4B43 /* Pods-CHDroneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHDroneTests.release.xcconfig"; path = "Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests.release.xcconfig"; sourceTree = "<group>"; };
+		59D9C6D328316FB78350C1C0 /* Pods-CH Drone 2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CH Drone 2.release.xcconfig"; path = "Target Support Files/Pods-CH Drone 2/Pods-CH Drone 2.release.xcconfig"; sourceTree = "<group>"; };
+		5B5EC337122E5992136A1804 /* Pods-CH Drone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CH Drone.release.xcconfig"; path = "Target Support Files/Pods-CH Drone/Pods-CH Drone.release.xcconfig"; sourceTree = "<group>"; };
+		7DF710590A69DF3D3F44D04C /* Pods-CHDroneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHDroneTests.debug.xcconfig"; path = "Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C60C76B28DA0396A80DFC0C0 /* Pods-CH Drone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CH Drone.debug.xcconfig"; path = "Target Support Files/Pods-CH Drone/Pods-CH Drone.debug.xcconfig"; sourceTree = "<group>"; };
+		DA4BD11D2F62E75A0019ED38 /* File.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = File.txt; sourceTree = "<group>"; };
+		DA8B64102F72498800387E26 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		F7978F8112E28B0242B1AE8F /* Pods-CH Drone 2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CH Drone 2.debug.xcconfig"; path = "Target Support Files/Pods-CH Drone 2/Pods-CH Drone 2.debug.xcconfig"; sourceTree = "<group>"; };
+		FA0A939027B26F3E0031B589 /* AXWatchdog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXWatchdog.swift; sourceTree = "<group>"; };
+		FA0AD6DE26BC00B6001251E7 /* Publisher+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Utilities.swift"; sourceTree = "<group>"; };
+		FA0AD6E026BC00E8001251E7 /* AsyncSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncSetting.swift; sourceTree = "<group>"; };
+		FA0AD6EC26BD4DF6001251E7 /* Comparable+Clamped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparable+Clamped.swift"; sourceTree = "<group>"; };
+		FA190A11283B9AA3009A396F /* CHDBetaVisionWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHDBetaVisionWidget.h; sourceTree = "<group>"; };
+		FA190A12283B9AA3009A396F /* CHDBetaVisionWidget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHDBetaVisionWidget.m; sourceTree = "<group>"; };
+		FA190A14283B9ACD009A396F /* CH Drone-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CH Drone-Bridging-Header.h"; sourceTree = "<group>"; };
+		FA196F002E7985EF0007007B /* MainQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueue.swift; sourceTree = "<group>"; };
+		FA24E6D726BDFE4000472A18 /* ClosedRange+Interpolated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClosedRange+Interpolated.swift"; sourceTree = "<group>"; };
+		FA24E6DD26BE00DA00472A18 /* CHDroneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CHDroneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA24E6DF26BE00DA00472A18 /* CHDroneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHDroneTests.swift; sourceTree = "<group>"; };
+		FA301AC82750E5BA00248768 /* CommandPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandPair.swift; sourceTree = "<group>"; };
+		FA38D3052CB1EF09002AE4D3 /* SentryLogHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryLogHandler.swift; sourceTree = "<group>"; };
+		FA41008F2CB1F51100E5F82D /* WhatToTest.en.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WhatToTest.en.txt; sourceTree = "<group>"; };
+		FA41B26F27A3F1D9005A5DA0 /* MovementMultipliers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementMultipliers.swift; sourceTree = "<group>"; };
+		FA41B27127A3F89E005A5DA0 /* MultiplierCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplierCellViewController.swift; sourceTree = "<group>"; };
+		FA41B27327A3FB91005A5DA0 /* MultiplierPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplierPickerViewController.swift; sourceTree = "<group>"; };
+		FA41B27527A3FDC7005A5DA0 /* MultiplierFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplierFormatter.swift; sourceTree = "<group>"; };
+		FA41B27727A40848005A5DA0 /* MultiplierLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplierLevel.swift; sourceTree = "<group>"; };
+		FA42CACD284F240C0021EAE0 /* JoystickState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickState.swift; sourceTree = "<group>"; };
+		FA42CACF284F24520021EAE0 /* JoystickCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickCommands.swift; sourceTree = "<group>"; };
+		FA42CAD1284F657B0021EAE0 /* TouchTransparentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchTransparentView.swift; sourceTree = "<group>"; };
+		FA4D898427AD2EAF00CFBB1A /* TakeOffWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeOffWidget.swift; sourceTree = "<group>"; };
+		FA4D898627AF4F6E00CFBB1A /* ReturnHomeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnHomeWidget.swift; sourceTree = "<group>"; };
+		FA5D452327AF550500C36D73 /* StartStopMotorsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartStopMotorsWidget.swift; sourceTree = "<group>"; };
+		FA5D452527AF55F800C36D73 /* StartStopMotorsWidgetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartStopMotorsWidgetModel.swift; sourceTree = "<group>"; };
+		FA5D452727AF926D00C36D73 /* ObstacleAvoidanceStateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObstacleAvoidanceStateViewController.swift; sourceTree = "<group>"; };
+		FA5D452927AFCA5700C36D73 /* ObstacleAvoiding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObstacleAvoiding.swift; sourceTree = "<group>"; };
+		FA6427FE2852E33800255729 /* UserDefaults+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Tests.swift"; sourceTree = "<group>"; };
+		FA657D9B26EE04CA00C81348 /* GamePadObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePadObserver.swift; sourceTree = "<group>"; };
+		FA67B78C28515C59005A435A /* JoystickCommandsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickCommandsTests.swift; sourceTree = "<group>"; };
+		FA76D340279E30CE00D6D36E /* SystemStatusWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemStatusWidget.swift; sourceTree = "<group>"; };
+		FA7CFE182754E2520074FDC9 /* AccessibilityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityView.swift; sourceTree = "<group>"; };
+		FA7CFE4027562EC90074FDC9 /* App-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "App-Debug.xcconfig"; sourceTree = "<group>"; };
+		FA7CFE4127562EC90074FDC9 /* App-Debug-Local.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "App-Debug-Local.xcconfig"; sourceTree = "<group>"; };
+		FA7CFE4227562EC90074FDC9 /* App-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "App-Release.xcconfig"; sourceTree = "<group>"; };
+		FA7CFE4327562EC90074FDC9 /* Project-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Project-Release.xcconfig"; sourceTree = "<group>"; };
+		FA7CFE4427562EC90074FDC9 /* Project-Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Project-Shared.xcconfig"; sourceTree = "<group>"; };
+		FA7CFE4527562EC90074FDC9 /* App-Debug-Local-Template.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "App-Debug-Local-Template.xcconfig"; sourceTree = "<group>"; };
+		FA7CFE4627562EC90074FDC9 /* App-Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "App-Shared.xcconfig"; sourceTree = "<group>"; };
+		FA7CFE4727562EC90074FDC9 /* Project-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Project-Debug.xcconfig"; sourceTree = "<group>"; };
+		FA7DE25F286C5FCF00B5ED84 /* TelemetryLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryLogger.swift; sourceTree = "<group>"; };
+		FA7EA912286DB60000226108 /* FileManager+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Utilities.swift"; sourceTree = "<group>"; };
+		FA8018082823D155004C4FB2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		FA8685502E9B138D00A0F6A4 /* JoystickControlsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickControlsModel.swift; sourceTree = "<group>"; };
+		FA893FAA2790392200B805F8 /* FlightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightViewController.swift; sourceTree = "<group>"; };
+		FA893FAC2790395200B805F8 /* FPVCustomizations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPVCustomizations.swift; sourceTree = "<group>"; };
+		FA893FAE279039EB00B805F8 /* ControlsContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsContainerViewController.swift; sourceTree = "<group>"; };
+		FA893FB027903B0A00B805F8 /* Configurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurable.swift; sourceTree = "<group>"; };
+		FA8AE60E26B641EE00913CE1 /* UIView+Containment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Containment.swift"; sourceTree = "<group>"; };
+		FA8AE60F26B641EE00913CE1 /* ScrollingContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollingContentViewController.swift; sourceTree = "<group>"; };
+		FA8AE61026B641EE00913CE1 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		FA8AE61126B641EE00913CE1 /* UIViewController+Containment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Containment.swift"; sourceTree = "<group>"; };
+		FA8AE61226B641EE00913CE1 /* StackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackViewController.swift; sourceTree = "<group>"; };
+		FA8AE61326B641EE00913CE1 /* ColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorViewController.swift; sourceTree = "<group>"; };
+		FA8AE61A26B644A800913CE1 /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
+		FA8AE61C26B657C400913CE1 /* ValueSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueSubject.swift; sourceTree = "<group>"; };
+		FAA9CFD126C27C8400773513 /* VirtualControlsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualControlsState.swift; sourceTree = "<group>"; };
+		FAA9CFD326C2829200773513 /* MovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementType.swift; sourceTree = "<group>"; };
+		FAA9CFD726C28D7700773513 /* CommandState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandState.swift; sourceTree = "<group>"; };
+		FAA9CFD926C2ACC100773513 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		FAAA25E4284F172A00CE989B /* JoystickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickViewController.swift; sourceTree = "<group>"; };
+		FAB2ED1C27B8BD3800208AC1 /* DistortionResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DistortionResource.bundle; sourceTree = "<group>"; };
+		FAC685FF286E591500F12E13 /* TelemetryLoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryLoggerTests.swift; sourceTree = "<group>"; };
+		FAC68605286E65A400F12E13 /* Array+CSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+CSV.swift"; sourceTree = "<group>"; };
+		FAC68607286E675800F12E13 /* String+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utilities.swift"; sourceTree = "<group>"; };
+		FAC978D62743C20A0098BEB0 /* ControlsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlsViewController.swift; sourceTree = "<group>"; };
+		FAC978DA2743C2160098BEB0 /* FlightViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightViewModel.swift; sourceTree = "<group>"; };
+		FAC978DC2743C77F0098BEB0 /* Aircraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aircraft.swift; sourceTree = "<group>"; };
+		FAC978DE2745153F0098BEB0 /* CommandGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandGrid.swift; sourceTree = "<group>"; };
+		FAC978E0274E5A360098BEB0 /* ControlRowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlRowViewController.swift; sourceTree = "<group>"; };
+		FAD509D426B6350900744F9E /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		FAD509D826B63DC800744F9E /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
+		FAD509D926B63DC800744F9E /* SetupViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetupViewController.xib; sourceTree = "<group>"; };
+		FAD969A626B634D6007E3E58 /* CH Drone 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CH Drone 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAD969A926B634D6007E3E58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FAD969B226B634D7007E3E58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FAD969B526B634D7007E3E58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FAD969B726B634D7007E3E58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAE17DF6283251F600BAE165 /* ObstacleAvoidanceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObstacleAvoidanceState.swift; sourceTree = "<group>"; };
+		FAFABA5D27563E900069C5C4 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		FAFABA5F27563FAD0069C5C4 /* UserDefaults+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Settings.swift"; sourceTree = "<group>"; };
+		FAFB800F283CDFC100871196 /* LandingAssisting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingAssisting.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FA24E6DA26BE00DA00472A18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27D9BDE3C261D1D4217F2AC3 /* Pods_CHDroneTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAD969A326B634D6007E3E58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC68603286E5EC300F12E13 /* OrderedCollections in Frameworks */,
+				FAF991462CB1ED3B0024A579 /* Logging in Frameworks */,
+				FA38D3042CB1EE4E002AE4D3 /* Sentry in Frameworks */,
+				1061A59C3AE1209FFDD7924E /* Pods_CH_Drone_2.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2950CD93136822DCB96760F3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				12F0523F43C1FA70357BD7C9 /* Pods_CHDroneTests.framework */,
+				2018BBC664E2337FCC69F063 /* Pods_CH_Drone_2.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B75B3EB7A85ACA8E62C8B289 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C60C76B28DA0396A80DFC0C0 /* Pods-CH Drone.debug.xcconfig */,
+				5B5EC337122E5992136A1804 /* Pods-CH Drone.release.xcconfig */,
+				7DF710590A69DF3D3F44D04C /* Pods-CHDroneTests.debug.xcconfig */,
+				3D1CDC09332100C4EE8E4B43 /* Pods-CHDroneTests.release.xcconfig */,
+				F7978F8112E28B0242B1AE8F /* Pods-CH Drone 2.debug.xcconfig */,
+				59D9C6D328316FB78350C1C0 /* Pods-CH Drone 2.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		FA0AD6E526BD3A25001251E7 /* Virtual Controls */ = {
+			isa = PBXGroup;
+			children = (
+				FAC978DC2743C77F0098BEB0 /* Aircraft.swift */,
+				FAA9CFD926C2ACC100773513 /* Command.swift */,
+				FAC978DE2745153F0098BEB0 /* CommandGrid.swift */,
+				FA301AC82750E5BA00248768 /* CommandPair.swift */,
+				FAA9CFD726C28D7700773513 /* CommandState.swift */,
+				FAC978E0274E5A360098BEB0 /* ControlRowViewController.swift */,
+				FA893FAE279039EB00B805F8 /* ControlsContainerViewController.swift */,
+				FAC978D62743C20A0098BEB0 /* ControlsViewController.swift */,
+				FA893FAA2790392200B805F8 /* FlightViewController.swift */,
+				FAC978DA2743C2160098BEB0 /* FlightViewModel.swift */,
+				FA8685502E9B138D00A0F6A4 /* JoystickControlsModel.swift */,
+				FA893FAC2790395200B805F8 /* FPVCustomizations.swift */,
+				FA657D9B26EE04CA00C81348 /* GamePadObserver.swift */,
+				FA42CACF284F24520021EAE0 /* JoystickCommands.swift */,
+				FA42CACD284F240C0021EAE0 /* JoystickState.swift */,
+				FAAA25E4284F172A00CE989B /* JoystickViewController.swift */,
+				FAFB800F283CDFC100871196 /* LandingAssisting.swift */,
+				FA41B26F27A3F1D9005A5DA0 /* MovementMultipliers.swift */,
+				FAA9CFD326C2829200773513 /* MovementType.swift */,
+				FA41B27127A3F89E005A5DA0 /* MultiplierCellViewController.swift */,
+				FA41B27727A40848005A5DA0 /* MultiplierLevel.swift */,
+				FA41B27327A3FB91005A5DA0 /* MultiplierPickerViewController.swift */,
+				FAE17DF6283251F600BAE165 /* ObstacleAvoidanceState.swift */,
+				FA5D452727AF926D00C36D73 /* ObstacleAvoidanceStateViewController.swift */,
+				FA5D452927AFCA5700C36D73 /* ObstacleAvoiding.swift */,
+				FAA9CFD126C27C8400773513 /* VirtualControlsState.swift */,
+			);
+			path = "Virtual Controls";
+			sourceTree = "<group>";
+		};
+		FA24E6DE26BE00DA00472A18 /* CHDroneTests */ = {
+			isa = PBXGroup;
+			children = (
+				FA24E6DF26BE00DA00472A18 /* CHDroneTests.swift */,
+				FA67B78C28515C59005A435A /* JoystickCommandsTests.swift */,
+				FAC685FF286E591500F12E13 /* TelemetryLoggerTests.swift */,
+				FA6427FE2852E33800255729 /* UserDefaults+Tests.swift */,
+			);
+			path = CHDroneTests;
+			sourceTree = "<group>";
+		};
+		FA30EA6626B67D1200AB9497 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				FA7CFE182754E2520074FDC9 /* AccessibilityView.swift */,
+				FAC68605286E65A400F12E13 /* Array+CSV.swift */,
+				FA0AD6E026BC00E8001251E7 /* AsyncSetting.swift */,
+				FA0A939027B26F3E0031B589 /* AXWatchdog.swift */,
+				FA24E6D726BDFE4000472A18 /* ClosedRange+Interpolated.swift */,
+				FA0AD6EC26BD4DF6001251E7 /* Comparable+Clamped.swift */,
+				FA893FB027903B0A00B805F8 /* Configurable.swift */,
+				FA8AE61A26B644A800913CE1 /* ConnectionManager.swift */,
+				FA196F002E7985EF0007007B /* MainQueue.swift */,
+				FA7EA912286DB60000226108 /* FileManager+Utilities.swift */,
+				FA41B27527A3FDC7005A5DA0 /* MultiplierFormatter.swift */,
+				FA0AD6DE26BC00B6001251E7 /* Publisher+Utilities.swift */,
+				FAC68607286E675800F12E13 /* String+Utilities.swift */,
+				FA42CAD1284F657B0021EAE0 /* TouchTransparentView.swift */,
+				FAFABA5F27563FAD0069C5C4 /* UserDefaults+Settings.swift */,
+				FA8AE61C26B657C400913CE1 /* ValueSubject.swift */,
+				FA38D3052CB1EF09002AE4D3 /* SentryLogHandler.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		FA41008E2CB1F4D600E5F82D /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				FA41008F2CB1F51100E5F82D /* WhatToTest.en.txt */,
+			);
+			path = TestFlight;
+			sourceTree = "<group>";
+		};
+		FA76D33F279E30B500D6D36E /* DJI UX Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				FA190A11283B9AA3009A396F /* CHDBetaVisionWidget.h */,
+				FA190A12283B9AA3009A396F /* CHDBetaVisionWidget.m */,
+				FA4D898627AF4F6E00CFBB1A /* ReturnHomeWidget.swift */,
+				FA5D452327AF550500C36D73 /* StartStopMotorsWidget.swift */,
+				FA5D452527AF55F800C36D73 /* StartStopMotorsWidgetModel.swift */,
+				FA76D340279E30CE00D6D36E /* SystemStatusWidget.swift */,
+				FA4D898427AD2EAF00CFBB1A /* TakeOffWidget.swift */,
+			);
+			path = "DJI UX Widgets";
+			sourceTree = "<group>";
+		};
+		FA7CFE3F27562EC90074FDC9 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				FA7CFE4027562EC90074FDC9 /* App-Debug.xcconfig */,
+				FA7CFE4127562EC90074FDC9 /* App-Debug-Local.xcconfig */,
+				FA7CFE4527562EC90074FDC9 /* App-Debug-Local-Template.xcconfig */,
+				FA7CFE4227562EC90074FDC9 /* App-Release.xcconfig */,
+				FA7CFE4627562EC90074FDC9 /* App-Shared.xcconfig */,
+				FA7CFE4727562EC90074FDC9 /* Project-Debug.xcconfig */,
+				FA7CFE4327562EC90074FDC9 /* Project-Release.xcconfig */,
+				FA7CFE4427562EC90074FDC9 /* Project-Shared.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		FA7D124529E79ECF002179B3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FAD969B226B634D7007E3E58 /* Assets.xcassets */,
+				FA190A14283B9ACD009A396F /* CH Drone-Bridging-Header.h */,
+				FAB2ED1C27B8BD3800208AC1 /* DistortionResource.bundle */,
+				FAD969B726B634D7007E3E58 /* Info.plist */,
+				FAD969B426B634D7007E3E58 /* LaunchScreen.storyboard */,
+				FAFABA5D27563E900069C5C4 /* Settings.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		FA7D124629E79EF9002179B3 /* Setup */ = {
+			isa = PBXGroup;
+			children = (
+				FAD509D826B63DC800744F9E /* SetupViewController.swift */,
+				FAD509D926B63DC800744F9E /* SetupViewController.xib */,
+			);
+			path = Setup;
+			sourceTree = "<group>";
+		};
+		FA7DE25E286C5FC400B5ED84 /* Telemetry */ = {
+			isa = PBXGroup;
+			children = (
+				DA4BD11D2F62E75A0019ED38 /* File.txt */,
+				FA7DE25F286C5FCF00B5ED84 /* TelemetryLogger.swift */,
+			);
+			path = Telemetry;
+			sourceTree = "<group>";
+		};
+		FA8AE60D26B641EE00913CE1 /* Containment */ = {
+			isa = PBXGroup;
+			children = (
+				FA8AE61326B641EE00913CE1 /* ColorViewController.swift */,
+				FA8AE61026B641EE00913CE1 /* ContainerViewController.swift */,
+				FA8AE60F26B641EE00913CE1 /* ScrollingContentViewController.swift */,
+				FA8AE61226B641EE00913CE1 /* StackViewController.swift */,
+				FA8AE60E26B641EE00913CE1 /* UIView+Containment.swift */,
+				FA8AE61126B641EE00913CE1 /* UIViewController+Containment.swift */,
+			);
+			path = Containment;
+			sourceTree = "<group>";
+		};
+		FAD9699D26B634D6007E3E58 = {
+			isa = PBXGroup;
+			children = (
+				FA41008E2CB1F4D600E5F82D /* TestFlight */,
+				FAD969A826B634D6007E3E58 /* CH Drone 2 */,
+				FA24E6DE26BE00DA00472A18 /* CHDroneTests */,
+				FA7CFE3F27562EC90074FDC9 /* Configuration */,
+				2950CD93136822DCB96760F3 /* Frameworks */,
+				B75B3EB7A85ACA8E62C8B289 /* Pods */,
+				FAD969A726B634D6007E3E58 /* Products */,
+				DA8B64102F72498800387E26 /* AppIcon.icon */,
+			);
+			sourceTree = "<group>";
+		};
+		FAD969A726B634D6007E3E58 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FAD969A626B634D6007E3E58 /* CH Drone 2.app */,
+				FA24E6DD26BE00DA00472A18 /* CHDroneTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FAD969A826B634D6007E3E58 /* CH Drone 2 */ = {
+			isa = PBXGroup;
+			children = (
+				FA8AE60D26B641EE00913CE1 /* Containment */,
+				FA76D33F279E30B500D6D36E /* DJI UX Widgets */,
+				FA7D124529E79ECF002179B3 /* Resources */,
+				FA7D124629E79EF9002179B3 /* Setup */,
+				FA7DE25E286C5FC400B5ED84 /* Telemetry */,
+				FA30EA6626B67D1200AB9497 /* Utilities */,
+				FA0AD6E526BD3A25001251E7 /* Virtual Controls */,
+				FAD509D426B6350900744F9E /* AppCoordinator.swift */,
+				FAD969A926B634D6007E3E58 /* AppDelegate.swift */,
+				FA8018082823D155004C4FB2 /* main.swift */,
+			);
+			path = "CH Drone 2";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FA24E6DC26BE00DA00472A18 /* CHDroneTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA24E6E326BE00DA00472A18 /* Build configuration list for PBXNativeTarget "CHDroneTests" */;
+			buildPhases = (
+				1229759BA55662FF914F68B1 /* [CP] Check Pods Manifest.lock */,
+				FA24E6D926BE00DA00472A18 /* Sources */,
+				FA24E6DA26BE00DA00472A18 /* Frameworks */,
+				FA24E6DB26BE00DA00472A18 /* Resources */,
+				AC73542974B5087117C7065E /* [CP] Embed Pods Frameworks */,
+				48BB7EF4F622D678C4395ED2 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA24E6E226BE00DA00472A18 /* PBXTargetDependency */,
+			);
+			name = CHDroneTests;
+			productName = CHDroneTests;
+			productReference = FA24E6DD26BE00DA00472A18 /* CHDroneTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FAD969A526B634D6007E3E58 /* CH Drone 2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAD969BA26B634D7007E3E58 /* Build configuration list for PBXNativeTarget "CH Drone 2" */;
+			buildPhases = (
+				FAEE859C627DD55C8AAAAB6C /* [CP] Check Pods Manifest.lock */,
+				FAD969A226B634D6007E3E58 /* Sources */,
+				FAD969A326B634D6007E3E58 /* Frameworks */,
+				FAD969A426B634D6007E3E58 /* Resources */,
+				8782B00C0CC39A8C777C80E2 /* [CP] Embed Pods Frameworks */,
+				7BCAE9B568092B533020A32F /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "CH Drone 2";
+			packageProductDependencies = (
+				FAC68602286E5EC300F12E13 /* OrderedCollections */,
+				FAF991452CB1ED3B0024A579 /* Logging */,
+				FA38D3032CB1EE4E002AE4D3 /* Sentry */,
+			);
+			productName = DroneSwitchControl;
+			productReference = FAD969A626B634D6007E3E58 /* CH Drone 2.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FAD9699E26B634D6007E3E58 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 2600;
+				ORGANIZATIONNAME = "Astrocode Pty Ltd";
+				TargetAttributes = {
+					FA24E6DC26BE00DA00472A18 = {
+						CreatedOnToolsVersion = 13.0;
+						TestTargetID = FAD969A526B634D6007E3E58;
+					};
+					FAD969A526B634D6007E3E58 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+				};
+			};
+			buildConfigurationList = FAD969A126B634D6007E3E58 /* Build configuration list for PBXProject "CH Drone 2" */;
+			compatibilityVersion = "Xcode 12.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FAD9699D26B634D6007E3E58;
+			packageReferences = (
+				FAC68601286E5EC300F12E13 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				FAF991442CB1ED3B0024A579 /* XCRemoteSwiftPackageReference "swift-log" */,
+				FA38D3022CB1EE4E002AE4D3 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+			);
+			productRefGroup = FAD969A726B634D6007E3E58 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FAD969A526B634D6007E3E58 /* CH Drone 2 */,
+				FA24E6DC26BE00DA00472A18 /* CHDroneTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FA24E6DB26BE00DA00472A18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA8B64112F72498800387E26 /* AppIcon.icon in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAD969A426B634D6007E3E58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAD969B326B634D7007E3E58 /* Assets.xcassets in Resources */,
+				FAB2ED1D27B8BD3800208AC1 /* DistortionResource.bundle in Resources */,
+				DA4BD11E2F62E75A0019ED38 /* File.txt in Resources */,
+				DA8B64122F72498800387E26 /* AppIcon.icon in Resources */,
+				FAD969B626B634D7007E3E58 /* LaunchScreen.storyboard in Resources */,
+				FAFABA5E27563E900069C5C4 /* Settings.bundle in Resources */,
+				FAD509DB26B63DC800744F9E /* SetupViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1229759BA55662FF914F68B1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CHDroneTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		48BB7EF4F622D678C4395ED2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7BCAE9B568092B533020A32F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CH Drone 2/Pods-CH Drone 2-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CH Drone 2/Pods-CH Drone 2-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CH Drone 2/Pods-CH Drone 2-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8782B00C0CC39A8C777C80E2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CH Drone 2/Pods-CH Drone 2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CH Drone 2/Pods-CH Drone 2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CH Drone 2/Pods-CH Drone 2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC73542974B5087117C7065E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FAEE859C627DD55C8AAAAB6C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CH Drone 2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FA24E6D926BE00DA00472A18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA24E6E026BE00DA00472A18 /* CHDroneTests.swift in Sources */,
+				FA67B78D28515C59005A435A /* JoystickCommandsTests.swift in Sources */,
+				FAC68600286E591500F12E13 /* TelemetryLoggerTests.swift in Sources */,
+				FA6427FF2852E33800255729 /* UserDefaults+Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAD969A226B634D6007E3E58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA7CFE192754E2520074FDC9 /* AccessibilityView.swift in Sources */,
+				FAC978DD2743C77F0098BEB0 /* Aircraft.swift in Sources */,
+				FAD509D526B6350900744F9E /* AppCoordinator.swift in Sources */,
+				FAD969AA26B634D6007E3E58 /* AppDelegate.swift in Sources */,
+				FAC68606286E65A400F12E13 /* Array+CSV.swift in Sources */,
+				FA0AD6E126BC00E8001251E7 /* AsyncSetting.swift in Sources */,
+				FA0A939127B26F3E0031B589 /* AXWatchdog.swift in Sources */,
+				FA190A13283B9AA4009A396F /* CHDBetaVisionWidget.m in Sources */,
+				FA24E6D826BDFE4000472A18 /* ClosedRange+Interpolated.swift in Sources */,
+				FA8AE61926B641EE00913CE1 /* ColorViewController.swift in Sources */,
+				FAA9CFDA26C2ACC100773513 /* Command.swift in Sources */,
+				FAC978DF2745153F0098BEB0 /* CommandGrid.swift in Sources */,
+				FA301AC92750E5BA00248768 /* CommandPair.swift in Sources */,
+				FAA9CFD826C28D7700773513 /* CommandState.swift in Sources */,
+				FA0AD6ED26BD4DF6001251E7 /* Comparable+Clamped.swift in Sources */,
+				FA38D3062CB1EF09002AE4D3 /* SentryLogHandler.swift in Sources */,
+				FA893FB127903B0A00B805F8 /* Configurable.swift in Sources */,
+				FA8AE61B26B644A800913CE1 /* ConnectionManager.swift in Sources */,
+				FA8AE61626B641EE00913CE1 /* ContainerViewController.swift in Sources */,
+				FAC978E1274E5A360098BEB0 /* ControlRowViewController.swift in Sources */,
+				FA893FAF279039EB00B805F8 /* ControlsContainerViewController.swift in Sources */,
+				FAC978D82743C20A0098BEB0 /* ControlsViewController.swift in Sources */,
+				FA196F012E7985EF0007007B /* MainQueue.swift in Sources */,
+				FA8685512E9B139400A0F6A4 /* JoystickControlsModel.swift in Sources */,
+				FA7EA913286DB60000226108 /* FileManager+Utilities.swift in Sources */,
+				FA893FAB2790392200B805F8 /* FlightViewController.swift in Sources */,
+				FAC978DB2743C2160098BEB0 /* FlightViewModel.swift in Sources */,
+				FA893FAD2790395200B805F8 /* FPVCustomizations.swift in Sources */,
+				FA657D9C26EE04CB00C81348 /* GamePadObserver.swift in Sources */,
+				FA42CAD0284F24520021EAE0 /* JoystickCommands.swift in Sources */,
+				FA42CACE284F240C0021EAE0 /* JoystickState.swift in Sources */,
+				FAAA25E5284F172A00CE989B /* JoystickViewController.swift in Sources */,
+				FAFB8010283CDFC100871196 /* LandingAssisting.swift in Sources */,
+				FA8018092823D155004C4FB2 /* main.swift in Sources */,
+				FA41B27027A3F1D9005A5DA0 /* MovementMultipliers.swift in Sources */,
+				FAA9CFD426C2829200773513 /* MovementType.swift in Sources */,
+				FA41B27227A3F89E005A5DA0 /* MultiplierCellViewController.swift in Sources */,
+				FA41B27627A3FDC7005A5DA0 /* MultiplierFormatter.swift in Sources */,
+				FA41B27827A40848005A5DA0 /* MultiplierLevel.swift in Sources */,
+				FA41B27427A3FB91005A5DA0 /* MultiplierPickerViewController.swift in Sources */,
+				FAE17DF7283251F600BAE165 /* ObstacleAvoidanceState.swift in Sources */,
+				FA5D452827AF926D00C36D73 /* ObstacleAvoidanceStateViewController.swift in Sources */,
+				FA5D452A27AFCA5700C36D73 /* ObstacleAvoiding.swift in Sources */,
+				FA0AD6DF26BC00B6001251E7 /* Publisher+Utilities.swift in Sources */,
+				FA4D898727AF4F6E00CFBB1A /* ReturnHomeWidget.swift in Sources */,
+				FA8AE61526B641EE00913CE1 /* ScrollingContentViewController.swift in Sources */,
+				FAD509DA26B63DC800744F9E /* SetupViewController.swift in Sources */,
+				FA8AE61826B641EE00913CE1 /* StackViewController.swift in Sources */,
+				FA5D452427AF550500C36D73 /* StartStopMotorsWidget.swift in Sources */,
+				FA5D452627AF55F800C36D73 /* StartStopMotorsWidgetModel.swift in Sources */,
+				FAC68608286E675800F12E13 /* String+Utilities.swift in Sources */,
+				FA76D341279E30CE00D6D36E /* SystemStatusWidget.swift in Sources */,
+				FA4D898527AD2EAF00CFBB1A /* TakeOffWidget.swift in Sources */,
+				FA7DE260286C5FCF00B5ED84 /* TelemetryLogger.swift in Sources */,
+				FA42CAD2284F657B0021EAE0 /* TouchTransparentView.swift in Sources */,
+				FA8AE61426B641EE00913CE1 /* UIView+Containment.swift in Sources */,
+				FA8AE61726B641EE00913CE1 /* UIViewController+Containment.swift in Sources */,
+				FAFABA6027563FAD0069C5C4 /* UserDefaults+Settings.swift in Sources */,
+				FA8AE61D26B657C400913CE1 /* ValueSubject.swift in Sources */,
+				FAA9CFD226C27C8400773513 /* VirtualControlsState.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FA24E6E226BE00DA00472A18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FAD969A526B634D6007E3E58 /* CH Drone 2 */;
+			targetProxy = FA24E6E126BE00DA00472A18 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FAD969B426B634D7007E3E58 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAD969B526B634D7007E3E58 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FA24E6E426BE00DA00472A18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7DF710590A69DF3D3F44D04C /* Pods-CHDroneTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RKHD32Y276;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.astrocode.CHDroneTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CH Drone 2.app/CH Drone 2";
+			};
+			name = Debug;
+		};
+		FA24E6E526BE00DA00472A18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D1CDC09332100C4EE8E4B43 /* Pods-CHDroneTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RKHD32Y276;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.astrocode.CHDroneTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CH Drone 2.app/CH Drone 2";
+			};
+			name = Release;
+		};
+		FAD969B826B634D7007E3E58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA7CFE4727562EC90074FDC9 /* Project-Debug.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		FAD969B926B634D7007E3E58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA7CFE4327562EC90074FDC9 /* Project-Release.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		FAD969BB26B634D7007E3E58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA7CFE4027562EC90074FDC9 /* App-Debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_NAME = "HO Flight";
+				DEVELOPMENT_TEAM = 4R99ZUCJBW;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.chdrone2;
+				PRODUCT_NAME = "CH Drone 2";
+			};
+			name = Debug;
+		};
+		FAD969BC26B634D7007E3E58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA7CFE4227562EC90074FDC9 /* App-Release.xcconfig */;
+			buildSettings = {
+				BUNDLE_NAME = "HO Flight";
+				DEVELOPMENT_TEAM = 4R99ZUCJBW;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.chdrone2;
+				PRODUCT_NAME = "CH Drone 2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA24E6E326BE00DA00472A18 /* Build configuration list for PBXNativeTarget "CHDroneTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA24E6E426BE00DA00472A18 /* Debug */,
+				FA24E6E526BE00DA00472A18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAD969A126B634D6007E3E58 /* Build configuration list for PBXProject "CH Drone 2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAD969B826B634D7007E3E58 /* Debug */,
+				FAD969B926B634D7007E3E58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAD969BA26B634D7007E3E58 /* Build configuration list for PBXNativeTarget "CH Drone 2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAD969BB26B634D7007E3E58 /* Debug */,
+				FAD969BC26B634D7007E3E58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FA38D3022CB1EE4E002AE4D3 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.36.0;
+			};
+		};
+		FAC68601286E5EC300F12E13 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		FAF991442CB1ED3B0024A579 /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FA38D3032CB1EE4E002AE4D3 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA38D3022CB1EE4E002AE4D3 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+		FAC68602286E5EC300F12E13 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAC68601286E5EC300F12E13 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+		FAF991452CB1ED3B0024A579 /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAF991442CB1ED3B0024A579 /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = FAD9699E26B634D6007E3E58 /* Project object */;
+}

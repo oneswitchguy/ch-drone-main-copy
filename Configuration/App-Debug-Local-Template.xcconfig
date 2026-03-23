@@ -1,0 +1,16 @@
+// IMPORTANT:
+//
+// Copy this file to App-Debug-Local.xcconfig and edit the contents.
+//
+// The settings in Debug-Local.xcconfig override the values in Base.xcconfig and Debug.xcconfig.
+//
+// Debug-Local.xcconfig is not checked in to git.
+//
+// Register for a developer account with DJI and create an app here:
+// https://developer.dji.com/user/apps
+
+// The app's bundle identifier. Use the same one as the app registered with DJI.
+PRODUCT_BUNDLE_IDENTIFIER = com.example.drone_app
+
+// Use the API key provided by DJI.
+DJI_SDK_APP_KEY = 123abc

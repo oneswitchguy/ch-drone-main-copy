@@ -1,0 +1,11 @@
+#include "Project-Shared.xcconfig"
+
+// Build Options
+VALIDATE_PRODUCT = YES
+
+// Swift Compiler - Code Generation
+SWIFT_OPTIMIZATION_LEVEL = -O
+SWIFT_COMPILATION_MODE = wholemodule
+
+// User-Defined
+MTL_ENABLE_DEBUG_INFO = NO

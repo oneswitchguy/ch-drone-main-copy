@@ -1,0 +1,97 @@
+//
+//  ControlsContainerViewController.swift
+//  CH Drone
+//
+//  Created by Alex Robinson on 13/1/2022.
+//
+
+import Combine
+import Foundation
+import UIKit
+
+final class ControlsContainerViewController: UIViewController, UIGestureRecognizerDelegate {
+
+    let viewModel: FlightViewModel
+
+    init(viewModel: FlightViewModel) {
+        self.viewModel = viewModel
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        disengageTapGestureRecognizer.addTarget(self, action: #selector(handleDisengageTap))
+        disengageTapGestureRecognizer.cancelsTouchesInView = false
+        disengageTapGestureRecognizer.delegate = self
+        view.addGestureRecognizer(disengageTapGestureRecognizer)
+
+        // Rebuild the controls UI when a relevant setting changes
+        UserDefaults.standard
+            .publisher(for: \.videoFeedEnabled)
+            .removeDuplicates()
+            .receiveOnMain()
+            .sink { [weak self] videoFeedEnabled in
+                self?.embedChildren(videoFeedEnabled: videoFeedEnabled)
+            }
+            .store(in: &cancellables)
+    }
+
+    // MARK: - Private
+
+    private var cancellables: [AnyCancellable] = []
+    private weak var joystickViewController: JoystickViewController?
+    private let disengageTapGestureRecognizer = UITapGestureRecognizer()
+
+    private lazy var controlsContainer = UIView()
+        .assigning(\.translatesAutoresizingMaskIntoConstraints, to: false)
+
+    private func embedChildren(videoFeedEnabled: Bool) {
+        let flightVC = FlightViewController(videoFeedEnabled: videoFeedEnabled)
+        let controlsVC = ControlsViewController(viewModel: viewModel)
+        let joystickVC = JoystickViewController(viewModel: viewModel.joystickControlsModel, commands: viewModel.joystickCommands)
+        joystickViewController = joystickVC
+
+        embedChild(flightVC, in: view)
+
+        view.addSubview(controlsContainer)
+        embedChild(controlsVC, in: controlsContainer)
+
+        embedChild(joystickVC, in: view)
+
+        NSLayoutConstraint.activate([
+            controlsContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            controlsContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            controlsContainer.topAnchor.constraint(equalTo: flightVC.topBarLayoutGuide.bottomAnchor),
+        ])
+
+        view.accessibilityElements = [
+            joystickVC.accessibilityElementForOrdering,
+            controlsContainer as Any,
+            flightVC.view as Any,
+        ]
+    }
+
+    @objc private func handleDisengageTap() {
+        viewModel.disengageOnScreenJoystickControl()
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let joystickViewController else {
+            return true
+        }
+
+        return !joystickViewController.isThumbView(touch.view)
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        true
+    }
+
+}

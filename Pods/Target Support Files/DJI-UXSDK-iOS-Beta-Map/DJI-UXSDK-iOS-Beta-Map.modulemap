@@ -1,0 +1,6 @@
+framework module UXSDKMap {
+  umbrella header "DJI-UXSDK-iOS-Beta-Map-umbrella.h"
+
+  export *
+  module * { export * }
+}

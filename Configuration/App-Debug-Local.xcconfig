@@ -1,0 +1,5 @@
+// The app's bundle identifier. Use the same one as the app registered with DJI.
+PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.chdrone2
+
+// Use the API key provided by DJI.
+DJI_SDK_APP_KEY = 5237986abd3a6c10f5afd646
