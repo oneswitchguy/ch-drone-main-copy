@@ -483,7 +483,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2630;
 				ORGANIZATIONNAME = "Astrocode Pty Ltd";
 				TargetAttributes = {
 					FA24E6DC26BE00DA00472A18 = {
