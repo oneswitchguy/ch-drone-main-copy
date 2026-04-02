@@ -22,6 +22,7 @@ final class FlightViewController : UIViewController {
     var fpvWidget: DUXBetaFPVWidget?
     var compassWidget: DUXBetaCompassWidget?
     var telemetryPanel: DUXBetaTelemetryPanelWidget?
+    private let photoFlashView = UIView()
 
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 
@@ -60,6 +61,8 @@ final class FlightViewController : UIViewController {
         setupTelemetryPanel()
         setupRemainingFlightTimeWidget()
         setupRTKWidget()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCameraDidTakePhoto), name: .cameraDidTakePhoto, object: nil)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -69,6 +72,7 @@ final class FlightViewController : UIViewController {
     }
 
     deinit {
+        NotificationCenter.default.removeObserver(self)
         DJISDKManager.keyManager()?.stopAllListening(ofListeners: self)
     }
 
@@ -155,7 +159,38 @@ private extension FlightViewController {
 
         setupMainViewConstraints(widget: fpvWidget)
 
+        photoFlashView.translatesAutoresizingMaskIntoConstraints = false
+        photoFlashView.backgroundColor = .white
+        photoFlashView.alpha = 0
+        photoFlashView.isUserInteractionEnabled = false
+        fpvWidget.view.addSubview(photoFlashView)
+
+        NSLayoutConstraint.activate([
+            photoFlashView.topAnchor.constraint(equalTo: fpvWidget.view.topAnchor),
+            photoFlashView.leadingAnchor.constraint(equalTo: fpvWidget.view.leadingAnchor),
+            photoFlashView.trailingAnchor.constraint(equalTo: fpvWidget.view.trailingAnchor),
+            photoFlashView.bottomAnchor.constraint(equalTo: fpvWidget.view.bottomAnchor),
+        ])
+
         self.fpvWidget = fpvWidget
+    }
+
+    @objc func handleCameraDidTakePhoto() {
+        guard videoFeedEnabled else {
+            return
+        }
+
+        fpvWidget?.view.bringSubviewToFront(photoFlashView)
+        photoFlashView.layer.removeAllAnimations()
+        photoFlashView.alpha = 0
+
+        UIView.animate(withDuration: 0.08, animations: {
+            self.photoFlashView.alpha = 0.85
+        }) { _ in
+            UIView.animate(withDuration: 0.18) {
+                self.photoFlashView.alpha = 0
+            }
+        }
     }
 
     func setupRTKWidget() {

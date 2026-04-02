@@ -6,8 +6,14 @@
 //
 
 import Combine
+import AudioToolbox
+import DJISDK
 import DJIUXSDKBeta
 import UIKit
+
+extension Notification.Name {
+    static let cameraDidTakePhoto = Notification.Name("CameraDidTakePhoto")
+}
 
 /// A grid of controls accessibility-grouped by row.
 ///
@@ -306,6 +312,7 @@ private extension ControlsViewController {
             StartStopMotorsWidget(),
             TakeOffWidget(),
             ReturnHomeWidget(),
+            CameraControlWidget(),
             visionWidget,
         ]
 
@@ -334,6 +341,227 @@ private extension ControlsViewController {
         present(nav, animated: true, completion: nil)
     }
 
+}
+
+private final class CameraControlWidget: DUXBetaBaseWidget, DJICameraDelegate {
+    private enum CameraSound {
+        static let photoShutter: SystemSoundID = 1108
+        static let recordStart: SystemSoundID = 1117
+        static let recordStop: SystemSoundID = 1118
+    }
+
+    override var widgetSizeHint: DUXBetaWidgetSizeHint {
+        get {
+            DUXBetaWidgetSizeHint(preferredAspectRatio: 1, minimumWidth: 44, minimumHeight: 44)
+        }
+        set {}
+    }
+
+    private let button = UIButton(type: .system)
+    private var currentSystemState: DJICameraSystemState?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = .white
+        button.backgroundColor = .clear
+        button.accessibilityTraits.insert(.button)
+        button.addTarget(self, action: #selector(showControls), for: .touchUpInside)
+
+        view.addSubview(button)
+
+        NSLayoutConstraint.activate([
+            button.topAnchor.constraint(equalTo: view.topAnchor),
+            button.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            view.widthAnchor.constraint(equalTo: view.heightAnchor),
+        ])
+
+        updateUI()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        attachToCamera()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        currentCamera?.delegate = nil
+        super.viewDidDisappear(animated)
+    }
+
+    private var currentCamera: DJICamera? {
+        if let camera = DJISDKManager.product()?.camera {
+            return camera
+        }
+
+        return (DJISDKManager.product() as? DJIAircraft)?.cameras?.first
+    }
+
+    private func attachToCamera() {
+        currentCamera?.delegate = self
+        updateUI()
+    }
+
+    private func updateUI() {
+        let imageName: String
+        let accessibilityLabel: String
+        let tintColor: UIColor
+
+        if let state = currentSystemState {
+            if state.isRecording {
+                imageName = "record.circle"
+                accessibilityLabel = NSLocalizedString("Camera controls, recording", comment: "")
+                tintColor = .systemRed
+            } else {
+                switch state.mode {
+                case .shootPhoto:
+                    imageName = "camera.circle"
+                    accessibilityLabel = NSLocalizedString("Camera controls, photo mode", comment: "")
+                    tintColor = .white
+                case .recordVideo:
+                    imageName = "video.circle"
+                    accessibilityLabel = NSLocalizedString("Camera controls, video mode", comment: "")
+                    tintColor = .white
+                default:
+                    imageName = "camera.circle"
+                    accessibilityLabel = NSLocalizedString("Camera controls", comment: "")
+                    tintColor = .white
+                }
+            }
+        } else {
+            imageName = "camera.circle"
+            accessibilityLabel = currentCamera == nil
+                ? NSLocalizedString("Camera unavailable", comment: "")
+                : NSLocalizedString("Camera controls", comment: "")
+            tintColor = .white
+        }
+
+        button.setImage(UIImage(systemName: imageName), for: .normal)
+        button.tintColor = tintColor
+        button.isEnabled = currentCamera != nil
+        button.accessibilityLabel = accessibilityLabel
+    }
+
+    @objc private func showControls() {
+        guard let camera = currentCamera else {
+            showErrorAlert(message: NSLocalizedString("No camera is connected.", comment: ""))
+            return
+        }
+
+        if currentSystemState?.isRecording == true {
+            toggleRecording(camera: camera)
+            return
+        }
+
+        let alert = UIAlertController(title: NSLocalizedString("Camera Controls", comment: ""), message: nil, preferredStyle: .actionSheet)
+        let systemState = currentSystemState
+
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .default) { [weak self] _ in
+            self?.takePhoto(camera: camera)
+        })
+
+        let recordTitle = systemState?.isRecording == true
+            ? NSLocalizedString("Stop Recording", comment: "")
+            : NSLocalizedString("Start Recording", comment: "")
+        alert.addAction(UIAlertAction(title: recordTitle, style: .default) { [weak self] _ in
+            self?.toggleRecording(camera: camera)
+        })
+
+        if systemState?.mode != .shootPhoto {
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Switch to Photo Mode", comment: ""), style: .default) { [weak self] _ in
+                self?.setCameraMode(.shootPhoto, camera: camera)
+            })
+        }
+
+        if systemState?.mode != .recordVideo {
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Switch to Video Mode", comment: ""), style: .default) { [weak self] _ in
+                self?.setCameraMode(.recordVideo, camera: camera)
+            })
+        }
+
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
+        alert.popoverPresentationController?.sourceView = button
+        alert.popoverPresentationController?.sourceRect = button.bounds
+        present(alert, animated: true)
+    }
+
+    private func takePhoto(camera: DJICamera) {
+        setCameraMode(.shootPhoto, camera: camera) { [weak self] in
+            camera.setShootPhotoMode(.single) { error in
+                if let error {
+                    self?.showErrorAlert(message: error.localizedDescription)
+                    return
+                }
+
+                camera.startShootPhoto { shootError in
+                    if let shootError {
+                        self?.showErrorAlert(message: shootError.localizedDescription)
+                    } else {
+                        NSLog("CameraControlWidget: photo capture succeeded. posting cameraDidTakePhoto. isMainThread=%@", Thread.isMainThread.description)
+                        self?.playSound(CameraSound.photoShutter)
+                        NotificationCenter.default.post(name: .cameraDidTakePhoto, object: nil)
+                    }
+                }
+            }
+        }
+    }
+
+    private func toggleRecording(camera: DJICamera) {
+        if currentSystemState?.isRecording == true {
+            camera.stopRecordVideo { [weak self] error in
+                if let error {
+                    self?.showErrorAlert(message: error.localizedDescription)
+                } else {
+                    self?.playSound(CameraSound.recordStop)
+                }
+            }
+            return
+        }
+
+        setCameraMode(.recordVideo, camera: camera) { [weak self] in
+            camera.startRecordVideo { error in
+                if let error {
+                    self?.showErrorAlert(message: error.localizedDescription)
+                } else {
+                    self?.playSound(CameraSound.recordStart)
+                }
+            }
+        }
+    }
+
+    private func setCameraMode(_ mode: DJICameraMode, camera: DJICamera, completion: (() -> Void)? = nil) {
+        camera.setMode(mode) { [weak self] error in
+            if let error {
+                self?.showErrorAlert(message: error.localizedDescription)
+                return
+            }
+
+            completion?()
+        }
+    }
+
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: NSLocalizedString("Camera Error", comment: ""), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default))
+        present(alert, animated: true)
+    }
+
+    private func playSound(_ soundID: SystemSoundID) {
+        AudioServicesPlaySystemSound(soundID)
+    }
+
+    func camera(_ camera: DJICamera, didUpdate systemState: DJICameraSystemState) {
+        DispatchQueue.main.async { [weak self] in
+            self?.currentSystemState = systemState
+            self?.updateUI()
+        }
+    }
 }
 
 // MARK: - Private: Keyboard Handling
