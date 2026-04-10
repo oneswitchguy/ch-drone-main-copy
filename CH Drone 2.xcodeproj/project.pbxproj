@@ -853,7 +853,7 @@
 			baseConfigurationReference = FA7CFE4027562EC90074FDC9 /* App-Debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_NAME = "HO Flight";
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = 4R99ZUCJBW;
 				INFOPLIST_KEY_CFBundleDisplayName = "CH Drone 2";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
@@ -867,7 +867,7 @@
 			baseConfigurationReference = FA7CFE4227562EC90074FDC9 /* App-Release.xcconfig */;
 			buildSettings = {
 				BUNDLE_NAME = "HO Flight";
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 53;
 				DEVELOPMENT_TEAM = 4R99ZUCJBW;
 				INFOPLIST_KEY_CFBundleDisplayName = "CH Drone 2";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
