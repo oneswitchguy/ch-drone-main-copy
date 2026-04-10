@@ -1,1 +1,2 @@
-This version extends the build expiry date.
+- Updated control UI: Joystick and speed settings now appear in a separate sheet
+- AirPods Head Tracking. Wear AirPods to control joystick (refer to user guide, available on handsoptional.com)

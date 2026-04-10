@@ -51,6 +51,35 @@ final class JoystickControlsModelTests: XCTestCase {
         XCTAssertEqual(model.uiState, .idle)
     }
 
+    func testAirPodsMotionTimeoutInterruptsControl() {
+        model.joystickMoved(to: CGPoint(x: 0.1, y: 0.2), source: .airPods)
+
+        model.handleAirPodsMotionTimeout()
+
+        XCTAssertEqual(model.uiState, .idle)
+        XCTAssertFalse(model.airPodsMotionState.isControlling)
+        XCTAssertFalse(model.airPodsMotionState.isAvailable)
+    }
+
+    func testAirPodsMotionTimeoutDoesNothingWhenAirPodsInactive() {
+        model.joystickMoved(to: CGPoint(x: 0.2, y: 0.3), source: .screen)
+
+        model.handleAirPodsMotionTimeout()
+
+        XCTAssertEqual(model.uiState, .active(location: CGPoint(x: 0.2, y: 0.3), source: .screen))
+    }
+
+    func testHeadphoneMotionRestoresAvailabilityWithoutReengagingControl() {
+        model.joystickMoved(to: CGPoint(x: 0.1, y: 0.2), source: .airPods)
+        model.handleAirPodsMotionTimeout()
+
+        model.handleHeadphoneMotion(CGPoint(x: 0.3, y: 0.4))
+
+        XCTAssertTrue(model.airPodsMotionState.isAvailable)
+        XCTAssertEqual(model.uiState, .idle)
+        XCTAssertFalse(model.airPodsMotionState.isControlling)
+    }
+
     func testScreenControlStillRequiresFreshTouchAfterDisconnect() {
         model.joystickMoved(to: CGPoint(x: 0.25, y: 0.25), source: .airPods)
         model.handleHeadphoneConnectionChanged(isConnected: false)

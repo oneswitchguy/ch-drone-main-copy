@@ -55,12 +55,14 @@ final class JoystickControlsModel {
 
     func joystickReleased() {
         cancelAirPodsCountdown()
+        cancelAirPodsMotionTimeout()
         uiState = .idle
         setAirPodsControlling(false)
     }
 
     func interrupt() {
         cancelAirPodsCountdown()
+        cancelAirPodsMotionTimeout()
         interruptionDriver.send()
         uiState = .idle
         setAirPodsControlling(false)
@@ -97,9 +99,11 @@ final class JoystickControlsModel {
     // MARK: - Private
 
     private let userDefaults: UserDefaults
+    private let airPodsMotionTimeout: TimeInterval = 0.75
     private lazy var headphoneMotionManager = HeadphoneMotionManager(userDefaults: userDefaults)
     private var releaseGamepadJoystickCancellable: AnyCancellable?
     private var airPodsCountdownCancellable: AnyCancellable?
+    private var airPodsMotionTimeoutCancellable: AnyCancellable?
     private var cancellables: [AnyCancellable] = []
 
     private func joystickActivated(source: JoystickUIState.ControlSource) {
@@ -136,6 +140,7 @@ final class JoystickControlsModel {
                     self.headphoneMotionManager.recenter()
                     self.setAirPodsControlling(true)
                     self.uiState = .active(location: .zero, source: .airPods)
+                    self.resetAirPodsMotionTimeout()
                     return
                 }
 
@@ -148,6 +153,19 @@ final class JoystickControlsModel {
         setAirPodsCountdownValue(nil)
     }
 
+    private func resetAirPodsMotionTimeout() {
+        airPodsMotionTimeoutCancellable = Timer.publish(every: airPodsMotionTimeout, on: .main, in: .common)
+            .autoconnect()
+            .first()
+            .sink { [weak self] _ in
+                self?.handleAirPodsMotionTimeout()
+            }
+    }
+
+    private func cancelAirPodsMotionTimeout() {
+        airPodsMotionTimeoutCancellable = nil
+    }
+
     private func setAirPodsCountdownValue(_ countdownValue: Int?) {
         var state = airPodsMotionState
         state.countdownValue = countdownValue
@@ -158,31 +176,14 @@ final class JoystickControlsModel {
         headphoneMotionManager.$isDeviceConnected
             .receiveOnMain()
             .sink { [weak self] isConnected in
-                guard let self else { return }
-
-                var state = self.airPodsMotionState
-                state.isAvailable = isConnected
-                self.airPodsMotionState = state
-
-                if !isConnected {
-                    self.cancelAirPodsCountdown()
-                }
-
-                if !isConnected, self.uiState.source == .airPods {
-                    self.interrupt()
-                }
+                self?.handleHeadphoneConnectionChanged(isConnected: isConnected)
             }
             .store(in: &cancellables)
 
         headphoneMotionManager.motionPublisher
             .receiveOnMain()
             .sink { [weak self] location in
-                guard let self else { return }
-                guard self.airPodsMotionState.isControlling else {
-                    return
-                }
-
-                self.uiState = .active(location: location, source: .airPods)
+                self?.handleHeadphoneMotion(location)
             }
             .store(in: &cancellables)
     }
@@ -193,6 +194,49 @@ final class JoystickControlsModel {
         airPodsMotionState = state
     }
 
+    private func setAirPodsAvailable(_ isAvailable: Bool) {
+        var state = airPodsMotionState
+        state.isAvailable = isAvailable
+        airPodsMotionState = state
+    }
+
+}
+
+extension JoystickControlsModel {
+    func handleHeadphoneConnectionChanged(isConnected: Bool) {
+        setAirPodsAvailable(isConnected)
+
+        guard !isConnected else {
+            return
+        }
+
+        cancelAirPodsCountdown()
+        cancelAirPodsMotionTimeout()
+
+        if uiState.source == .airPods {
+            interrupt()
+        }
+    }
+
+    func handleHeadphoneMotion(_ location: CGPoint) {
+        setAirPodsAvailable(true)
+
+        guard airPodsMotionState.isControlling else {
+            return
+        }
+
+        resetAirPodsMotionTimeout()
+        uiState = .active(location: location, source: .airPods)
+    }
+
+    func handleAirPodsMotionTimeout() {
+        guard uiState.source == .airPods else {
+            return
+        }
+
+        setAirPodsAvailable(false)
+        interrupt()
+    }
 }
 
 private final class HeadphoneMotionManager: ObservableObject {

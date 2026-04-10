@@ -9,6 +9,7 @@ import Combine
 import AudioToolbox
 import DJISDK
 import DJIUXSDKBeta
+import SwiftUI
 import UIKit
 
 extension Notification.Name {
@@ -85,8 +86,6 @@ final class ControlsViewController: UIViewController {
 
         let viewModel = viewModel
 
-        setupFlightStatePanel()
-
         let rowVCs = [upperRowVC, lowerRowVC]
         rowVCs.forEach { rowVC in
             let wrapper = UIView()
@@ -94,11 +93,7 @@ final class ControlsViewController: UIViewController {
             embedChild(rowVC, in: wrapper)
         }
 
-        let multipliersRowWrapper = UIView()
-        stackView.addArrangedSubview(multipliersRowWrapper)
-        embedChild(multipliersRowVC, in: multipliersRowWrapper, margins: NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
-
-        stackView.addArrangedSubview(joystickAxisAssignmentRowContainer)
+        setupFlightStatePanel()
 
         viewModel.$accessibilityFocus
             .receiveOnMain()
@@ -127,18 +122,6 @@ final class ControlsViewController: UIViewController {
             .receiveOnMain()
             .sink { [weak self] _ in
                 self?.updateAccessibilityConfiguration()
-            }
-            .store(in: &cancellables)
-
-        viewModel.joystickCommands.$verticalAxis.removeDuplicates()
-            .merge(with: viewModel.joystickCommands.$horizontalAxis.removeDuplicates())
-            .replaceOutputWithVoid()
-            .receiveOnMain()
-            .sink { [weak self] in
-                guard let self else { return }
-                self.joystickAxisAssignmentRowContainer.subviews.forEach { $0.removeFromSuperview() }
-                self.joystickAxisAssignmentRowContainer.embedSubview(self.makeJoystickAxisAssignmentRow())
-                UIAccessibility.post(notification: .layoutChanged, argument: nil)
             }
             .store(in: &cancellables)
 
@@ -241,8 +224,6 @@ final class ControlsViewController: UIViewController {
 
     private lazy var upperRowVC = makeRowViewController(position: \.upper)
     private lazy var lowerRowVC = makeRowViewController(position: \.lower)
-    private lazy var multipliersRowVC = makeMultipliersRowViewController()
-    private lazy var joystickAxisAssignmentRowContainer = UIView()
 
     private lazy var virtualControlsLabel = UILabel()
     private lazy var virtualControlsSwitch = UISwitch(frame: .zero)
@@ -307,6 +288,9 @@ private extension ControlsViewController {
             // and make it present our UI on tap
             $0.tapGestureRecognizer.addTarget(self, action: #selector(showObstacleAvoidanceSettings(gesture:)))
         }
+        let controlSettingsWidget = ControlSettingsWidget { [weak self] sourceView in
+            self?.presentControlSettings(from: sourceView)
+        }
 
         let widgets = [
             StartStopMotorsWidget(),
@@ -314,6 +298,7 @@ private extension ControlsViewController {
             ReturnHomeWidget(),
             CameraControlWidget(),
             visionWidget,
+            controlSettingsWidget,
         ]
 
         let newPanes = panelWidget.splitPane(panelWidget.rootPane(), along: .horizontal, proportions: Array(repeating: 1 / Double(widgets.count + 2), count: widgets.count + 2))
@@ -339,6 +324,24 @@ private extension ControlsViewController {
         nav.popoverPresentationController?.sourceView = sourceView
         nav.popoverPresentationController?.sourceRect = sourceView.bounds
         present(nav, animated: true, completion: nil)
+    }
+
+    func presentControlSettings(from sourceView: UIView) {
+        let sheetView = ControlSettingsSheet(
+            store: ControlSettingsStore(
+                joystickCommands: viewModel.joystickCommands,
+                movementMultipliers: viewModel.movementMultipliers
+            )
+        )
+        let hostingController = UIHostingController(rootView: sheetView)
+        hostingController.modalPresentationStyle = .formSheet
+
+        if let popoverPresentationController = hostingController.popoverPresentationController {
+            popoverPresentationController.sourceView = sourceView
+            popoverPresentationController.sourceRect = sourceView.bounds
+        }
+
+        present(hostingController, animated: true)
     }
 
 }
@@ -623,129 +626,6 @@ private extension ControlsViewController {
         ))
 
         return rowVC
-    }
-
-    func makeMultipliersRowViewController() -> StackViewController {
-        let viewModel = viewModel
-        let vc = StackViewController(axis: .horizontal, spacing: 10, distribution: .fillEqually, margins: .init(top: 0, leading: 10, bottom: 0, trailing: 10))
-
-        let cells = [
-            MultiplierCellViewController(driver: Just(viewModel.movementMultipliers).map(\.verticalThrottle).eraseToAnyPublisher(), changeHandler: { verticalThrottle in
-                viewModel.movementMultipliers.verticalThrottle = verticalThrottle
-            }),
-            MultiplierCellViewController(driver: Just(viewModel.movementMultipliers).map(\.pitch).eraseToAnyPublisher(), changeHandler: { pitch in
-                viewModel.movementMultipliers.pitch = pitch
-            }),
-            MultiplierCellViewController(driver: Just(viewModel.movementMultipliers).map(\.roll).eraseToAnyPublisher(), changeHandler: { roll in
-                viewModel.movementMultipliers.roll = roll
-            }),
-            MultiplierCellViewController(driver: Just(viewModel.movementMultipliers).map(\.yaw).eraseToAnyPublisher(), changeHandler: { yaw in
-                viewModel.movementMultipliers.yaw = yaw
-            }),
-        ]
-
-        cells.forEach(vc.addArrangedChild(_:))
-
-        vc.view.heightAnchor.constraint(greaterThanOrEqualToConstant: 44).isActive = true
-
-        return vc
-    }
-
-    func makeJoystickAxisAssignmentRow() -> UIView {
-        let viewModel = viewModel
-
-        let options: [JoystickCommands.AxisOption] = [.verticalThrottle, .pitch, .roll, .yaw]
-
-        struct CommandTypeViewState {
-            var option: JoystickCommands.AxisOption
-            var axis: KeyPath<JoystickCommands, JoystickCommands.AxisOption?>?
-            var onSelection: ((ReferenceWritableKeyPath<JoystickCommands, JoystickCommands.AxisOption?>) -> Void)?
-        }
-
-        let currentHorizontalAxis = viewModel.joystickCommands.horizontalAxis
-        let currentVerticalAxis = viewModel.joystickCommands.verticalAxis
-
-        func axisKeyPath(for option: JoystickCommands.AxisOption) -> KeyPath<JoystickCommands, JoystickCommands.AxisOption?>? {
-            if currentHorizontalAxis == option {
-                return \.horizontalAxis
-            } else if currentVerticalAxis == option {
-                return \.verticalAxis
-            } else {
-                return nil
-            }
-        }
-
-        let states: [CommandTypeViewState] = options.map { option in
-            let keyPath = axisKeyPath(for: option)
-            return CommandTypeViewState(option: option, axis: keyPath, onSelection: { axisOption in
-                if viewModel.joystickCommands[keyPath: axisOption] == option {
-                    viewModel.joystickCommands[keyPath: axisOption] = nil
-                } else {
-                    viewModel.joystickCommands[keyPath: axisOption] = option
-                }
-            })
-        }
-
-        let buttons: [UIButton] = states.map { viewState in
-            var title: String {
-                if let activeAxis = viewState.axis {
-                    if activeAxis == \.horizontalAxis {
-                        return NSLocalizedString("Horizontal", comment: "")
-                    } else {
-                        return NSLocalizedString("Vertical", comment: "")
-                    }
-                } else {
-                    return NSLocalizedString("Unassigned", comment: "")
-                }
-            }
-
-            var image: UIImage? {
-                if let activeAxis = viewState.axis {
-                    if activeAxis == \.horizontalAxis {
-                        return UIImage(systemName: "arrow.left.and.right")
-                    } else {
-                        return UIImage(systemName: "arrow.up.and.down")
-                    }
-                } else {
-                    return UIImage(systemName: "circle.inset.filled")
-                }
-            }
-
-            let menu = UIMenu(title: NSLocalizedString("Joystick Axis", comment: ""), image: nil, identifier: nil, options: .displayInline, children: [
-                UIAction(title: NSLocalizedString("Horizontal", comment: ""), image: UIImage(systemName: "arrow.left.and.right"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: viewState.axis == \.horizontalAxis ? .on : .off, handler: { action in
-                    viewState.onSelection?(\.horizontalAxis)
-                }),
-                UIAction(title: NSLocalizedString("Vertical", comment: ""), image: UIImage(systemName: "arrow.up.and.down"), identifier: nil, discoverabilityTitle: nil, attributes: [], state: viewState.axis == \.verticalAxis ? .on : .off, handler: { action in
-                    viewState.onSelection?(\.verticalAxis)
-                }),
-            ])
-
-            let isActive = viewState.axis != nil
-
-            var configuration = UIButton.Configuration.filled()
-            configuration.title = title
-            configuration.image = image
-            configuration.imagePadding = 8
-            configuration.baseBackgroundColor = isActive ? .systemBlue : .lightGray
-            configuration.baseForegroundColor = isActive ? .white : .black
-
-            let button = UIButton(configuration: configuration)
-            button.menu = menu
-            button.showsMenuAsPrimaryAction = true
-            return button
-        }
-
-        let stackView = UIStackView(arrangedSubviews: buttons)
-            .assigning(\.axis, to: .horizontal)
-            .assigning(\.spacing, to: 10)
-            .assigning(\.distribution, to: .fillEqually)
-            .configure {
-                $0.heightAnchor.constraint(greaterThanOrEqualToConstant: 44).isActive = true
-            }
-
-        let container = UIView()
-        container.embedSubview(stackView, usingSafeArea: false, margins: NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-        return container
     }
 
     func updateAccessibilityConfiguration() {

@@ -46,7 +46,7 @@ final class ControlSettingsStore: ObservableObject {
         var title: String {
             switch self {
             case .verticalThrottle:
-                return NSLocalizedString("Altitude", comment: "")
+                return NSLocalizedString("Throttle", comment: "")
             case .pitch:
                 return NSLocalizedString("Pitch", comment: "")
             case .roll:
@@ -55,19 +55,7 @@ final class ControlSettingsStore: ObservableObject {
                 return NSLocalizedString("Yaw", comment: "")
             }
         }
-
-        var symbolName: String {
-            switch self {
-            case .verticalThrottle:
-                return "arrow.up.and.down.circle.fill"
-            case .pitch:
-                return "arrow.up.circle.fill"
-            case .roll:
-                return "arrow.left.and.right.circle.fill"
-            case .yaw:
-                return "arrow.clockwise.circle.fill"
-            }
-        }
+        
     }
 
     @Published private(set) var horizontalAxis: JoystickCommands.AxisOption?
@@ -161,7 +149,7 @@ final class ControlSettingsStore: ObservableObject {
 }
 
 struct ControlSettingsSheet: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.presentationMode) private var presentationMode
     @ObservedObject var store: ControlSettingsStore
 
     var body: some View {
@@ -175,7 +163,7 @@ struct ControlSettingsSheet: View {
                         .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
                     }
                 } header: {
-                    Label(NSLocalizedString("Joystick Assignments", comment: ""), systemImage: "gamecontroller.fill")
+                    Text(NSLocalizedString("Joystick", comment: ""))
                 }
 
                 Section {
@@ -189,7 +177,7 @@ struct ControlSettingsSheet: View {
                         .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
                     }
                 } header: {
-                    Label(NSLocalizedString("Speed Multipliers", comment: ""), systemImage: "speedometer")
+                    Text(NSLocalizedString("Speed", comment: ""))
                 }
             }
             .listStyle(.insetGrouped)
@@ -197,7 +185,7 @@ struct ControlSettingsSheet: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(NSLocalizedString("Done", comment: "")) {
-                        dismiss()
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
             }
@@ -230,7 +218,7 @@ private struct JoystickAssignmentButton: View {
             HStack(spacing: 12) {
                 Image(systemName: option.symbolName)
                     .font(.title3)
-                    .foregroundStyle(.accent)
+                    .foregroundColor(Color.accentColor)
                     .frame(width: 30)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -238,17 +226,17 @@ private struct JoystickAssignmentButton: View {
                         .font(.headline)
                     Text(assignment?.title ?? NSLocalizedString("Unassigned", comment: ""))
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 }
 
                 Spacer()
 
                 Image(systemName: assignment?.symbolName ?? "circle.dashed")
-                    .foregroundStyle(assignment == nil ? .secondary : .accent)
+                    .foregroundColor(assignment == nil ? .secondary : Color.accentColor)
 
                 Image(systemName: "chevron.up.chevron.down")
                     .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             }
             .padding(14)
             .background(
@@ -274,7 +262,7 @@ private struct MultiplierPopoverButton: View {
             HStack(spacing: 12) {
                 Image(systemName: control.symbolName)
                     .font(.title3)
-                    .foregroundStyle(.accent)
+                    .foregroundColor(Color.accentColor)
                     .frame(width: 30)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -282,7 +270,7 @@ private struct MultiplierPopoverButton: View {
                         .font(.headline)
                     Text(level.localizedName)
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 }
 
                 Spacer()
@@ -294,7 +282,7 @@ private struct MultiplierPopoverButton: View {
                     .background(Capsule().fill(Color(uiColor: .tertiarySystemFill)))
 
                 Image(systemName: "slider.horizontal.3")
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             }
             .padding(14)
             .background(
@@ -315,20 +303,21 @@ private struct MultiplierPopoverButton: View {
 private struct MultiplierLevelPicker: View {
     let level: MultiplierLevel
     let onSelection: (MultiplierLevel) -> Void
+    private let levels = Array(MultiplierLevel.allCases)
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(MultiplierLevel.allCases, id: \.rawValue) { candidate in
+            ForEach(levels, id: \.rawValue) { candidate in
                 Button {
                     onSelection(candidate)
                 } label: {
                     HStack {
                         Text(candidate.localizedName)
-                            .foregroundStyle(.primary)
+                            .foregroundColor(.primary)
                         Spacer()
                         if candidate == level {
                             Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(.accent)
+                                .foregroundColor(Color.accentColor)
                         }
                     }
                     .padding(.horizontal, 16)
@@ -337,13 +326,12 @@ private struct MultiplierLevelPicker: View {
                 }
                 .buttonStyle(.plain)
 
-                if candidate != MultiplierLevel.allCases.last {
+                if candidate != levels.last {
                     Divider()
                 }
             }
         }
         .frame(width: 220)
-        .presentationCompactAdaptation(.popover)
     }
 }
 
@@ -355,7 +343,7 @@ private extension JoystickCommands.AxisOption {
     var title: String {
         switch self {
         case .verticalThrottle:
-            return NSLocalizedString("Altitude", comment: "")
+            return NSLocalizedString("Throttle", comment: "")
         case .pitch:
             return NSLocalizedString("Pitch", comment: "")
         case .roll:
@@ -375,6 +363,21 @@ private extension JoystickCommands.AxisOption {
             return "arrow.left.and.right.circle.fill"
         case .yaw:
             return "arrow.clockwise.circle.fill"
+        }
+    }
+}
+
+private extension ControlSettingsStore.MultiplierControl {
+    var symbolName: String {
+        switch self {
+        case .verticalThrottle:
+            return "arrow.up.and.down"
+        case .pitch:
+            return "arrow.up.forward"
+        case .roll:
+            return "arrow.left.and.right"
+        case .yaw:
+            return "arrow.trianglehead.2.clockwise.rotate.90"
         }
     }
 }
