@@ -1,7 +1,7 @@
 use_modular_headers!
 inhibit_all_warnings!
 
-platform :ios, '15.6'
+platform :ios, '18.0'
 source 'https://cdn.cocoapods.org/'
 
 target 'CH Drone 2' do
@@ -23,8 +23,8 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 15.6
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.6'
+      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 18.0
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '18.0'
       end
     end
   end

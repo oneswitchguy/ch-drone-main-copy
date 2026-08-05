@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import SwiftUI
 import UIKit
 
 final class ControlsContainerViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -51,6 +52,11 @@ final class ControlsContainerViewController: UIViewController, UIGestureRecogniz
 
     private lazy var controlsContainer = UIView()
         .assigning(\.translatesAutoresizingMaskIntoConstraints, to: false)
+        .assigning(\.accessibilityContainerType, to: .semanticGroup)
+
+    private lazy var cameraControlsContainer = UIView()
+        .assigning(\.translatesAutoresizingMaskIntoConstraints, to: false)
+        .assigning(\.accessibilityContainerType, to: .semanticGroup)
 
     private func embedChildren(videoFeedEnabled: Bool) {
         let flightVC = FlightViewController(videoFeedEnabled: videoFeedEnabled)
@@ -59,6 +65,8 @@ final class ControlsContainerViewController: UIViewController, UIGestureRecogniz
         joystickViewController = joystickVC
 
         embedChild(flightVC, in: view)
+
+        setupGimbalOverlay()
 
         view.addSubview(controlsContainer)
         embedChild(controlsVC, in: controlsContainer)
@@ -74,8 +82,38 @@ final class ControlsContainerViewController: UIViewController, UIGestureRecogniz
         view.accessibilityElements = [
             joystickVC.accessibilityElementForOrdering,
             controlsContainer as Any,
+            cameraControlsContainer as Any,
             flightVC.view as Any,
         ]
+    }
+
+    func setupGimbalOverlay() {
+        view.addSubview(cameraControlsContainer)
+
+        let stepper = GimbalPitchStepper(
+            onTiltUp: { [weak self] in
+                self?.viewModel.rotateGimbalPitch(byDegrees: 5)
+            },
+            onTiltDown: { [weak self] in
+                self?.viewModel.rotateGimbalPitch(byDegrees: -5)
+            }
+        )
+        let hostingVC = UIHostingController(rootView: stepper)
+        hostingVC.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingVC.view.backgroundColor = .clear
+
+        addChild(hostingVC)
+        cameraControlsContainer.addSubview(hostingVC.view)
+        hostingVC.didMove(toParent: self)
+
+        NSLayoutConstraint.activate([
+            cameraControlsContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            cameraControlsContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            hostingVC.view.topAnchor.constraint(equalTo: cameraControlsContainer.topAnchor),
+            hostingVC.view.leadingAnchor.constraint(equalTo: cameraControlsContainer.leadingAnchor),
+            hostingVC.view.trailingAnchor.constraint(equalTo: cameraControlsContainer.trailingAnchor),
+            hostingVC.view.bottomAnchor.constraint(equalTo: cameraControlsContainer.bottomAnchor),
+        ])
     }
 
     @objc private func handleDisengageTap() {

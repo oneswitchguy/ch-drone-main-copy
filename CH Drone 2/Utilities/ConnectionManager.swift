@@ -42,7 +42,7 @@ struct Config {
 }
 
 final class SimulatorAircraft: DJIBaseProduct, Aircraft {
-    var flightController: DJIFlightController?
+    var flightControl: FlightControlling?
     var obstacleAvoidance: ObstacleAvoiding?
     var landingAssistance: LandingAssisting?
 

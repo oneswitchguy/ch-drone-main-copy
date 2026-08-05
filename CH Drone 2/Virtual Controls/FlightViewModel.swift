@@ -85,6 +85,25 @@ final class FlightViewModel: NSObject {
         observeApplicationLifecycle()
     }
 
+    // MARK: - Gimbal
+
+    func rotateGimbalPitch(byDegrees degrees: Float) {
+        guard let gimbal = product.gimbal else { return }
+        let rotation = DJIGimbalRotation(
+            pitchValue: NSNumber(value: degrees),
+            rollValue: nil,
+            yawValue: nil,
+            time: 0.3,
+            mode: .relativeAngle,
+            ignore: false
+        )
+        gimbal.rotate(with: rotation) { [weak self] error in
+            if let error = error {
+                self?.error = error
+            }
+        }
+    }
+
     // MARK: - Settings
 
     /// Async. Observe $isVirtualStickModeEnabled for pending/success/error.
@@ -127,7 +146,7 @@ final class FlightViewModel: NSObject {
     }
 
     func cancelAutomaticReturnToHome() {
-        flightController?.confirmSmartReturn(toHomeRequest: false)
+        flightController?.confirmSmartReturn(toHomeRequest: false, withCompletion: nil)
     }
 
     // MARK: - Accessibility Focus
@@ -330,7 +349,7 @@ final class FlightViewModel: NSObject {
 
     private var cancellables: [AnyCancellable] = []
 
-    private var flightController: DJIFlightController? { product.flightController }
+    private var flightController: FlightControlling? { product.flightControl }
     private var obstacleAvoidance: ObstacleAvoiding? { Config.simulatedRadar ?? product.obstacleAvoidance }
     private var landingAssistance: LandingAssisting? { Config.simulatedLandingAssistance ?? product.landingAssistance }
 
@@ -523,8 +542,8 @@ private extension FlightViewModel {
             .receiveOnMain()
             .sink { [weak self] isConnected in
                 if isConnected {
-                    product.flightController?.delegate = self
-                    product.flightController?.flightAssistant?.delegate = self
+                    product.flightControl?.delegate = self
+                    product.flightControl?.flightAssistant?.delegate = self
                 }
 
                 self?.updateObstacleAvoidanceState()

@@ -10,6 +10,8 @@
 		1061A59C3AE1209FFDD7924E /* Pods_CH_Drone_2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2018BBC664E2337FCC69F063 /* Pods_CH_Drone_2.framework */; };
 		27D9BDE3C261D1D4217F2AC3 /* Pods_CHDroneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12F0523F43C1FA70357BD7C9 /* Pods_CHDroneTests.framework */; };
 		DA4BD11E2F62E75A0019ED38 /* File.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA4BD11D2F62E75A0019ED38 /* File.txt */; };
+		DA742CE32FB2E844001188D2 /* GimbalPitchStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA742CE22FB2E844001188D2 /* GimbalPitchStepper.swift */; };
+		DA742CF12FB2E844001188D2 /* FlightControlling.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA742CF02FB2E844001188D2 /* FlightControlling.swift */; };
 		DAA79BD12F8883EF00A26694 /* hologo.icon in Resources */ = {isa = PBXBuildFile; fileRef = DAA79BD02F8883EF00A26694 /* hologo.icon */; };
 		DAF9E9F32F7E332000A324B4 /* ControlSettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF9E9F22F7E332000A324B4 /* ControlSettingsSheet.swift */; };
 		DBCE7C962F8D315100F35F1F /* JoystickControlsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCE7C952F8D315100F35F1F /* JoystickControlsModelTests.swift */; };
@@ -106,6 +108,8 @@
 		7DF710590A69DF3D3F44D04C /* Pods-CHDroneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHDroneTests.debug.xcconfig"; path = "Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C60C76B28DA0396A80DFC0C0 /* Pods-CH Drone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CH Drone.debug.xcconfig"; path = "Target Support Files/Pods-CH Drone/Pods-CH Drone.debug.xcconfig"; sourceTree = "<group>"; };
 		DA4BD11D2F62E75A0019ED38 /* File.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = File.txt; sourceTree = "<group>"; };
+		DA742CE22FB2E844001188D2 /* GimbalPitchStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GimbalPitchStepper.swift; sourceTree = "<group>"; };
+		DA742CF02FB2E844001188D2 /* FlightControlling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightControlling.swift; sourceTree = "<group>"; };
 		DAA79BD02F8883EF00A26694 /* hologo.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = hologo.icon; sourceTree = "<group>"; };
 		DAF9E9F22F7E332000A324B4 /* ControlSettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlSettingsSheet.swift; sourceTree = "<group>"; };
 		DBCE7C952F8D315100F35F1F /* JoystickControlsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickControlsModelTests.swift; sourceTree = "<group>"; };
@@ -267,9 +271,11 @@
 				FA41B27327A3FB91005A5DA0 /* MultiplierPickerViewController.swift */,
 				FAE17DF6283251F600BAE165 /* ObstacleAvoidanceState.swift */,
 				FA5D452727AF926D00C36D73 /* ObstacleAvoidanceStateViewController.swift */,
+				DA742CF02FB2E844001188D2 /* FlightControlling.swift */,
 				FA5D452927AFCA5700C36D73 /* ObstacleAvoiding.swift */,
 				FAA9CFD126C27C8400773513 /* VirtualControlsState.swift */,
 				DAF9E9F22F7E332000A324B4 /* ControlSettingsSheet.swift */,
+				DA742CE22FB2E844001188D2 /* GimbalPitchStepper.swift */,
 			);
 			path = "Virtual Controls";
 			sourceTree = "<group>";
@@ -739,6 +745,7 @@
 				FA41B27427A3FB91005A5DA0 /* MultiplierPickerViewController.swift in Sources */,
 				FAE17DF7283251F600BAE165 /* ObstacleAvoidanceState.swift in Sources */,
 				FA5D452827AF926D00C36D73 /* ObstacleAvoidanceStateViewController.swift in Sources */,
+				DA742CF12FB2E844001188D2 /* FlightControlling.swift in Sources */,
 				FA5D452A27AFCA5700C36D73 /* ObstacleAvoiding.swift in Sources */,
 				FA0AD6DF26BC00B6001251E7 /* Publisher+Utilities.swift in Sources */,
 				FA4D898727AF4F6E00CFBB1A /* ReturnHomeWidget.swift in Sources */,
@@ -756,6 +763,7 @@
 				FA8AE61726B641EE00913CE1 /* UIViewController+Containment.swift in Sources */,
 				FAFABA6027563FAD0069C5C4 /* UserDefaults+Settings.swift in Sources */,
 				FA8AE61D26B657C400913CE1 /* ValueSubject.swift in Sources */,
+				DA742CE32FB2E844001188D2 /* GimbalPitchStepper.swift in Sources */,
 				FAA9CFD226C27C8400773513 /* VirtualControlsState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -792,7 +800,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RKHD32Y276;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -818,7 +826,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RKHD32Y276;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -853,9 +861,9 @@
 			baseConfigurationReference = FA7CFE4027562EC90074FDC9 /* App-Debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_NAME = "HO Flight";
-				CURRENT_PROJECT_VERSION = 53;
+				CURRENT_PROJECT_VERSION = 54;
 				DEVELOPMENT_TEAM = 4R99ZUCJBW;
-				INFOPLIST_KEY_CFBundleDisplayName = "CH Drone 2";
+				INFOPLIST_KEY_CFBundleDisplayName = "HandsOptional Flight Lab";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.chdrone2;
 				PRODUCT_NAME = "CH Drone 2";
@@ -867,9 +875,9 @@
 			baseConfigurationReference = FA7CFE4227562EC90074FDC9 /* App-Release.xcconfig */;
 			buildSettings = {
 				BUNDLE_NAME = "HO Flight";
-				CURRENT_PROJECT_VERSION = 53;
+				CURRENT_PROJECT_VERSION = 54;
 				DEVELOPMENT_TEAM = 4R99ZUCJBW;
-				INFOPLIST_KEY_CFBundleDisplayName = "CH Drone 2";
+				INFOPLIST_KEY_CFBundleDisplayName = "HandsOptional Flight Lab";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.chdrone2;
 				PRODUCT_NAME = "CH Drone 2";

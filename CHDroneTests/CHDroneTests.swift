@@ -8,7 +8,7 @@
 import XCTest
 import DJISDK
 
-@testable import CH_Drone
+@testable import CH_Drone_2
 
 class CHDroneTests: XCTestCase {
 
@@ -83,7 +83,8 @@ class CHDroneTests: XCTestCase {
 
 class TestAircraft: Aircraft {
     var model: String?
-    var flightController: DJIFlightController?
+    var flightControl: FlightControlling?
+    var gimbal: DJIGimbal?
     var obstacleAvoidance: ObstacleAvoiding?
     var landingAssistance: LandingAssisting?
 }

@@ -8,7 +8,7 @@
 
 import XCTest
 
-@testable import CH_Drone
+@testable import CH_Drone_2
 
 class JoystickCommandsTests: XCTestCase {
 

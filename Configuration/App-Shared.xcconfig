@@ -1,6 +1,9 @@
-BUNDLE_NAME = CH Drone 2
+// NOTE: BUNDLE_NAME is overridden per-target in project.pbxproj as "HO Flight".
+// That short form is what appears under the app icon; CFBundleName should stay
+// under ~15 characters. BUNDLE_DISPLAY_NAME below is the full user-facing name.
+BUNDLE_NAME = HandsOptional Flight Lab
 PRODUCT_NAME = $(TARGET_NAME)
-BUNDLE_DISPLAY_NAME = CH Drone 2
+BUNDLE_DISPLAY_NAME = HandsOptional Flight Lab
 INFOPLIST_FILE = CH Drone 2/Info.plist
 
 CODE_SIGN_IDENTITY = Apple Development
@@ -17,8 +20,8 @@ MARKETING_VERSION = 1.0.0
 ASSETCATALOG_COMPILER_APPICON_NAME = hologo
 ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor
 
-PRODUCT_BUNDLE_IDENTIFIER = co.astrocode.drone-controller
-DJI_SDK_APP_KEY = 26e70dbbe514a48dc1f623e3
+PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.chdrone2
+DJI_SDK_APP_KEY = 5237986abd3a6c10f5afd646
 
 TARGETED_DEVICE_FAMILY = 2 // iPad
 ENABLE_BITCODE = NO

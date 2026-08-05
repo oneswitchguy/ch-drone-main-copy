@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import CH_Drone
+@testable import CH_Drone_2
 
 extension UserDefaults {
 
