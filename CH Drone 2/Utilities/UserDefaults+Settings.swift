@@ -81,37 +81,47 @@ extension UserDefaults {
 
     @objc(CHDSlowestMultiplier)
     var slowestMultiplier: Float {
-        get { sanitizedFloat(forKey: "CHDSlowestMultiplier") }
+        get { sanitizedMultiplier(forKey: "CHDSlowestMultiplier") }
         set { set(newValue, forKey: "CHDSlowestMultiplier") }
     }
 
     @objc(CHDSlowMultiplier)
     var slowMultiplier: Float {
-        get { sanitizedFloat(forKey: "CHDSlowMultiplier") }
+        get { sanitizedMultiplier(forKey: "CHDSlowMultiplier") }
         set { set(newValue, forKey: "CHDSlowMultiplier") }
     }
 
     @objc(CHDMediumMultiplier)
     var mediumMultiplier: Float {
-        get { sanitizedFloat(forKey: "CHDMediumMultiplier") }
+        get { sanitizedMultiplier(forKey: "CHDMediumMultiplier") }
         set { set(newValue, forKey: "CHDMediumMultiplier") }
     }
 
     @objc(CHDFastMultiplier)
     var fastMultiplier: Float {
-        get { sanitizedFloat(forKey: "CHDFastMultiplier") }
+        get { sanitizedMultiplier(forKey: "CHDFastMultiplier") }
         set { set(newValue, forKey: "CHDFastMultiplier") }
     }
 
     @objc(CHDFastestMultiplier)
     var fastestMultiplier: Float {
-        get { sanitizedFloat(forKey: "CHDFastestMultiplier") }
+        get { sanitizedMultiplier(forKey: "CHDFastestMultiplier") }
         set { set(newValue, forKey: "CHDFastestMultiplier") }
     }
 
 }
 
 private extension UserDefaults {
+
+    /// Reads a speed multiplier, bounded to `MovementMultipliers.allowedRange`.
+    ///
+    /// Clamping happens on read rather than on write because the iOS Settings app writes
+    /// to these keys directly — a setter here would never see the value. A number outside
+    /// the range therefore stays visible in Settings while having no effect beyond the
+    /// bound, which is the safe way round.
+    func sanitizedMultiplier(forKey key: String) -> Float {
+        sanitizedFloat(forKey: key).clamped(to: MovementMultipliers.allowedRange)
+    }
 
     func sanitizedFloat(forKey key: String) -> Float {
         func assignDefaultValue() {

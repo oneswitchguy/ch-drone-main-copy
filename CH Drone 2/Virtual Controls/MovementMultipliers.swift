@@ -13,6 +13,21 @@ private let logger = Logger(label: "MovementMultipliers")
 
 final class MovementMultipliers {
 
+    /// The range a speed multiplier is permitted to take.
+    ///
+    /// `Settings.bundle` presents the five multipliers as free-text fields, and a settings
+    /// bundle cannot validate input, so this is enforced where the value is read rather
+    /// than where it is entered.
+    ///
+    /// The floor is the safety-relevant end. A **negative** multiplier inverts its axis, so
+    /// a "forward" command would fly the aircraft backwards — and the keyboard for those
+    /// fields accepts a minus sign. The floor is a small positive rather than zero so that
+    /// a speed step always does something: a control that silently does nothing is hard to
+    /// diagnose for a pilot who cannot quickly experiment.
+    ///
+    /// See `docs/virtual-stick-command-scaling.md`.
+    static let allowedRange: ClosedRange<Float> = 0.05...10
+
     let persistence: UserDefaults
     let key: String
 

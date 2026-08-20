@@ -141,11 +141,71 @@ update could withdraw it without notice.
 
 ## Separate open item in this codebase
 
-Not a DJI issue — recording it here because it surfaced in the same investigation.
+Moved to [`virtual-stick-command-scaling.md`](virtual-stick-command-scaling.md).
 
-`VirtualControlsState.controlData` interpolates roll and pitch over a `0...100` range
-(`CH Drone 2/Virtual Controls/VirtualControlsState.swift:73`), where the SDK documents
-±15 m/s for those axes in velocity mode. If the aircraft clamps at 15, horizontal sticks
-reach full commanded speed at roughly 15% of deflection, making the movement multipliers
-far coarser than the UI implies. Needs one instrumented flight to confirm whether this is
-a defect or deliberate.
+This section previously claimed that `VirtualControlsState.controlData` interpolating roll
+and pitch over `0...100` made sticks saturate at roughly 15% of travel. **That was wrong.**
+It read the conversion in isolation and missed the `0.01` baseline applied upstream in
+`MovementType.baselineValue`, which is what makes `0.01 × 100 = 1 m/s` at the Medium
+multiplier. Full deflection commands about 2 m/s, and nothing saturates.
+
+The real defects found in its place — inconsistent scaling between axes, and an unbounded
+user-editable multiplier feeding an un-clamped velocity command — are written up in the
+report linked above.
+
+## Measuring the aircraft's real limits indoors
+
+Still needed, and unaffected by the correction above: what the *aircraft* does with an
+out-of-range command, and how quickly it responds, can only be established with hardware.
+This also answers questions 3 and 4 above.
+
+`DJISimulator` is already in the vendored SDK
+(`Pods/DJI-SDK-iOS/iOS_Mobile_SDK/DJISDK.framework/Headers/DJISimulator.h`) and is reached
+through `DJIFlightController.simulator`. It runs the simulation **on the aircraft's own
+flight controller**, with the motors off — so it answers the question with real firmware,
+indoors, with no flight risk.
+
+Velocity does not have to be inferred from position. `DJIFlightControllerState` reports it
+directly:
+
+> `velocityX` — "Current speed of the aircraft in the x direction, in meters per second,
+> using the N-E-D (North-East-Down) coordinate system."
+
+So ground speed is `hypot(velocityX, velocityY)`, and it keeps reporting during simulator
+mode because the flight controller believes it is flying.
+
+Method:
+
+1. Remove the propellers. In simulator mode the aircraft behaves as though airborne.
+2. Connect, then call `start(withLocation:updateFrequency:GPSSatellitesNumber:...)`. The
+   frequency accepts `[2, 150]` Hz; 50 is ample. Zero the wind with `setWindSpeed(_:)`,
+   or steady-state readings will be biased.
+3. Enable virtual stick and **sweep** the commanded roll value — 5, 10, 15, 20, 30, 50,
+   75, 100 — holding each until the speed settles, then releasing.
+4. Record commanded value against `hypot(velocityX, velocityY)`.
+
+The result is a response curve, which is more informative than a single full-deflection
+test:
+
+| Curve | Reading |
+|---|---|
+| Linear to 15, then flat | The clamp is real. `0...100` is a defect; the range should be `0...15` |
+| Linear all the way to 100 | No clamp — full stick commands 100 m/s, a worse defect |
+| Flattens elsewhere | That value is the true ceiling, and it may be flight-mode dependent |
+
+The run-up in the same recording gives the velocity **lag time constant** — the time to
+reach 63.2% of steady state. That is currently estimated at 1.5 s in
+`FlightModel.Limits.horizontalResponse`, derived from DJI's published braking distance, and
+is the only guessed number in the simulator's flight model.
+
+Running the sweep once in P and once in S answers question 4 above at the same time.
+
+This requires an aircraft, so it does not replace the simulator — it calibrates it.
+
+### Existing logs may already answer the first question
+
+`TelemetryLogger` has been recording `horizontalVelocity` every 2 seconds during real
+flights, to timestamped CSVs in the app's Documents directory, reachable over Finder since
+`UIFileSharingEnabled` is set. If the maximum ever recorded sits at about 15 m/s across
+flights where the sticks were held hard over, the clamp is already evidenced. 2 Hz is too
+coarse to fit a time constant, but ample for a ceiling.

@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA5147202FC0A11100E5D001 /* VirtualStickLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA51471F2FC0A11100E5D001 /* VirtualStickLimits.swift */; };
+		DA5147222FC0A11100E5D001 /* VirtualStickLimitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147212FC0A11100E5D001 /* VirtualStickLimitsTests.swift */; };
+		DA5147182FC0A11100E5D001 /* SimulatorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147172FC0A11100E5D001 /* SimulatorScene.swift */; };
+		DA51471A2FC0A11100E5D001 /* SimulatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147192FC0A11100E5D001 /* SimulatorViewModel.swift */; };
+		DA51471C2FC0A11100E5D001 /* SimulatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA51471B2FC0A11100E5D001 /* SimulatorView.swift */; };
+		DA51471E2FC0A11100E5D001 /* SimulatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA51471D2FC0A11100E5D001 /* SimulatorViewController.swift */; };
+		DA5147112FC0A11100E5D001 /* FlightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147102FC0A11100E5D001 /* FlightModel.swift */; };
+		DA5147132FC0A11100E5D001 /* SimulatedFlightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147122FC0A11100E5D001 /* SimulatedFlightController.swift */; };
+		DA5147152FC0A11100E5D001 /* FlightModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147142FC0A11100E5D001 /* FlightModelTests.swift */; };
 		1061A59C3AE1209FFDD7924E /* Pods_CH_Drone_2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2018BBC664E2337FCC69F063 /* Pods_CH_Drone_2.framework */; };
 		27D9BDE3C261D1D4217F2AC3 /* Pods_CHDroneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12F0523F43C1FA70357BD7C9 /* Pods_CHDroneTests.framework */; };
 		DA4BD11E2F62E75A0019ED38 /* File.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA4BD11D2F62E75A0019ED38 /* File.txt */; };
@@ -100,6 +109,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA51471F2FC0A11100E5D001 /* VirtualStickLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualStickLimits.swift; sourceTree = "<group>"; };
+		DA5147212FC0A11100E5D001 /* VirtualStickLimitsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualStickLimitsTests.swift; sourceTree = "<group>"; };
+		DA5147172FC0A11100E5D001 /* SimulatorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorScene.swift; sourceTree = "<group>"; };
+		DA5147192FC0A11100E5D001 /* SimulatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorViewModel.swift; sourceTree = "<group>"; };
+		DA51471B2FC0A11100E5D001 /* SimulatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorView.swift; sourceTree = "<group>"; };
+		DA51471D2FC0A11100E5D001 /* SimulatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorViewController.swift; sourceTree = "<group>"; };
+		DA5147102FC0A11100E5D001 /* FlightModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightModel.swift; sourceTree = "<group>"; };
+		DA5147122FC0A11100E5D001 /* SimulatedFlightController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatedFlightController.swift; sourceTree = "<group>"; };
+		DA5147142FC0A11100E5D001 /* FlightModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightModelTests.swift; sourceTree = "<group>"; };
 		12F0523F43C1FA70357BD7C9 /* Pods_CHDroneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CHDroneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2018BBC664E2337FCC69F063 /* Pods_CH_Drone_2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CH_Drone_2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D1CDC09332100C4EE8E4B43 /* Pods-CHDroneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHDroneTests.release.xcconfig"; path = "Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -274,6 +292,7 @@
 				DA742CF02FB2E844001188D2 /* FlightControlling.swift */,
 				FA5D452927AFCA5700C36D73 /* ObstacleAvoiding.swift */,
 				FAA9CFD126C27C8400773513 /* VirtualControlsState.swift */,
+				DA51471F2FC0A11100E5D001 /* VirtualStickLimits.swift */,
 				DAF9E9F22F7E332000A324B4 /* ControlSettingsSheet.swift */,
 				DA742CE22FB2E844001188D2 /* GimbalPitchStepper.swift */,
 			);
@@ -284,6 +303,8 @@
 			isa = PBXGroup;
 			children = (
 				FA24E6DF26BE00DA00472A18 /* CHDroneTests.swift */,
+				DA5147212FC0A11100E5D001 /* VirtualStickLimitsTests.swift */,
+				DA5147142FC0A11100E5D001 /* FlightModelTests.swift */,
 				DBCE7C952F8D315100F35F1F /* JoystickControlsModelTests.swift */,
 				FA67B78C28515C59005A435A /* JoystickCommandsTests.swift */,
 				FAC685FF286E591500F12E13 /* TelemetryLoggerTests.swift */,
@@ -428,6 +449,7 @@
 				FA7D124529E79ECF002179B3 /* Resources */,
 				FA7D124629E79EF9002179B3 /* Setup */,
 				FA7DE25E286C5FC400B5ED84 /* Telemetry */,
+				DA5147162FC0A11100E5D001 /* Simulator */,
 				FA30EA6626B67D1200AB9497 /* Utilities */,
 				FA0AD6E526BD3A25001251E7 /* Virtual Controls */,
 				FAD509D426B6350900744F9E /* AppCoordinator.swift */,
@@ -435,6 +457,19 @@
 				FA8018082823D155004C4FB2 /* main.swift */,
 			);
 			path = "CH Drone 2";
+			sourceTree = "<group>";
+		};
+		DA5147162FC0A11100E5D001 /* Simulator */ = {
+			isa = PBXGroup;
+			children = (
+				DA5147102FC0A11100E5D001 /* FlightModel.swift */,
+				DA5147122FC0A11100E5D001 /* SimulatedFlightController.swift */,
+				DA5147172FC0A11100E5D001 /* SimulatorScene.swift */,
+				DA5147192FC0A11100E5D001 /* SimulatorViewModel.swift */,
+				DA51471B2FC0A11100E5D001 /* SimulatorView.swift */,
+				DA51471D2FC0A11100E5D001 /* SimulatorViewController.swift */,
+			);
+			path = Simulator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -690,6 +725,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA5147222FC0A11100E5D001 /* VirtualStickLimitsTests.swift in Sources */,
+				DA5147152FC0A11100E5D001 /* FlightModelTests.swift in Sources */,
 				FA24E6E026BE00DA00472A18 /* CHDroneTests.swift in Sources */,
 				DBCE7C962F8D315100F35F1F /* JoystickControlsModelTests.swift in Sources */,
 				FA67B78D28515C59005A435A /* JoystickCommandsTests.swift in Sources */,
@@ -702,6 +739,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA5147202FC0A11100E5D001 /* VirtualStickLimits.swift in Sources */,
+				DA5147182FC0A11100E5D001 /* SimulatorScene.swift in Sources */,
+				DA51471A2FC0A11100E5D001 /* SimulatorViewModel.swift in Sources */,
+				DA51471C2FC0A11100E5D001 /* SimulatorView.swift in Sources */,
+				DA51471E2FC0A11100E5D001 /* SimulatorViewController.swift in Sources */,
+				DA5147112FC0A11100E5D001 /* FlightModel.swift in Sources */,
+				DA5147132FC0A11100E5D001 /* SimulatedFlightController.swift in Sources */,
 				FA7CFE192754E2520074FDC9 /* AccessibilityView.swift in Sources */,
 				FAC978DD2743C77F0098BEB0 /* Aircraft.swift in Sources */,
 				FAD509D526B6350900744F9E /* AppCoordinator.swift in Sources */,

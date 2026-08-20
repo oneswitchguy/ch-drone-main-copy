@@ -46,7 +46,7 @@ final class SimulatorAircraft: DJIBaseProduct, Aircraft {
     var obstacleAvoidance: ObstacleAvoiding?
     var landingAssistance: LandingAssisting?
 
-    override var model: String? { "iOS Simulator Aircraft" }
+    override var model: String? { "Simulated Aircraft" }
 }
 
 final class ConnectionManager: NSObject, DJISDKManagerDelegate {
@@ -119,13 +119,33 @@ final class ConnectionManager: NSObject, DJISDKManagerDelegate {
 
     }
 
-    @ValueSubject private(set) var connectionState: ConnectionState = .disconnected
+    @ValueSubject private(set) var connectionState: ConnectionState = .disconnected {
+        didSet {
+            stopSimulationIfSuperseded(previous: oldValue)
+        }
+    }
+
+    /// Shuts down a simulation once something else has taken its place.
+    ///
+    /// A simulation is driven by a display link, so one left behind goes on ticking — and
+    /// draining the battery — behind a real aircraft.
+    private func stopSimulationIfSuperseded(previous: ConnectionState) {
+        guard case .connected(let previousAircraft) = previous,
+              let simulation = previousAircraft.flightControl as? SimulatedFlightController else {
+            return
+        }
+
+        if case .connected(let currentAircraft) = connectionState,
+           (currentAircraft.flightControl as? SimulatedFlightController) === simulation {
+            return
+        }
+
+        simulation.stop()
+    }
 
     func connect() {
         if Config.skipConnection {
-            let simulatorAircraft = SimulatorAircraft()
-            simulatorAircraft.obstacleAvoidance = Config.simulatedRadar
-            connectionState = .connected(simulatorAircraft)
+            startSimulation()
             return
         }
 
@@ -134,6 +154,19 @@ final class ConnectionManager: NSObject, DJISDKManagerDelegate {
         } else {
             connectionState = .disconnected
         }
+    }
+
+    /// Enters simulator mode: a `SimulatorAircraft` flying ``FlightModel``, no hardware
+    /// involved.
+    ///
+    /// A shipped feature rather than a debug affordance. Getting a drone into the air is a
+    /// large undertaking for the pilots this app is built for, and the control scheme
+    /// should be learnable before then rather than during.
+    func startSimulation() {
+        let simulatorAircraft = SimulatorAircraft()
+        simulatorAircraft.flightControl = SimulatedFlightController()
+        simulatorAircraft.obstacleAvoidance = Config.simulatedRadar
+        connectionState = .connected(simulatorAircraft)
     }
 
     func disconnect() {

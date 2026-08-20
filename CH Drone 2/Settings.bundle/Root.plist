@@ -63,6 +63,8 @@
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Control Speed Multiplier Definitions</string>
+			<key>FooterText</key>
+			<string>Accepted range is 0.05 to 10. Values outside it are clamped. A negative value would reverse the direction of travel and is not permitted.</string>
 		</dict>
 		<dict>
 			<key>Type</key>

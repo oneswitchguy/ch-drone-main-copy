@@ -70,16 +70,30 @@ extension VirtualControlsState {
         // - `DJIVirtualStickRollPitchControlMode` (we're using `.velocity`)
         // - `DJIVirtualStickYawControlMode` (we're using `.angularVelocity`)
         // - `DJIVirtualStickVerticalControlMode` (we're using `.velocity`)
-        let pitchRollAngleRange: ClosedRange<Float> = 0...100
+        //
+        // These are scaling factors, *not* the SDK ceilings — `0...100` exceeds the
+        // documented ±15 m/s. What keeps ordinary input in range is the small
+        // `MovementType.baselineValue` applied upstream: 0.01 × 100 gives 1 m/s at the
+        // Medium multiplier. The two are a matched pair, so do not change one without the
+        // other. Background in `docs/virtual-stick-command-scaling.md`.
+        let pitchRollVelocityRange: ClosedRange<Float> = 0...100
         let yawAngularVelocityRange: ClosedRange<Float> = 0...100
         let verticalVelocityRange: ClosedRange<Float> = 0...4
 
         // the valid ranges are all symmetric, so we can interpolate our (-1.0...1.0) value on the positive range.
+        //
+        // Clamped to the SDK ceilings on the way out. Nothing upstream guarantees they are
+        // respected — the speed multipliers are free-text fields in `Settings.bundle` — and
+        // an app should not be sending commands it knows the aircraft cannot fly.
         return DJIVirtualStickFlightControlData(
-            pitch: pitchRollAngleRange.interpolatedValue(at: roll), // YES, THESE ARE BACKWARDS!
-            roll: pitchRollAngleRange.interpolatedValue(at: pitch), // YES, THESE ARE BACKWARDS!
-            yaw: yawAngularVelocityRange.interpolatedValue(at: yaw),
+            pitch: pitchRollVelocityRange.interpolatedValue(at: roll) // YES, THESE ARE BACKWARDS!
+                .clamped(to: VirtualStickLimits.horizontalVelocityRange),
+            roll: pitchRollVelocityRange.interpolatedValue(at: pitch) // YES, THESE ARE BACKWARDS!
+                .clamped(to: VirtualStickLimits.horizontalVelocityRange),
+            yaw: yawAngularVelocityRange.interpolatedValue(at: yaw)
+                .clamped(to: VirtualStickLimits.yawRateRange),
             verticalThrottle: verticalVelocityRange.interpolatedValue(at: verticalThrottle)
+                .clamped(to: VirtualStickLimits.verticalVelocityRange)
         )
     }
 

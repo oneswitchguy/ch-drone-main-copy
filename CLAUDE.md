@@ -81,9 +81,51 @@ single `VirtualControlsState`, sent at 10 Hz from `FlightViewModel.sendControlsD
 Virtual stick runs in velocity mode with a body coordinate system.
 
 SDK command ceilings, quoted from `DJIFlightControllerBaseTypes.h`: **±15 m/s** horizontal,
-**±4 m/s** vertical, **±100 °/s** yaw. Note that `VirtualControlsState.swift` interpolates
-roll and pitch over `0...100`, which exceeds the documented range — unresolved, see
-`docs/dji-virtual-stick-sport-mode.md`.
+**±4 m/s** vertical, **±100 °/s** yaw.
+
+Scaling is spread across two files and is easy to misread. `MovementType.baselineValue`
+(`0.01` horizontal, `0.25` vertical and yaw) is multiplied by a speed multiplier, clamped to
+`-1...1`, then interpolated over `0...100` or `0...4` in `VirtualControlsState.controlData`.
+The small baseline is what keeps the `0...100` range sane — **do not change one without the
+other**. Full deflection commands about 2 m/s, not 100.
+
+Nothing clamps the result to the ceilings above, and the multipliers are unbounded text
+fields in `Settings.bundle`. See `docs/virtual-stick-command-scaling.md`.
+
+## Simulator
+
+`CH Drone 2/Simulator/` is a shipped practice mode, not a debug aid — reachable from the
+connection screen via **Practise Without a Drone**, which calls
+`ConnectionManager.startSimulation()`.
+
+It works by substitution, not by a parallel code path. `SimulatorAircraft.flightControl`
+gets a `SimulatedFlightController`, and every existing input — switch grid, joystick,
+gamepad, AirPods head tracking — flies it unchanged. `FlightViewModel` is unaware.
+
+| File | Role |
+|---|---|
+| `FlightModel` | The flying. Pure Swift, **no DJI imports**, so it unit-tests on the Mac |
+| `SimulatedFlightController` | The only file here that imports the SDK. Translation only |
+| `SimulatorScene` | Procedural RealityKit scene — no model files, no textures |
+| `SimulatorView` / `SimulatorViewModel` | Readouts and the two controls the switch grid lacks |
+| `SimulatorViewController` | Stands in for `FlightViewController` behind the controls |
+
+Keep that split. Flying logic goes in `FlightModel` where it can be tested; anything that
+needs a `DJI*` type goes in `SimulatedFlightController`.
+
+`FlightModel` works in **East-North-Up** with the origin at the take-off point. This is not
+DJI's frame — `DJISimulatorState` reports X as east, Y as north and Z as *negative* when
+above home, so converting is `(x, y, -z)`. `SimulatorScene` converts again for RealityKit,
+which is Y-up with north at -Z.
+
+Because `FlightModel` has no imports beyond Foundation, the fastest way to check a change
+is to compile it on the Mac rather than wait for a device:
+
+```sh
+swiftc "CH Drone 2/Simulator/FlightModel.swift" \
+       "CH Drone 2/Virtual Controls/VirtualStickLimits.swift" \
+       your_harness.swift -o check && ./check
+```
 
 ## Style
 

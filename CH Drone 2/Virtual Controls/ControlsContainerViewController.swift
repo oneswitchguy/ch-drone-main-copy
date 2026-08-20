@@ -10,6 +10,15 @@ import Foundation
 import SwiftUI
 import UIKit
 
+/// The layer the flight controls are laid out over — either the live camera feed and DJI
+/// widgets, or the simulator.
+///
+/// The controls stack below `topBarLayoutGuide` in both cases, which is all
+/// ``ControlsContainerViewController`` needs to know about what is behind them.
+protocol ControlsBackgroundViewController: UIViewController {
+    var topBarLayoutGuide: UILayoutGuide { get }
+}
+
 final class ControlsContainerViewController: UIViewController, UIGestureRecognizerDelegate {
 
     let viewModel: FlightViewModel
@@ -59,7 +68,13 @@ final class ControlsContainerViewController: UIViewController, UIGestureRecogniz
         .assigning(\.accessibilityContainerType, to: .semanticGroup)
 
     private func embedChildren(videoFeedEnabled: Bool) {
-        let flightVC = FlightViewController(videoFeedEnabled: videoFeedEnabled)
+        let flightVC: ControlsBackgroundViewController
+        if let simulatedFlightController = viewModel.simulatedFlightController {
+            flightVC = SimulatorViewController(flightController: simulatedFlightController)
+        } else {
+            flightVC = FlightViewController(videoFeedEnabled: videoFeedEnabled)
+        }
+
         let controlsVC = ControlsViewController(viewModel: viewModel)
         let joystickVC = JoystickViewController(viewModel: viewModel.joystickControlsModel, commands: viewModel.joystickCommands)
         joystickViewController = joystickVC

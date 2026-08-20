@@ -54,6 +54,12 @@ final class FlightViewModel: NSObject {
 
     let movementMultipliers: MovementMultipliers
 
+    /// Non-nil when the controls are flying a simulation rather than an aircraft, which
+    /// changes what they are laid out over — there is no video feed or DJI widget to show.
+    var simulatedFlightController: SimulatedFlightController? {
+        product.flightControl as? SimulatedFlightController
+    }
+
     init(product: Aircraft, userDefaults: UserDefaults = .standard) {
         self.product = product
         self.userDefaults = userDefaults

@@ -8,7 +8,7 @@
 import DJIUXSDKBeta
 import UIKit
 
-final class FlightViewController : UIViewController {
+final class FlightViewController: UIViewController, ControlsBackgroundViewController {
 
     var topBarLayoutGuide: UILayoutGuide {
         loadViewIfNeeded()

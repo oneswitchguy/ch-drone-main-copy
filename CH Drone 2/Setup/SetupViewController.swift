@@ -31,13 +31,25 @@ final class SetupViewController: UIViewController {
         }
     }
 
+    /// An optional second choice, shown above the primary button.
+    ///
+    /// Used to offer the simulator while waiting for an aircraft that may never arrive.
+    var secondaryAction: UIAction? {
+        didSet {
+            guard isViewLoaded else { return }
+            updateSecondaryButton(oldValue: oldValue)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupSecondaryButton()
         setupDocumentationLabel()
         updateStatusLabel()
         updateDocumentationLabel()
         updatePrimaryButton(oldValue: nil)
+        updateSecondaryButton(oldValue: nil)
     }
 
     // MARK: - Private stored properties
@@ -45,6 +57,7 @@ final class SetupViewController: UIViewController {
     @IBOutlet private var statusLabel: UILabel!
     @IBOutlet private var primaryButton: UIButton!
     private let documentationLabel = UILabel()
+    private let secondaryButton = UIButton(type: .system)
 
 }
 
@@ -54,6 +67,20 @@ private extension SetupViewController {
 
     func updateStatusLabel() {
         statusLabel.text = status
+    }
+
+    func setupSecondaryButton() {
+        secondaryButton.translatesAutoresizingMaskIntoConstraints = false
+        secondaryButton.titleLabel?.font = .preferredFont(forTextStyle: .body)
+        secondaryButton.titleLabel?.adjustsFontForContentSizeCategory = true
+
+        view.addSubview(secondaryButton)
+
+        NSLayoutConstraint.activate([
+            secondaryButton.centerXAnchor.constraint(equalTo: primaryButton.centerXAnchor),
+            secondaryButton.bottomAnchor.constraint(equalTo: primaryButton.topAnchor, constant: -12),
+            secondaryButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
+        ])
     }
 
     func setupDocumentationLabel() {
@@ -70,8 +97,21 @@ private extension SetupViewController {
             documentationLabel.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 24),
             documentationLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             documentationLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            documentationLabel.bottomAnchor.constraint(lessThanOrEqualTo: primaryButton.topAnchor, constant: -24),
+            documentationLabel.bottomAnchor.constraint(lessThanOrEqualTo: secondaryButton.topAnchor, constant: -24),
         ])
+    }
+
+    func updateSecondaryButton(oldValue: UIAction?) {
+        if let oldValue = oldValue {
+            secondaryButton.removeAction(oldValue, for: .touchUpInside)
+        }
+
+        if let secondaryAction = secondaryAction {
+            secondaryButton.addAction(secondaryAction, for: .touchUpInside)
+        }
+
+        secondaryButton.setTitle(secondaryAction?.title, for: .normal)
+        secondaryButton.isHidden = secondaryAction == nil
     }
 
     func updateDocumentationLabel() {

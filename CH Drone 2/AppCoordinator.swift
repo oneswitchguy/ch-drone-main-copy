@@ -138,6 +138,19 @@ private extension AppCoordinator {
                         connectionVC.action = nil
                     }
 
+                    // Offered while there is no aircraft, which is exactly when someone
+                    // would want to practise instead of waiting.
+                    connectionVC.secondaryAction = UIAction(
+                        title: NSLocalizedString(
+                            "practise-without-a-drone",
+                            value: "Practise Without a Drone",
+                            comment: "Enters the flight simulator from the connection screen"
+                        ),
+                        handler: { action in
+                            self.connectionManager.startSimulation()
+                        }
+                    )
+
                 }
                 .store(in: &stateCancellables)
 
