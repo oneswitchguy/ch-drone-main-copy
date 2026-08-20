@@ -165,6 +165,11 @@ final class FlightViewModel: NSObject {
     func disableCustomFocus() {
         isFocusTimerEnabled = false
         stopFocusTimer()
+
+        // Clearing belongs here rather than at any particular reason for disabling.
+        // A stale focus position would keep routing game pad presses to a row that is no
+        // longer highlighted — see `setGameControlActive` in `observeGamePad`.
+        accessibilityFocus = nil
     }
 
     func disengageOnScreenJoystickControl() {
@@ -591,9 +596,10 @@ private extension FlightViewModel {
                     self.setCommandsActive(active: false)
                 }
 
-                if !isSwitchControlRunning {
-                    self.accessibilityFocus = nil
-                }
+                // Deliberately does *not* clear `accessibilityFocus`. Custom focus is
+                // driven by the game pad and is independent of Switch Control, so turning
+                // Switch Control off must not stop the scan. `disableCustomFocus()` owns
+                // clearing it.
             }
             .store(in: &cancellables)
 

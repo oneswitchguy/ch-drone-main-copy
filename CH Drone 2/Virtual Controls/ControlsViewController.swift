@@ -630,9 +630,12 @@ private extension ControlsViewController {
 
     func updateAccessibilityConfiguration() {
         let isCustomScanningEnabled = viewModel.userDefaults.isCustomScanningEnabled
-        let isSwitchControlRunning = viewModel.isSwitchControlRunning
 
-        let shouldUseCustomFocus = isSwitchControlRunning && isCustomScanningEnabled && viewModel.isGamePadConnected
+        // Custom focus is driven by the game pad, so it depends only on the game pad being
+        // there and the feature being switched on. It deliberately does **not** require
+        // Switch Control to be running: a pilot flying with a game pad may not be using
+        // Switch Control at all, and gating on it made the scan invisible for them.
+        let shouldUseCustomFocus = isCustomScanningEnabled && viewModel.isGamePadConnected
 
         // disable switch control / voice over buttons when we're using custom focus
         upperRowVC.view.accessibilityElementsHidden = shouldUseCustomFocus
@@ -642,9 +645,6 @@ private extension ControlsViewController {
             viewModel.enableCustomFocus()
         } else {
             viewModel.disableCustomFocus()
-        }
-
-        if !isSwitchControlRunning || !isCustomScanningEnabled || !viewModel.isGamePadConnected {
             focus(position: nil)
         }
 
@@ -652,9 +652,13 @@ private extension ControlsViewController {
     }
 
     func focus(position: CommandPair.Position?) {
-        guard let position = position, UIAccessibility.isSwitchControlRunning else {
-            upperRowVC.view.backgroundColor = .clear
-            lowerRowVC.view.backgroundColor = .clear
+        guard let position = position else {
+            // Reset through `isCustomAccessibilityFocused` rather than by clearing the
+            // background directly. That property drives both the row background *and* the
+            // cell button colours, so clearing only the background used to leave the
+            // focused cell stuck on white.
+            upperRowVC.isCustomAccessibilityFocused = false
+            lowerRowVC.isCustomAccessibilityFocused = false
             return
         }
 
