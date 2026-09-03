@@ -127,6 +127,37 @@ swiftc "CH Drone 2/Simulator/FlightModel.swift" \
        your_harness.swift -o check && ./check
 ```
 
+### SceneLab — looking at the scene without a device
+
+`SimulatorScene` has the same problem one level up: the app links the SDK, so there is no
+arm64 iPad simulator to run it in, and judging how something *looks* through a device
+install is a ten-minute loop per decision.
+
+The **SceneLab** target exists for that. It is a bare SwiftUI app that compiles
+`FlightModel.swift`, `SimulatorScene.swift` and `VirtualStickLimits.swift` **by reference** —
+no copies, no second source of truth — alongside `SceneLab/SceneLabApp.swift`. It links
+nothing, so it runs in the iPad simulator and in Xcode Previews.
+
+```sh
+xcodebuild -workspace "CH Drone 2.xcworkspace" -scheme SceneLab \
+  -destination "platform=iOS Simulator,name=iPad Pro 11-inch (M5)" build
+
+xcrun simctl install booted "$DERIVED/Build/Products/Debug-iphonesimulator/SceneLab.app"
+xcrun simctl launch booted com.christopherhills.SceneLab -flyOnLaunch YES
+xcrun simctl io booted screenshot shot.png
+```
+
+`-flyOnLaunch YES` flies the canned circuit with nothing to tap, so build → launch →
+screenshot is scriptable. Without it, sliders scrub the aircraft to a pose and snap the
+camera to it.
+
+SceneLab ships to nobody and has no tests. Deleting the target and `SceneLab/` leaves the
+app untouched. Two things to know when working on it:
+
+- It has **no Pods xcconfig**, which is what keeps the SDK out. Do not give it one.
+- `SceneLabApp.swift` imports both SwiftUI and RealityKit, and both declare `Scene`, so the
+  `App` conformance has to say `some SwiftUI.Scene`.
+
 ## Style
 
 UIKit with Combine, plus SwiftUI for newer leaf views. `@ValueSubject` is the in-house

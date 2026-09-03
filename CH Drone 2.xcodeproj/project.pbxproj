@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66A892A87F7168A7961450C0 /* SceneLabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F525CFA0EA9EC354ACF98E3F /* SceneLabApp.swift */; };
+		7DADA4824F0BEF4AE8E6AE98 /* FlightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147102FC0A11100E5D001 /* FlightModel.swift */; };
+		1F2ADE0F0900D26CB4370D12 /* SimulatorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147172FC0A11100E5D001 /* SimulatorScene.swift */; };
+		0B6E1D21B2D0C4BCC843CAE6 /* VirtualStickLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA51471F2FC0A11100E5D001 /* VirtualStickLimits.swift */; };
 		1061A59C3AE1209FFDD7924E /* Pods_CH_Drone_2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2018BBC664E2337FCC69F063 /* Pods_CH_Drone_2.framework */; };
 		27D9BDE3C261D1D4217F2AC3 /* Pods_CHDroneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12F0523F43C1FA70357BD7C9 /* Pods_CHDroneTests.framework */; };
 		DA4BD11E2F62E75A0019ED38 /* File.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA4BD11D2F62E75A0019ED38 /* File.txt */; };
@@ -109,6 +113,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F525CFA0EA9EC354ACF98E3F /* SceneLabApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLabApp.swift; sourceTree = "<group>"; };
+		8F735A2C5D1A8C46AFD2060A /* SceneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12F0523F43C1FA70357BD7C9 /* Pods_CHDroneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CHDroneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2018BBC664E2337FCC69F063 /* Pods_CH_Drone_2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CH_Drone_2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D1CDC09332100C4EE8E4B43 /* Pods-CHDroneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHDroneTests.release.xcconfig"; path = "Target Support Files/Pods-CHDroneTests/Pods-CHDroneTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -218,6 +224,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		311ECA73020BE797060843C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA24E6DA26BE00DA00472A18 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -240,6 +253,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		813C93CEECF4C2FD1F343E3D /* SceneLab */ = {
+			isa = PBXGroup;
+			children = (
+				F525CFA0EA9EC354ACF98E3F /* SceneLabApp.swift */,
+			);
+			path = SceneLab;
+			sourceTree = "<group>";
+		};
 		2950CD93136822DCB96760F3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,6 +461,7 @@
 				FA7CFE3F27562EC90074FDC9 /* Configuration */,
 				2950CD93136822DCB96760F3 /* Frameworks */,
 				B75B3EB7A85ACA8E62C8B289 /* Pods */,
+				813C93CEECF4C2FD1F343E3D /* SceneLab */,
 				FAD969A726B634D6007E3E58 /* Products */,
 				DAA79BD02F8883EF00A26694 /* hologo.icon */,
 			);
@@ -450,6 +472,7 @@
 			children = (
 				FAD969A626B634D6007E3E58 /* CH Drone 2.app */,
 				FA24E6DD26BE00DA00472A18 /* CHDroneTests.xctest */,
+				8F735A2C5D1A8C46AFD2060A /* SceneLab.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -521,6 +544,23 @@
 			productReference = FAD969A626B634D6007E3E58 /* CH Drone 2.app */;
 			productType = "com.apple.product-type.application";
 		};
+		8D62CE02E1912B9806F72B16 /* SceneLab */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF0A9EC044FAF74481B217FA /* Build configuration list for PBXNativeTarget "SceneLab" */;
+			buildPhases = (
+				35CB54899BED25F34E20B9BC /* Sources */,
+				311ECA73020BE797060843C7 /* Frameworks */,
+				C7ABF8F9B5BA55E6CD2B07D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SceneLab;
+			productName = SceneLab;
+			productReference = 8F735A2C5D1A8C46AFD2060A /* SceneLab.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -538,6 +578,9 @@
 					};
 					FAD969A526B634D6007E3E58 = {
 						CreatedOnToolsVersion = 12.5;
+					};
+					8D62CE02E1912B9806F72B16 = {
+						CreatedOnToolsVersion = 26.6;
 					};
 				};
 			};
@@ -561,11 +604,19 @@
 			targets = (
 				FAD969A526B634D6007E3E58 /* CH Drone 2 */,
 				FA24E6DC26BE00DA00472A18 /* CHDroneTests */,
+				8D62CE02E1912B9806F72B16 /* SceneLab */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C7ABF8F9B5BA55E6CD2B07D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA24E6DB26BE00DA00472A18 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -721,6 +772,17 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		35CB54899BED25F34E20B9BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66A892A87F7168A7961450C0 /* SceneLabApp.swift in Sources */,
+				7DADA4824F0BEF4AE8E6AE98 /* FlightModel.swift in Sources */,
+				1F2ADE0F0900D26CB4370D12 /* SimulatorScene.swift in Sources */,
+				0B6E1D21B2D0C4BCC843CAE6 /* VirtualStickLimits.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA24E6D926BE00DA00472A18 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -934,6 +996,58 @@
 			};
 			name = Release;
 		};
+		938AD6D8474EA1E35F1922A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4R99ZUCJBW;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SceneLab;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.SceneLab;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		2D380D99B8EBF1556252AAFB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4R99ZUCJBW;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SceneLab;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.SceneLab;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -960,6 +1074,15 @@
 			buildConfigurations = (
 				FAD969BB26B634D7007E3E58 /* Debug */,
 				FAD969BC26B634D7007E3E58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF0A9EC044FAF74481B217FA /* Build configuration list for PBXNativeTarget "SceneLab" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				938AD6D8474EA1E35F1922A4 /* Debug */,
+				2D380D99B8EBF1556252AAFB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
