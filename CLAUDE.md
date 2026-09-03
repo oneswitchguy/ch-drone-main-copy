@@ -106,6 +106,7 @@ gamepad, AirPods head tracking — flies it unchanged. `FlightViewModel` is unaw
 |---|---|
 | `FlightModel` | The flying. Pure Swift, **no DJI imports**, so it unit-tests on the Mac |
 | `SimulatedFlightController` | The only file here that imports the SDK. Translation only |
+| `ProceduralMesh` | Merges many primitives into one mesh. Pure geometry, **no DJI or RealityKit types on its inputs**, so it unit-tests on the Mac |
 | `SimulatorScene` | Procedural RealityKit scene — no model files, no textures |
 | `SimulatorView` / `SimulatorViewModel` | Readouts and the two controls the switch grid lacks |
 | `SimulatorViewController` | Stands in for `FlightViewController` behind the controls |
@@ -126,6 +127,10 @@ swiftc "CH Drone 2/Simulator/FlightModel.swift" \
        "CH Drone 2/Virtual Controls/VirtualStickLimits.swift" \
        your_harness.swift -o check && ./check
 ```
+
+`ProceduralMesh.swift` compiles the same way — it imports RealityKit, which exists on macOS
+too, and nothing on `MeshBuilder`'s input side is a RealityKit type. The harness file has to
+be called `main.swift` if it uses top-level code.
 
 ### SceneLab — looking at the scene without a device
 

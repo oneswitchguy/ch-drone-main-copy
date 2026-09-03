@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF09DA710F1E7020A29147A3 /* ProceduralMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AA3C8A18952A35E2129CC /* ProceduralMesh.swift */; };
+		F31BC2A6163045A5D0380172 /* ProceduralMesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AA3C8A18952A35E2129CC /* ProceduralMesh.swift */; };
+		EAAE17A211491FD5DCF6302A /* ProceduralMeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF35594363FD8B09624C217D /* ProceduralMeshTests.swift */; };
 		66A892A87F7168A7961450C0 /* SceneLabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F525CFA0EA9EC354ACF98E3F /* SceneLabApp.swift */; };
 		7DADA4824F0BEF4AE8E6AE98 /* FlightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147102FC0A11100E5D001 /* FlightModel.swift */; };
 		1F2ADE0F0900D26CB4370D12 /* SimulatorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147172FC0A11100E5D001 /* SimulatorScene.swift */; };
@@ -113,6 +116,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BD2AA3C8A18952A35E2129CC /* ProceduralMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProceduralMesh.swift; sourceTree = "<group>"; };
+		CF35594363FD8B09624C217D /* ProceduralMeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProceduralMeshTests.swift; sourceTree = "<group>"; };
 		F525CFA0EA9EC354ACF98E3F /* SceneLabApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLabApp.swift; sourceTree = "<group>"; };
 		8F735A2C5D1A8C46AFD2060A /* SceneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12F0523F43C1FA70357BD7C9 /* Pods_CHDroneTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CHDroneTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -287,6 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				DA5147102FC0A11100E5D001 /* FlightModel.swift */,
+				BD2AA3C8A18952A35E2129CC /* ProceduralMesh.swift */,
 				DA5147122FC0A11100E5D001 /* SimulatedFlightController.swift */,
 				DA5147172FC0A11100E5D001 /* SimulatorScene.swift */,
 				DA5147192FC0A11100E5D001 /* SimulatorViewModel.swift */,
@@ -339,6 +345,7 @@
 				FA24E6DF26BE00DA00472A18 /* CHDroneTests.swift */,
 				DA5147212FC0A11100E5D001 /* VirtualStickLimitsTests.swift */,
 				DA5147142FC0A11100E5D001 /* FlightModelTests.swift */,
+				CF35594363FD8B09624C217D /* ProceduralMeshTests.swift */,
 				DBCE7C952F8D315100F35F1F /* JoystickControlsModelTests.swift */,
 				FA67B78C28515C59005A435A /* JoystickCommandsTests.swift */,
 				FAC685FF286E591500F12E13 /* TelemetryLoggerTests.swift */,
@@ -778,6 +785,7 @@
 			files = (
 				66A892A87F7168A7961450C0 /* SceneLabApp.swift in Sources */,
 				7DADA4824F0BEF4AE8E6AE98 /* FlightModel.swift in Sources */,
+				F31BC2A6163045A5D0380172 /* ProceduralMesh.swift in Sources */,
 				1F2ADE0F0900D26CB4370D12 /* SimulatorScene.swift in Sources */,
 				0B6E1D21B2D0C4BCC843CAE6 /* VirtualStickLimits.swift in Sources */,
 			);
@@ -788,6 +796,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA5147222FC0A11100E5D001 /* VirtualStickLimitsTests.swift in Sources */,
+				EAAE17A211491FD5DCF6302A /* ProceduralMeshTests.swift in Sources */,
 				DA5147152FC0A11100E5D001 /* FlightModelTests.swift in Sources */,
 				FA24E6E026BE00DA00472A18 /* CHDroneTests.swift in Sources */,
 				DBCE7C962F8D315100F35F1F /* JoystickControlsModelTests.swift in Sources */,
@@ -807,6 +816,7 @@
 				DA51471C2FC0A11100E5D001 /* SimulatorView.swift in Sources */,
 				DA51471E2FC0A11100E5D001 /* SimulatorViewController.swift in Sources */,
 				DA5147112FC0A11100E5D001 /* FlightModel.swift in Sources */,
+				DF09DA710F1E7020A29147A3 /* ProceduralMesh.swift in Sources */,
 				DA5147132FC0A11100E5D001 /* SimulatedFlightController.swift in Sources */,
 				FA7CFE192754E2520074FDC9 /* AccessibilityView.swift in Sources */,
 				FAC978DD2743C77F0098BEB0 /* Aircraft.swift in Sources */,

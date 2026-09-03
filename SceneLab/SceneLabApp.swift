@@ -67,6 +67,21 @@ final class SceneLabHarness: ObservableObject {
     @Published var bank: Double = 0 { didSet { applyPose() } }
 
     init() {
+        // Launch arguments override the starting pose, so a scripted run can put the camera
+        // somewhere specific before it screenshots. `-altitude 150 -distance 0` looks
+        // straight down at the whole grid, which is the view that catches a geometry
+        // regression the default pose would hide.
+        let defaults = UserDefaults.standard
+        for key in ["altitude", "distance", "heading", "bank"] where defaults.object(forKey: key) != nil {
+            let value = defaults.double(forKey: key)
+            switch key {
+            case "altitude": altitude = value
+            case "distance": distance = value
+            case "heading": heading = value
+            default: bank = value
+            }
+        }
+
         applyPose()
     }
 

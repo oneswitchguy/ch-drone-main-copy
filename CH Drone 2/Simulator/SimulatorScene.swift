@@ -104,35 +104,51 @@ final class SimulatorScene {
     ///
     /// Not decoration. A featureless plane gives no sense of speed or drift at all, and
     /// drift is the thing a pilot most needs to notice.
+    ///
+    /// One merged mesh rather than the 82 entities this used to be. The geometry is
+    /// deliberately unchanged — the same boxes at the same positions, built out of quads by
+    /// ``MeshBuilder`` instead of `MeshResource.generateBox` — so anything that looks
+    /// different after the merge is a bug in the builder rather than a decision.
     private func buildGrid() {
         let extent: Float = 200
         let spacing: Float = 10
-        let material = UnlitMaterial(color: UIColor(white: 0.32, alpha: 1))
-        let majorMaterial = UnlitMaterial(color: UIColor(white: 0.52, alpha: 1))
+
+        var builder = MeshBuilder()
 
         var offset = -extent
         while offset <= extent {
             let isMajor = offset.truncatingRemainder(dividingBy: 50) == 0
             let thickness: Float = isMajor ? 0.16 : 0.06
-            let lineMaterial = isMajor ? majorMaterial : material
+            let material = isMajor ? Self.gridMajor : Self.gridMinor
 
-            let northSouth = ModelEntity(
-                mesh: .generateBox(size: [thickness, 0.01, extent * 2]),
-                materials: [lineMaterial]
-            )
-            northSouth.position = [offset, 0, 0]
-            root.addChild(northSouth)
-
-            let eastWest = ModelEntity(
-                mesh: .generateBox(size: [extent * 2, 0.01, thickness]),
-                materials: [lineMaterial]
-            )
-            eastWest.position = [0, 0, offset]
-            root.addChild(eastWest)
+            builder.addBox(size: [thickness, 0.01, extent * 2], at: [offset, 0, 0], material: material)
+            builder.addBox(size: [extent * 2, 0.01, thickness], at: [0, 0, offset], material: material)
 
             offset += spacing
         }
+
+        guard let mesh = try? builder.meshResource() else {
+            // Getting here means ``MeshBuilder`` emitted something invalid, which is what
+            // its tests exist to prevent. Loud in development; in a pilot's hands a missing
+            // drift cue is bad, but a crash on entering practice mode is worse.
+            assertionFailure("MeshBuilder produced an invalid grid mesh")
+            return
+        }
+
+        let grid = ModelEntity(
+            mesh: mesh,
+            materials: [
+                UnlitMaterial(color: UIColor(white: 0.32, alpha: 1)),
+                UnlitMaterial(color: UIColor(white: 0.52, alpha: 1)),
+            ]
+        )
+        root.addChild(grid)
     }
+
+    /// Material slots in the grid mesh, indexing the array handed to the entity above.
+    /// Not free to reorder.
+    private static let gridMinor = 0
+    private static let gridMajor = 1
 
     /// Landmarks at known bearings, so heading is readable without reading the compass.
     ///
