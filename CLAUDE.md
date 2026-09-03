@@ -107,12 +107,27 @@ gamepad, AirPods head tracking — flies it unchanged. `FlightViewModel` is unaw
 | `FlightModel` | The flying. Pure Swift, **no DJI imports**, so it unit-tests on the Mac |
 | `SimulatedFlightController` | The only file here that imports the SDK. Translation only |
 | `ProceduralMesh` | Merges many primitives into one mesh. Pure geometry, **no DJI or RealityKit types on its inputs**, so it unit-tests on the Mac |
-| `SimulatorScene` | Procedural RealityKit scene — no model files, no textures |
+| `SimulatorScene` | Procedural RealityKit scene — no shipped assets. `SkyGradient` draws the sky at launch |
 | `SimulatorView` / `SimulatorViewModel` | Readouts and the two controls the switch grid lacks |
 | `SimulatorViewController` | Stands in for `FlightViewController` behind the controls |
 
 Keep that split. Flying logic goes in `FlightModel` where it can be tested; anything that
 needs a `DJI*` type goes in `SimulatedFlightController`.
+
+The constraint is **no shipped assets** — no model files, no asset catalogues, nothing added
+to the bundle. Textures *drawn in code at launch* are fine and there is one: `SkyGradient`
+renders an equirectangular gradient with Core Graphics for the skybox.
+
+### Two RealityKit traps this scene already hit
+
+- **An `EnvironmentResource` lights the scene, including `UnlitMaterial`.** Setting
+  `content.environment = .skybox(...)` lifted every surface by roughly the sky's average
+  brightness — the 0.16 ground rendered at 0.42 and the red north pylon turned pink.
+  `SimulatorScene.optOutOfImageBasedLighting()` points the whole scene at an
+  `ImageBasedLightComponent(source: .none)`, which restores the colours exactly. Anything
+  that adds real lighting later has to revisit that.
+- **Equirectangular texture azimuth runs 180° out of phase with compass bearing.** Measured
+  with a four-quadrant test sky, not looked up. `SkyGradient.textureAzimuthOffset` holds it.
 
 `FlightModel` works in **East-North-Up** with the origin at the take-off point. This is not
 DJI's frame — `DJISimulatorState` reports X as east, Y as north and Z as *negative* when
@@ -154,7 +169,14 @@ xcrun simctl io booted screenshot shot.png
 
 `-flyOnLaunch YES` flies the canned circuit with nothing to tap, so build → launch →
 screenshot is scriptable. Without it, sliders scrub the aircraft to a pose and snap the
-camera to it.
+camera to it, and `-altitude` / `-distance` / `-heading` / `-bank` set that pose up front.
+
+Two things make the screenshots usable as a regression test. Pin the status bar first
+(`xcrun simctl status_bar <device> override --time "09:41"`) or the clock alone moves ~2000
+pixels between runs; with it pinned, identical builds produce byte-identical PNGs. And note
+that the pose arguments are read from `ProcessInfo.arguments`, not `UserDefaults`, because
+`UserDefaults` silently drops a `-key value` pair whose value starts with a minus — which
+quietly ignored every negative heading until it was noticed.
 
 SceneLab ships to nobody and has no tests. Deleting the target and `SceneLab/` leaves the
 app untouched. Two things to know when working on it:

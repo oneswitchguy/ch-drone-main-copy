@@ -71,14 +71,23 @@ final class SceneLabHarness: ObservableObject {
         // somewhere specific before it screenshots. `-altitude 150 -distance 0` looks
         // straight down at the whole grid, which is the view that catches a geometry
         // regression the default pose would hide.
-        let defaults = UserDefaults.standard
-        for key in ["altitude", "distance", "heading", "bank"] where defaults.object(forKey: key) != nil {
-            let value = defaults.double(forKey: key)
-            switch key {
+        //
+        // Read from the argument list rather than `UserDefaults`, which silently drops a
+        // `-key value` pair whose value starts with a minus — it reads the value as the next
+        // key. Every negative heading and every left bank would be ignored, and ignored
+        // quietly: the app launches, renders a perfectly plausible scene, and answers a
+        // different question from the one asked.
+        let arguments = ProcessInfo.processInfo.arguments
+        for (index, argument) in arguments.enumerated() {
+            guard argument.hasPrefix("-"), index + 1 < arguments.count,
+                  let value = Double(arguments[index + 1]) else { continue }
+
+            switch String(argument.dropFirst()) {
             case "altitude": altitude = value
             case "distance": distance = value
             case "heading": heading = value
-            default: bank = value
+            case "bank": bank = value
+            default: break
             }
         }
 
@@ -290,6 +299,9 @@ struct SceneLabView: View {
         ZStack(alignment: .topLeading) {
             RealityView { content in
                 content.add(harness.scene.root)
+                if let sky = harness.scene.sky {
+                    content.environment = .skybox(sky)
+                }
             }
             .ignoresSafeArea()
 

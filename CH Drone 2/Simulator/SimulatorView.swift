@@ -20,6 +20,14 @@ struct SimulatorView: View {
         ZStack(alignment: .top) {
             RealityView { content in
                 content.add(viewModel.scene.root)
+
+                // The environment belongs to the view's content rather than to the scene
+                // graph, so the scene hands over the resource and each view mounts it.
+                // There is no flat-colour case on `RealityViewEnvironment` — `.default` or
+                // an image, nothing in between — which is why the sky is drawn at all.
+                if let sky = viewModel.scene.sky {
+                    content.environment = .skybox(sky)
+                }
             }
             .ignoresSafeArea()
             .accessibilityHidden(true)

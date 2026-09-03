@@ -9,10 +9,15 @@ import UIKit
 
 /// Builds and drives the RealityKit scene the simulator flies in.
 ///
-/// Everything here is generated in code — there are no model files, textures or asset
-/// catalogues to keep in step. That is a deliberate constraint: the scene has one job,
-/// which is to make motion and orientation legible, and procedural geometry does that
-/// without an asset pipeline to maintain.
+/// Everything here is generated in code — there are no model files and nothing in the
+/// bundle to keep in step. That is a deliberate constraint: the scene has one job, which is
+/// to make motion and orientation legible, and procedural geometry does that without an
+/// asset pipeline to maintain.
+///
+/// The rule is *no shipped assets*, not *no textures*. ``SkyGradient`` draws two of them
+/// with Core Graphics at launch, which adds no files, no asset catalogue entries and no
+/// bytes to the bundle — and without them the sky is a flat colour, which is the one thing
+/// that made this scene look like a debug view rather than a place.
 ///
 /// Entities are mutated directly from ``update(with:)`` rather than through SwiftUI state,
 /// so the 60 Hz flight model does not drive a view refresh on every frame.
@@ -28,7 +33,16 @@ final class SimulatorScene {
     /// Everything in the scene hangs off this.
     let root = Entity()
 
+    /// The sky, drawn at launch. `nil` only if the image or the resource could not be made,
+    /// in which case the scene falls back to `RealityViewEnvironment.default`.
+    ///
+    /// Handed to the view rather than applied here: the environment belongs to the
+    /// `RealityView`'s content, and the scene has no business knowing which view is showing
+    /// it. `SimulatorView` and SceneLab both mount it the same way.
+    private(set) var sky: EnvironmentResource?
+
     init() {
+        buildSky()
         buildGround()
         buildGrid()
         buildPylons()
@@ -90,10 +104,53 @@ final class SimulatorScene {
 
     // MARK: Scene construction
 
+    private func buildSky() {
+        guard let image = SkyGradient.makeImage() else {
+            assertionFailure("Could not draw the sky gradient")
+            return
+        }
+        sky = try? EnvironmentResource(equirectangular: image)
+        assert(sky != nil, "Could not build an EnvironmentResource from the sky gradient")
+
+        optOutOfImageBasedLighting()
+    }
+
+    /// Stops the sky from lighting the scene.
+    ///
+    /// An `EnvironmentResource` is an image-based light as well as a backdrop, and RealityKit
+    /// applies it to `UnlitMaterial` too — which is not what "unlit" leads you to expect.
+    /// Adding the skybox on its own lifted every surface in the scene by roughly the average
+    /// brightness of the sky: the 0.16 ground came out at 0.42, the scatter blocks went
+    /// nearly white, and the red north pylon — the one landmark that has to stay
+    /// unmistakable — turned pink.
+    ///
+    /// Pointing the whole scene at an empty image-based light restores it exactly. Measured
+    /// rather than eyeballed: with this in place the ground, the pylon and the blocks come
+    /// back to the same bytes they were before the sky existed.
+    ///
+    /// This will need revisiting when form shading lands, since by then the scene *will*
+    /// want lighting — but a directional light it chooses, not whatever the sky averages to.
+    private func optOutOfImageBasedLighting() {
+        let none = Entity()
+        none.components.set(ImageBasedLightComponent(source: .none))
+        root.addChild(none)
+        root.components.set(ImageBasedLightReceiverComponent(imageBasedLight: none))
+    }
+
+    /// The ground, 20 km across.
+    ///
+    /// It used to be 2 km, which put its far edge across the frame as a hard seam from as
+    /// low as 25 m. A skybox is infinite and the ground is not, so the fix is to push the
+    /// edge far enough down that it lands inside the horizon line: at 20 km the edge sits
+    /// within 0.7° of horizontal even from the 120 m altitude ceiling.
+    ///
+    /// That only hides the seam because ``SkyGradient`` paints everything below the horizon
+    /// in this exact colour. The two are the same constant on purpose — matching them by eye
+    /// would come apart the first time either changed.
     private func buildGround() {
         let ground = ModelEntity(
-            mesh: .generatePlane(width: 2000, depth: 2000),
-            materials: [UnlitMaterial(color: UIColor(white: 0.16, alpha: 1))]
+            mesh: .generatePlane(width: 20_000, depth: 20_000),
+            materials: [UnlitMaterial(color: SkyGradient.groundColor)]
         )
         // Fractionally below zero so the grid does not fight it for depth.
         ground.position = [0, -0.02, 0]
@@ -265,6 +322,13 @@ final class SimulatorScene {
 
     private func buildCamera() {
         camera.camera.fieldOfViewInDegrees = 60
+
+        // `PerspectiveCameraComponent` defaults to a near plane of 1 cm, which in a 20 km
+        // world spends most of the depth buffer on the first centimetre and leaves the far
+        // field fighting over what is left. Nothing here is ever seen closer than the
+        // airframe, and that sits nine metres away.
+        camera.camera.near = 0.5
+
         root.addChild(camera)
     }
 
@@ -312,6 +376,138 @@ final class SimulatorScene {
         let pitchRotation = simd_quatf(angle: Float(pitch) * .pi / 180, axis: [1, 0, 0])
         let rollRotation = simd_quatf(angle: Float(-roll) * .pi / 180, axis: [0, 0, 1])
         return yawRotation * pitchRotation * rollRotation
+    }
+
+}
+
+// MARK: -
+
+/// The sky, drawn at launch rather than shipped.
+///
+/// An equirectangular gradient handed to `EnvironmentResource`. It costs about thirty lines
+/// and zero bytes in the bundle, which is the whole reason a texture is allowed here at all.
+///
+/// ## Why the bottom half is not sky
+///
+/// Everything below the horizon is painted ``groundColor`` — the same constant the ground
+/// plane uses. The ground is 20 km across and the skybox is infinite, so the plane's far
+/// edge always lands a fraction of a degree below horizontal; painting the sky underneath it
+/// the same colour is what makes that edge stop being a seam. Change one of these two
+/// without the other and the horizon splits open again.
+///
+/// ## Where the sun is
+///
+/// There is no sun disc, only a warm brightening of the haze centred on **bearing 135°**.
+/// It is deliberate and it is load-bearing later: when form shading arrives, the
+/// `DirectionalLight` has to come from this bearing or the scene will be lit from somewhere
+/// the sky plainly says it is not.
+enum SkyGradient {
+
+    /// Everything below the horizon, and the ground plane with it.
+    ///
+    /// Deliberately dark. The grid is drawn in greys of 0.32 and 0.52 and is the drift cue —
+    /// the thing a pilot most needs to notice — so the ground it sits on has to stay well
+    /// clear of both.
+    static let groundColor = UIColor(white: 0.16, alpha: 1)
+
+    /// Compass bearing the haze brightens toward. See the note above: a later
+    /// `DirectionalLight` must agree with this.
+    static let sunBearing: Double = 135
+
+    /// Texture azimuth runs 180° out of phase with compass bearing.
+    ///
+    /// Measured, not looked up: a sky painted in four saturated quadrants put texture 180°
+    /// dead ahead when the aircraft was heading north, and the same offset held at 90° and
+    /// 180°, increasing in the same direction, so it is a rotation rather than a mirror.
+    /// Without this the sun sits opposite where ``sunBearing`` says it does — which is
+    /// exactly the sort of thing that stays invisible until a directional light disagrees
+    /// with the sky and nobody can say which one is wrong.
+    private static let textureAzimuthOffset: Double = 180
+
+    /// A 1024×512 equirectangular gradient: row 0 is the zenith, the last row is the nadir,
+    /// and x runs once around the compass.
+    static func makeImage(width: Int = 1024, height: Int = 512) -> CGImage? {
+        var pixels = [UInt8](repeating: 0, count: width * height * 4)
+
+        var groundRed: CGFloat = 0, groundGreen: CGFloat = 0, groundBlue: CGFloat = 0, alpha: CGFloat = 0
+        groundColor.getRed(&groundRed, green: &groundGreen, blue: &groundBlue, alpha: &alpha)
+        let ground = SIMD3<Double>(Double(groundRed), Double(groundGreen), Double(groundBlue))
+
+        let sun = (sunBearing + textureAzimuthOffset) * .pi / 180
+
+        for y in 0..<height {
+            // +90° at the top row through to -90° at the bottom.
+            let elevation = (0.5 - (Double(y) + 0.5) / Double(height)) * .pi
+
+            for x in 0..<width {
+                let azimuth = (Double(x) + 0.5) / Double(width) * 2 * .pi
+                let color = elevation < 0 ? ground : skyColor(elevation: elevation, azimuth: azimuth, sun: sun)
+
+                let offset = (y * width + x) * 4
+                pixels[offset] = channel(color.x)
+                pixels[offset + 1] = channel(color.y)
+                pixels[offset + 2] = channel(color.z)
+                pixels[offset + 3] = 255
+            }
+        }
+
+        return pixels.withUnsafeMutableBytes { raw -> CGImage? in
+            guard let context = CGContext(
+                data: raw.baseAddress,
+                width: width,
+                height: height,
+                bitsPerComponent: 8,
+                bytesPerRow: width * 4,
+                space: CGColorSpaceCreateDeviceRGB(),
+                bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue
+            ) else {
+                return nil
+            }
+            return context.makeImage()
+        }
+    }
+
+    // MARK: - Private
+
+    /// Elevation stops, in degrees, from the horizon up.
+    ///
+    /// Muted on purpose. The scene's cues are a red pylon, a yellow nose flash and a pale
+    /// grey grid; a saturated sky would compete with all three, and the teal pylon would be
+    /// the first to go. These are also not final: under `SimpleMaterial` every one of them
+    /// comes back darker, so they are chosen to be legible now and re-tuned once.
+    private static let stops: [(elevation: Double, color: SIMD3<Double>)] = [
+        (0, [0.74, 0.78, 0.80]),
+        (3, [0.68, 0.74, 0.79]),
+        (12, [0.50, 0.62, 0.74]),
+        (40, [0.26, 0.42, 0.62]),
+        (90, [0.13, 0.24, 0.42]),
+    ]
+
+    private static func skyColor(elevation: Double, azimuth: Double, sun: Double) -> SIMD3<Double> {
+        let degrees = elevation * 180 / .pi
+        var color = stops[stops.count - 1].color
+
+        for index in 1..<stops.count where degrees <= stops[index].elevation {
+            let lower = stops[index - 1]
+            let upper = stops[index]
+            let t = (degrees - lower.elevation) / (upper.elevation - lower.elevation)
+            color = lower.color + (upper.color - lower.color) * t
+            break
+        }
+
+        // A warm lift toward the sun, strongest on the horizon and gone by 25° up. No disc:
+        // a bright spot in the sky is one more thing competing with the pylons for a
+        // pilot's attention, and the point is only to say which way the light comes from.
+        let separation = abs(atan2(sin(azimuth - sun), cos(azimuth - sun)))
+        let across = max(0, 1 - separation / (.pi / 2))
+        let up = max(0, 1 - degrees / 25)
+        let glow = pow(across, 3) * up * 0.16
+
+        return color + SIMD3(1.0, 0.86, 0.62) * glow
+    }
+
+    private static func channel(_ value: Double) -> UInt8 {
+        UInt8(max(0, min(255, (value * 255).rounded())))
     }
 
 }
