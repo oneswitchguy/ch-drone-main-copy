@@ -53,6 +53,11 @@ are not picked up automatically**. Each one needs four entries in
 the group's `children`, and an entry in the target's `Sources` build phase. Mirror an
 existing neighbour such as `ObstacleAvoiding.swift` and use a fresh 24-hex-character UUID.
 
+A **resource** is the same, except the last entry goes in the target's `Resources` phase
+instead, and it needs one `PBXBuildFile` *per target that bundles it* against the single
+shared `PBXFileReference`. `Drone.reality` is the worked example: it is in both the app's
+Resources phase and SceneLab's, because both mount `SimulatorScene`.
+
 ## Tests only run on physical hardware
 
 The DJI SDK ships an **x86_64-only** simulator slice, so no arm64 iPad simulator is offered
@@ -107,18 +112,44 @@ gamepad, AirPods head tracking — flies it unchanged. `FlightViewModel` is unaw
 | `FlightModel` | The flying. Pure Swift, **no DJI imports**, so it unit-tests on the Mac |
 | `SimulatedFlightController` | The only file here that imports the SDK. Translation only |
 | `ProceduralMesh` | Merges many primitives into one mesh. Pure geometry, **no DJI or RealityKit types on its inputs**, so it unit-tests on the Mac |
-| `SimulatorScene` | Procedural RealityKit scene — no shipped assets. `SkyGradient` draws the sky at launch |
+| `SimulatorScene` | The RealityKit scene. World built in code; airframe loaded from `Drone.reality` |
+| `Drone.reality` | The airframe. The scene's only shipped asset |
 | `SimulatorView` / `SimulatorViewModel` | Readouts and the two controls the switch grid lacks |
 | `SimulatorViewController` | Stands in for `FlightViewController` behind the controls |
 
 Keep that split. Flying logic goes in `FlightModel` where it can be tested; anything that
 needs a `DJI*` type goes in `SimulatedFlightController`.
 
-The constraint is **no shipped assets** — no model files, no asset catalogues, nothing added
-to the bundle. Textures *drawn in code at launch* are fine and there is one: `SkyGradient`
-renders an equirectangular gradient with Core Graphics for the skybox.
+The world is built in code — ground, grid, pylons, home pad, sky — and should stay that way:
+it exists to make motion and orientation legible, which primitives do without an asset
+pipeline to keep in step. Textures *drawn at launch* count as code, and there is one:
+`SkyGradient` renders an equirectangular gradient with Core Graphics for the skybox.
 
-### Two RealityKit traps this scene already hit
+**The airframe is the exception**, and the only one. It is loaded from `Drone.reality`, a
+Reality Composer model with a named part for every arm, motor, rotor, leg and the camera
+gimbal. `SimulatorScene.loadAirframe()` scales it to `aircraftSpan`, turns it 180° (the model
+is built nose-toward +Z; RealityKit's forward is -Z) and lifts it so the feet rather than the
+middle of the body rest on the ground — all three derived from the model's own bounds, so
+re-exporting it at a different size cannot silently move it. `rotorNames` and `bodyName` are
+the two places the code depends on the model's naming, and both are asserted on load.
+
+If it will not load, `buildProceduralAirframe()` — the boxes-and-sticks airframe it replaced —
+stands in, because practice mode with a plain drone beats practice mode with no drone.
+
+The model marks its nose only by shape, so `addHeadingFlash(to:)` puts a yellow flash on the
+top-front edge of the body — heading is the hardest thing to read in this scene, and shape is
+the first cue to go at distance.
+
+Its rotors are 27:1 bars, so the spin in `update(with:)` shows: advancing the rotor angle by
+one step moves 2,503 pixels, against 238 for the disc-shaped rotors an earlier export had.
+**Keep every ancestor of the rotors uniformly scaled** — a `Transform` scales before it
+rotates, so the blades turn rigidly only while nothing above them scales unevenly.
+
+Note the model roots at a `world` entity wrapping `Drone`, so the load root is not the
+airframe itself. Nothing in the code cares — `findEntity(named:)` recurses and `visualBounds`
+aggregates — but do not assume the returned entity is the drone.
+
+### Three RealityKit traps this scene already hit
 
 - **An `EnvironmentResource` lights the scene, including `UnlitMaterial`.** Setting
   `content.environment = .skybox(...)` lifted every surface by roughly the sky's average
@@ -128,6 +159,14 @@ renders an equirectangular gradient with Core Graphics for the skybox.
   that adds real lighting later has to revisit that.
 - **Equirectangular texture azimuth runs 180° out of phase with compass bearing.** Measured
   with a four-quadrant test sky, not looked up. `SkyGradient.textureAzimuthOffset` holds it.
+- **`Drone.reality`'s materials are `ShaderGraphMaterial` and need light to be any colour at
+  all.** Under the scene-wide empty light above they render black. `lightAirframe()` sets an
+  `ImageBasedLightReceiverComponent` on the aircraft alone, pointed at the sky — the
+  component is inherited and the nearest one up the hierarchy wins, so this overrides the
+  root's for that subtree only. `addHeadingFlash(to:)` then points the flash back at the
+  empty light so its yellow does not wash out. Verified by screenshot diff: swapping the
+  airframe in changes only pixels inside the airframe's own footprint, and the flash renders
+  at the same RGB it did before.
 
 `FlightModel` works in **East-North-Up** with the origin at the take-off point. This is not
 DJI's frame — `DJISimulatorState` reports X as east, Y as north and Z as *negative* when

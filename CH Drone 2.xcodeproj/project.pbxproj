@@ -12,6 +12,8 @@
 		EAAE17A211491FD5DCF6302A /* ProceduralMeshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF35594363FD8B09624C217D /* ProceduralMeshTests.swift */; };
 		66A892A87F7168A7961450C0 /* SceneLabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F525CFA0EA9EC354ACF98E3F /* SceneLabApp.swift */; };
 		7DADA4824F0BEF4AE8E6AE98 /* FlightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147102FC0A11100E5D001 /* FlightModel.swift */; };
+		DA7C4A022FD10A4400B1E001 /* Drone.reality in Resources */ = {isa = PBXBuildFile; fileRef = DA7C4A012FD10A4400B1E001 /* Drone.reality */; };
+		DA7C4A032FD10A4400B1E001 /* Drone.reality in Resources */ = {isa = PBXBuildFile; fileRef = DA7C4A012FD10A4400B1E001 /* Drone.reality */; };
 		1F2ADE0F0900D26CB4370D12 /* SimulatorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147172FC0A11100E5D001 /* SimulatorScene.swift */; };
 		0B6E1D21B2D0C4BCC843CAE6 /* VirtualStickLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA51471F2FC0A11100E5D001 /* VirtualStickLimits.swift */; };
 		1061A59C3AE1209FFDD7924E /* Pods_CH_Drone_2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2018BBC664E2337FCC69F063 /* Pods_CH_Drone_2.framework */; };
@@ -131,6 +133,7 @@
 		DA5147102FC0A11100E5D001 /* FlightModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightModel.swift; sourceTree = "<group>"; };
 		DA5147122FC0A11100E5D001 /* SimulatedFlightController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatedFlightController.swift; sourceTree = "<group>"; };
 		DA5147142FC0A11100E5D001 /* FlightModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightModelTests.swift; sourceTree = "<group>"; };
+		DA7C4A012FD10A4400B1E001 /* Drone.reality */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drone.reality; sourceTree = "<group>"; };
 		DA5147172FC0A11100E5D001 /* SimulatorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorScene.swift; sourceTree = "<group>"; };
 		DA5147192FC0A11100E5D001 /* SimulatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorViewModel.swift; sourceTree = "<group>"; };
 		DA51471B2FC0A11100E5D001 /* SimulatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorView.swift; sourceTree = "<group>"; };
@@ -291,6 +294,7 @@
 		DA5147162FC0A11100E5D001 /* Simulator */ = {
 			isa = PBXGroup;
 			children = (
+				DA7C4A012FD10A4400B1E001 /* Drone.reality */,
 				DA5147102FC0A11100E5D001 /* FlightModel.swift */,
 				BD2AA3C8A18952A35E2129CC /* ProceduralMesh.swift */,
 				DA5147122FC0A11100E5D001 /* SimulatedFlightController.swift */,
@@ -621,6 +625,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA7C4A032FD10A4400B1E001 /* Drone.reality in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -636,6 +641,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD969B326B634D7007E3E58 /* Assets.xcassets in Resources */,
+				DA7C4A022FD10A4400B1E001 /* Drone.reality in Resources */,
 				FAB2ED1D27B8BD3800208AC1 /* DistortionResource.bundle in Resources */,
 				DA4BD11E2F62E75A0019ED38 /* File.txt in Resources */,
 				FAD969B626B634D7007E3E58 /* LaunchScreen.storyboard in Resources */,

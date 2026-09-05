@@ -9,15 +9,16 @@ import UIKit
 
 /// Builds and drives the RealityKit scene the simulator flies in.
 ///
-/// Everything here is generated in code — there are no model files and nothing in the
-/// bundle to keep in step. That is a deliberate constraint: the scene has one job, which is
-/// to make motion and orientation legible, and procedural geometry does that without an
-/// asset pipeline to maintain.
+/// The world is generated in code — ground, grid, pylons, home pad and sky, none of which
+/// ships a byte. The scene has one job, which is to make motion and orientation legible,
+/// and procedural geometry does that without an asset pipeline to maintain. ``SkyGradient``
+/// draws the sky with Core Graphics at launch for the same reason: it is a texture, but it
+/// is not a *file*.
 ///
-/// The rule is *no shipped assets*, not *no textures*. ``SkyGradient`` draws two of them
-/// with Core Graphics at launch, which adds no files, no asset catalogue entries and no
-/// bytes to the bundle — and without them the sky is a flat colour, which is the one thing
-/// that made this scene look like a debug view rather than a place.
+/// The **airframe is the exception**, and the only one: it is loaded from `Drone.reality`.
+/// A drone is the one thing in this scene a pilot has to read rather than merely see, and
+/// a shape they recognise does that better than anything reasonable to assemble out of
+/// primitives. See ``buildAircraft()``.
 ///
 /// Entities are mutated directly from ``update(with:)`` rather than through SwiftUI state,
 /// so the 60 Hz flight model does not drive a view refresh on every frame.
@@ -65,7 +66,13 @@ final class SimulatorScene {
         )
 
         // The rotors spin faster under power, which reads as effort without meaning
-        // anything — the model has no concept of thrust.
+        // anything — the flight model has no concept of thrust.
+        //
+        // Setting `orientation` here is safe despite how lopsided a rotor's own scale is —
+        // the blades are 27:1 bars — because a `Transform` scales before it rotates, so the
+        // blade is made first and then turned rigidly. That holds only while every ancestor
+        // up to the load root is uniformly scaled, which they are. A non-uniform scale
+        // introduced anywhere above these entities would shear the blades as they turned.
         rotorAngle += 0.35 + Float(abs(state.verticalSpeed)) * 0.05
         for rotor in rotors {
             rotor.orientation = simd_quatf(angle: rotorAngle, axis: [0, 1, 0])
@@ -88,15 +95,40 @@ final class SimulatorScene {
 
     private let aircraft = Entity()
     private let shadow = Entity()
+
+    /// The empty image-based light the whole scene is pointed at by
+    /// ``optOutOfImageBasedLighting()``. Held rather than made and forgotten, because the
+    /// airframe opts into a real light and the parts that must keep an exact colour —
+    /// see ``addHeadingFlash(to:)`` — have to be able to opt back out of it.
+    private let noImageBasedLight = Entity()
+
     private let camera = PerspectiveCamera()
     private var rotors: [Entity] = []
     private var rotorAngle: Float = 0
     private var hasPlacedCamera = false
 
-    /// Metres. Larger than a real Mavic, which is about 0.35 m across, because at a
-    /// readable chase distance a life-sized airframe is a smudge. Judging absolute
-    /// distance matters less here than seeing which way the nose points.
+    /// Metres, measured across the widest part of the airframe. Larger than a real Mavic,
+    /// which is about 0.35 m across, because at a readable chase distance a life-sized
+    /// airframe is a smudge. Judging absolute distance matters less here than seeing which
+    /// way the nose points.
+    ///
+    /// ``loadAirframe()`` scales the model to this rather than trusting the size it was
+    /// exported at, so this constant stays the single place the airframe's size is decided.
     private static let aircraftSpan: Float = 1.6
+
+    /// `Drone.reality`, in the main bundle. Built into the app and into SceneLab, which is
+    /// the only other target that mounts this scene.
+    private static let airframeResource = "Drone"
+
+    /// The four rotors inside `Drone.reality`, which ``update(with:)`` spins.
+    ///
+    /// Matched by name, and asserted on load — a rename in the model would otherwise show
+    /// up as rotors that quietly stopped turning, which is exactly the sort of thing nobody
+    /// notices for a month.
+    private static let rotorNames = ["rotor_FL", "rotor_FR", "rotor_BL", "rotor_BR"]
+
+    /// The body of the model, which the nose flash is sized and positioned against.
+    private static let bodyName = "hub"
 
     /// Metres behind and above the aircraft.
     private static let chaseDistance: Float = 9
@@ -131,10 +163,9 @@ final class SimulatorScene {
     /// This will need revisiting when form shading lands, since by then the scene *will*
     /// want lighting — but a directional light it chooses, not whatever the sky averages to.
     private func optOutOfImageBasedLighting() {
-        let none = Entity()
-        none.components.set(ImageBasedLightComponent(source: .none))
-        root.addChild(none)
-        root.components.set(ImageBasedLightReceiverComponent(imageBasedLight: none))
+        noImageBasedLight.components.set(ImageBasedLightComponent(source: .none))
+        root.addChild(noImageBasedLight)
+        root.components.set(ImageBasedLightReceiverComponent(imageBasedLight: noImageBasedLight))
     }
 
     /// The ground, 20 km across.
@@ -260,7 +291,153 @@ final class SimulatorScene {
         root.addChild(pad)
     }
 
+    /// The airframe, loaded from `Drone.reality`.
+    ///
+    /// The one shipped asset in this scene, and a deliberate exception to the rule at the
+    /// top of this file rather than a hole in it. What it buys is orientation: arms, motors,
+    /// landing gear and a camera gimbal hanging off the nose say which way the aircraft is
+    /// pointing from further away, and from more angles, than the box-and-sticks airframe
+    /// this replaces ever did.
+    ///
+    /// Three adjustments are made on the way in, every one of them derived from the model's
+    /// own bounds rather than written down here, so that re-exporting it at a different size
+    /// or with a different origin cannot quietly move it:
+    ///
+    /// - **Scaled** until its widest horizontal extent is ``aircraftSpan``.
+    /// - **Turned to face -Z.** The model is built nose-toward +Z — that is the face the
+    ///   gimbal hangs off — and RealityKit's forward, which is the direction
+    ///   ``orientation(heading:pitch:roll:)`` points the aircraft along, is the other way.
+    ///   Get this wrong and the scene flies backwards while looking entirely plausible.
+    /// - **Lifted** so the feet rest on the ground at zero altitude. The old airframe was
+    ///   centred on its body and sat half-buried in the ground plane; this one has legs.
+    ///
+    /// If the model will not load, ``buildProceduralAirframe()`` stands in. Practice mode
+    /// with a plain-looking drone in it beats practice mode with no drone in it, for a mode
+    /// whose whole job is teaching a pilot to read where the aircraft is pointing.
     private func buildAircraft() {
+        if let airframe = Self.loadAirframe() {
+            aircraft.addChild(airframe)
+            lightAirframe()
+            addHeadingFlash(to: airframe)
+
+            rotors = Self.rotorNames.compactMap { airframe.findEntity(named: $0) }
+            assert(
+                rotors.count == Self.rotorNames.count,
+                "Drone.reality is missing a rotor — found \(rotors.count) of \(Self.rotorNames.count)"
+            )
+        } else {
+            assertionFailure("Could not load a usable airframe from \(Self.airframeResource).reality")
+            buildProceduralAirframe()
+        }
+
+        root.addChild(aircraft)
+        buildShadow()
+    }
+
+    /// Loads the airframe and puts it into this scene's frame and scale.
+    ///
+    /// The transform goes on the loaded model rather than on ``aircraft``, which
+    /// ``update(with:)`` overwrites sixty times a second with the flight pose. Those two
+    /// jobs stay on separate entities: this one is the model's, and that one is the
+    /// aircraft's.
+    private static func loadAirframe() -> Entity? {
+        guard let model = try? Entity.load(named: airframeResource, in: .main) else { return nil }
+
+        // Local-space bounds, so the model's own transform is not counted twice.
+        let bounds = model.visualBounds(relativeTo: model)
+        let width = max(bounds.extents.x, bounds.extents.z)
+        guard width > 0 else { return nil }
+
+        let scale = aircraftSpan / width
+        model.scale = SIMD3(repeating: scale)
+        model.orientation = simd_quatf(angle: .pi, axis: [0, 1, 0])
+        // Applied after the rotation, which is about Y and so leaves this lift alone.
+        model.position = [0, -bounds.min.y * scale, 0]
+
+        return model
+    }
+
+    /// Lights the airframe, and nothing else in the scene.
+    ///
+    /// Everything else here is `UnlitMaterial` and has its colour whether or not anything
+    /// is shining on it. The model's four materials are `ShaderGraphMaterial` and do not:
+    /// under the empty image-based light that ``optOutOfImageBasedLighting()`` points the
+    /// whole scene at, they render black.
+    ///
+    /// So the aircraft opts back in on its own account, to an image-based light built from
+    /// the very sky it is being flown against — the cheapest light available here, and the
+    /// only one that cannot disagree with the backdrop about where the sun is.
+    /// `ImageBasedLightReceiverComponent` is inherited and the nearest one up the hierarchy
+    /// wins, so setting it on ``aircraft`` covers the airframe and leaves every colour
+    /// measured elsewhere in the scene exactly where it was.
+    private func lightAirframe() {
+        guard let sky else {
+            // No sky means no light to give it, and a black airframe would be worse than a
+            // plain one. `buildSky` has already asserted by this point.
+            return
+        }
+
+        let light = Entity()
+        light.components.set(ImageBasedLightComponent(source: .single(sky)))
+        root.addChild(light)
+
+        aircraft.components.set(ImageBasedLightReceiverComponent(imageBasedLight: light))
+    }
+
+    /// Marks the nose, in a colour nothing else in the scene uses.
+    ///
+    /// The model does say which way it is pointing on its own — the gimbal hangs off the
+    /// front, the legs rake back — but shape is the first cue to go: at altitude, at
+    /// distance, and for a pilot reading the scene out of the corner of their eye while
+    /// working a switch. The airframe this replaced marked its nose in yellow for exactly
+    /// that reason, and a better-looking model is no reason to stop.
+    ///
+    /// It straddles the top-front edge of the body, which is the one place in view both from
+    /// behind and above — where the chase camera sits — and from in front. Sized off the
+    /// body rather than off ``aircraftSpan``, so it stays in proportion to the airframe if
+    /// the model is ever re-exported.
+    ///
+    /// Pointed back at the scene's empty image-based light. This is a marker, not a part: it
+    /// has to be the same yellow whichever way the aircraft has turned, and the sky the
+    /// airframe is lit by would otherwise wash it toward white — the one direction that
+    /// costs it its contrast against the pale grid and the light steel body.
+    private func addHeadingFlash(to airframe: Entity) {
+        guard let body = airframe.findEntity(named: Self.bodyName) else {
+            assertionFailure("Drone.reality has no \(Self.bodyName) to mark the nose of")
+            return
+        }
+
+        let bounds = body.visualBounds(relativeTo: aircraft)
+        let flash = ModelEntity(
+            mesh: .generateBox(
+                size: [bounds.extents.x * 0.6, bounds.extents.y * 0.45, bounds.extents.z * 0.26],
+                cornerRadius: bounds.extents.y * 0.08
+            ),
+            materials: [UnlitMaterial(color: .systemYellow)]
+        )
+        flash.position = [0, bounds.max.y, bounds.min.z]
+        flash.components.set(ImageBasedLightReceiverComponent(imageBasedLight: noImageBasedLight))
+
+        aircraft.addChild(flash)
+    }
+
+    /// A ground shadow.
+    ///
+    /// Altitude is genuinely hard to judge from a chase camera, and the gap between the
+    /// aircraft and its shadow reads as height far better than a number does.
+    private func buildShadow() {
+        let disc = ModelEntity(
+            mesh: .generateCylinder(height: 0.02, radius: Self.aircraftSpan * 0.45),
+            materials: [UnlitMaterial(color: UIColor(white: 0.05, alpha: 1))]
+        )
+        shadow.addChild(disc)
+        root.addChild(shadow)
+    }
+
+    /// The airframe this scene flew before `Drone.reality`, kept as the fallback.
+    ///
+    /// Boxes and sticks, but boxes and sticks that cannot fail to load.
+    private func buildProceduralAirframe() {
         let bodyMaterial = UnlitMaterial(color: UIColor(white: 0.9, alpha: 1))
         let armMaterial = UnlitMaterial(color: UIColor(white: 0.55, alpha: 1))
         let rotorMaterial = UnlitMaterial(color: UIColor(white: 0.7, alpha: 1))
@@ -273,8 +450,7 @@ final class SimulatorScene {
         )
         aircraft.addChild(body)
 
-        // The nose flash. Which way the aircraft is facing is the single hardest thing to
-        // read in flight, so it gets a colour nothing else in the scene uses.
+        // The nose flash, for the same reason the loaded airframe gets one.
         let nose = ModelEntity(
             mesh: .generateBox(size: [span * 0.2, span * 0.1, span * 0.22]),
             materials: [UnlitMaterial(color: .systemYellow)]
@@ -307,17 +483,6 @@ final class SimulatorScene {
                 rotors.append(rotor)
             }
         }
-
-        root.addChild(aircraft)
-
-        // A ground shadow. Altitude is genuinely hard to judge from a chase camera, and
-        // the gap between aircraft and shadow reads as height far better than a number.
-        let disc = ModelEntity(
-            mesh: .generateCylinder(height: 0.02, radius: span * 0.45),
-            materials: [UnlitMaterial(color: UIColor(white: 0.05, alpha: 1))]
-        )
-        shadow.addChild(disc)
-        root.addChild(shadow)
     }
 
     private func buildCamera() {
