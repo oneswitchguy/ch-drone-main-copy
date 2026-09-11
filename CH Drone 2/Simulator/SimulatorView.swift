@@ -16,6 +16,9 @@ struct SimulatorView: View {
 
     @ObservedObject var viewModel: SimulatorViewModel
 
+    /// Test-phase only. See ``controlLinkButton``.
+    @ObservedObject var controlLinkSession: ControlLinkSession
+
     var body: some View {
         ZStack(alignment: .top) {
             RealityView { content in
@@ -142,6 +145,8 @@ struct SimulatorView: View {
 
     private var actionButtons: some View {
         HStack(spacing: 8) {
+            controlLinkButton
+
             Button(viewModel.primaryActionTitle) {
                 viewModel.performPrimaryAction()
             }
@@ -161,6 +166,84 @@ struct SimulatorView: View {
         .buttonStyle(.borderedProminent)
         .controlSize(.regular)
         .font(.callout.weight(.semibold))
+    }
+
+    /// Turns the TCP control link to the receiver app on and off.
+    ///
+    /// **Test phase.** The link streams the stick positions the pilot is commanding to a
+    /// second device over the local network; nothing comes back, and nothing about the
+    /// simulation depends on it. It lives on the simulator screen because that is where the
+    /// link can be exercised without an aircraft in the air.
+    ///
+    /// Styled as a secondary control so it cannot be mistaken for the flight buttons beside
+    /// it, and tinted by connection state rather than by whether it is merely switched on —
+    /// "enabled but never found the receiver" is the failure this is most likely to hit.
+    private var controlLinkButton: some View {
+        Button {
+            controlLinkSession.toggle()
+        } label: {
+            Label {
+                Text("Link", comment: "Toggles the test TCP link to the receiver app")
+            } icon: {
+                Image(systemName: controlLinkIconName)
+            }
+        }
+        .buttonStyle(.bordered)
+        .tint(controlLinkTint)
+        .accessibilityLabel(Text("Control link", comment: ""))
+        .accessibilityValue(Text(controlLinkStatus))
+        .accessibilityHint(Text(
+            controlLinkSession.isEnabled
+                ? String(localized: "Turns off streaming the controls to the receiver app.", comment: "")
+                : String(localized: "Streams the controls to the receiver app for testing.", comment: "")
+        ))
+    }
+
+    private var controlLinkIconName: String {
+        guard controlLinkSession.isEnabled else {
+            return "antenna.radiowaves.left.and.right.slash"
+        }
+
+        switch controlLinkSession.connectionState {
+        case .failed:
+            return "exclamationmark.triangle.fill"
+        default:
+            return "antenna.radiowaves.left.and.right"
+        }
+    }
+
+    private var controlLinkTint: Color {
+        guard controlLinkSession.isEnabled else { return .gray }
+
+        switch controlLinkSession.connectionState {
+        case .connected:
+            return .green
+        case .failed:
+            return .orange
+        case .idle, .browsing, .connecting:
+            return .yellow
+        }
+    }
+
+    /// Spoken by VoiceOver and, deliberately, the only place the link's state is spelled
+    /// out — the icon and tint alone would leave a switch-control pilot guessing.
+    private var controlLinkStatus: String {
+        guard controlLinkSession.isEnabled else {
+            return String(localized: "Off", comment: "Control link is switched off")
+        }
+
+        switch controlLinkSession.connectionState {
+        case .idle:
+            return String(localized: "On, starting up", comment: "")
+        case .browsing:
+            return String(localized: "On, looking for the receiver app", comment: "")
+        case .connecting:
+            return String(localized: "On, connecting", comment: "")
+        case .connected(let endpoint):
+            return String(localized: "Connected to \(endpoint)", comment: "")
+        case .failed(let message):
+            return String(localized: "Link failed. \(message)", comment: "")
+        }
     }
 
     private var heading: String {
