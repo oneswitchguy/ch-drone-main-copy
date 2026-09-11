@@ -13,8 +13,9 @@ import UIKit
 /// the switch grid and joystick out over either one without knowing which it has.
 final class SimulatorViewController: UIViewController, ControlsBackgroundViewController {
 
-    init(flightController: SimulatedFlightController) {
+    init(flightController: SimulatedFlightController, controlLinkSession: ControlLinkSession) {
         self.viewModel = SimulatorViewModel(flightController: flightController)
+        self.controlLinkSession = controlLinkSession
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -38,7 +39,9 @@ final class SimulatorViewController: UIViewController, ControlsBackgroundViewCon
 
         view.backgroundColor = .black
 
-        let hostingController = UIHostingController(rootView: SimulatorView(viewModel: viewModel))
+        let hostingController = UIHostingController(
+            rootView: SimulatorView(viewModel: viewModel, controlLinkSession: controlLinkSession)
+        )
         hostingController.view.backgroundColor = .clear
         embedChild(hostingController)
 
@@ -55,6 +58,7 @@ final class SimulatorViewController: UIViewController, ControlsBackgroundViewCon
     // MARK: - Private
 
     private let viewModel: SimulatorViewModel
+    private let controlLinkSession: ControlLinkSession
     private let topBarGuide = UILayoutGuide()
 
     private static let topBarHeight: CGFloat = 56

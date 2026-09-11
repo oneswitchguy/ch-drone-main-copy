@@ -37,8 +37,14 @@
 	<string>Bluetooth is required for some types of drone connection.</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Bluetooth is required for some types of drone connection.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_chdrone-control._tcp</string>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera is used by the DJI UX SDK</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Local network access is used to discover and connect to a nearby control receiver prototype.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Location may be required for positioning the drone and checking local restrictions.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

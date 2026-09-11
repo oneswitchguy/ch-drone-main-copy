@@ -54,6 +54,10 @@ final class FlightViewModel: NSObject {
 
     let movementMultipliers: MovementMultipliers
 
+    /// The control link to the receiver app. Held here because this is where the stick
+    /// state is assembled — see ``sendControlsData()``.
+    let controlLinkSession = ControlLinkSession()
+
     /// Non-nil when the controls are flying a simulation rather than an aircraft, which
     /// changes what they are laid out over — there is no video feed or DJI widget to show.
     var simulatedFlightController: SimulatedFlightController? {
@@ -505,6 +509,14 @@ private extension FlightViewModel {
         let currentControlsState = currentControlsState
 
         // print("currentControlsState", currentControlsState)
+
+        // Before the guard: the link mirrors what the pilot is commanding, which is worth
+        // watching on the receiver even in the moments there is no flight controller to
+        // send it to.
+        controlLinkSession.send(
+            controlsState: currentControlsState,
+            source: simulatedFlightController == nil ? nil : ControlLinkProtocol.simulatorSource
+        )
 
         guard let flightController = flightController else { return }
 

@@ -22,6 +22,9 @@
 		DA5147112FC0A11100E5D001 /* FlightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147102FC0A11100E5D001 /* FlightModel.swift */; };
 		DA5147132FC0A11100E5D001 /* SimulatedFlightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147122FC0A11100E5D001 /* SimulatedFlightController.swift */; };
 		DA5147152FC0A11100E5D001 /* FlightModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147142FC0A11100E5D001 /* FlightModelTests.swift */; };
+		A876EBB69FD02477DEE85C94 /* ControlLinkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CD1BF4AFBB2AD290E593B8 /* ControlLinkProtocol.swift */; };
+		CCCA026B461F960BAC697E5B /* ControlLinkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4952B9F096CD22572AB85C8 /* ControlLinkClient.swift */; };
+		A7626B7F4392C58CAA6CD37B /* ControlLinkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4B3DA07E366DA464B5A90E /* ControlLinkSession.swift */; };
 		DA5147182FC0A11100E5D001 /* SimulatorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147172FC0A11100E5D001 /* SimulatorScene.swift */; };
 		DA51471A2FC0A11100E5D001 /* SimulatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147192FC0A11100E5D001 /* SimulatorViewModel.swift */; };
 		DA51471C2FC0A11100E5D001 /* SimulatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA51471B2FC0A11100E5D001 /* SimulatorView.swift */; };
@@ -134,6 +137,9 @@
 		DA5147122FC0A11100E5D001 /* SimulatedFlightController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatedFlightController.swift; sourceTree = "<group>"; };
 		DA5147142FC0A11100E5D001 /* FlightModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightModelTests.swift; sourceTree = "<group>"; };
 		DA7C4A012FD10A4400B1E001 /* Drone.reality */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drone.reality; sourceTree = "<group>"; };
+		D4CD1BF4AFBB2AD290E593B8 /* ControlLinkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlLinkProtocol.swift; sourceTree = "<group>"; };
+		C4952B9F096CD22572AB85C8 /* ControlLinkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlLinkClient.swift; sourceTree = "<group>"; };
+		8D4B3DA07E366DA464B5A90E /* ControlLinkSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlLinkSession.swift; sourceTree = "<group>"; };
 		DA5147172FC0A11100E5D001 /* SimulatorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorScene.swift; sourceTree = "<group>"; };
 		DA5147192FC0A11100E5D001 /* SimulatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorViewModel.swift; sourceTree = "<group>"; };
 		DA51471B2FC0A11100E5D001 /* SimulatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorView.swift; sourceTree = "<group>"; };
@@ -289,6 +295,16 @@
 				59D9C6D328316FB78350C1C0 /* Pods-CH Drone 2.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		FDCB22769BACDE73FA1050D8 /* Control Link */ = {
+			isa = PBXGroup;
+			children = (
+				D4CD1BF4AFBB2AD290E593B8 /* ControlLinkProtocol.swift */,
+				C4952B9F096CD22572AB85C8 /* ControlLinkClient.swift */,
+				8D4B3DA07E366DA464B5A90E /* ControlLinkSession.swift */,
+			);
+			path = "Control Link";
 			sourceTree = "<group>";
 		};
 		DA5147162FC0A11100E5D001 /* Simulator */ = {
@@ -493,6 +509,7 @@
 			children = (
 				FA8AE60D26B641EE00913CE1 /* Containment */,
 				FA76D33F279E30B500D6D36E /* DJI UX Widgets */,
+				FDCB22769BACDE73FA1050D8 /* Control Link */,
 				FA7D124529E79ECF002179B3 /* Resources */,
 				FA7D124629E79EF9002179B3 /* Setup */,
 				FA7DE25E286C5FC400B5ED84 /* Telemetry */,
@@ -821,6 +838,9 @@
 				DA51471A2FC0A11100E5D001 /* SimulatorViewModel.swift in Sources */,
 				DA51471C2FC0A11100E5D001 /* SimulatorView.swift in Sources */,
 				DA51471E2FC0A11100E5D001 /* SimulatorViewController.swift in Sources */,
+				A876EBB69FD02477DEE85C94 /* ControlLinkProtocol.swift in Sources */,
+				CCCA026B461F960BAC697E5B /* ControlLinkClient.swift in Sources */,
+				A7626B7F4392C58CAA6CD37B /* ControlLinkSession.swift in Sources */,
 				DA5147112FC0A11100E5D001 /* FlightModel.swift in Sources */,
 				DF09DA710F1E7020A29147A3 /* ProceduralMesh.swift in Sources */,
 				DA5147132FC0A11100E5D001 /* SimulatedFlightController.swift in Sources */,

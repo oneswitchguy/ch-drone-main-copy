@@ -70,7 +70,10 @@ final class ControlsContainerViewController: UIViewController, UIGestureRecogniz
     private func embedChildren(videoFeedEnabled: Bool) {
         let flightVC: ControlsBackgroundViewController
         if let simulatedFlightController = viewModel.simulatedFlightController {
-            flightVC = SimulatorViewController(flightController: simulatedFlightController)
+            flightVC = SimulatorViewController(
+                flightController: simulatedFlightController,
+                controlLinkSession: viewModel.controlLinkSession
+            )
         } else {
             flightVC = FlightViewController(videoFeedEnabled: videoFeedEnabled)
         }

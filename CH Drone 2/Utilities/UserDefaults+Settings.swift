@@ -16,6 +16,9 @@ extension UserDefaults {
             #selector(getter: UserDefaults.minimumLongPressDuration).description: 0.2,
             #selector(getter: UserDefaults.clearCommandsOnRelease).description: true,
             #selector(getter: UserDefaults.videoFeedEnabled).description: true,
+            // Off unless asked for: the control link is a test-phase feature, and enabling
+            // it starts advertising on the local network.
+            #selector(getter: UserDefaults.isControlLinkEnabled).description: false,
             #selector(getter: UserDefaults.airPodsPitchSensitivity).description: 1.0,
             #selector(getter: UserDefaults.airPodsYawSensitivity).description: 1.0,
 
@@ -57,6 +60,16 @@ extension UserDefaults {
     var videoFeedEnabled: Bool {
         get { bool(forKey: "CHDVideoFeedEnabled") }
         set { set(newValue, forKey: "CHDVideoFeedEnabled") }
+    }
+
+    /// Whether the control link streams virtual stick state to the receiver app.
+    ///
+    /// Shares the key name with the playground clone so the two converge if the control
+    /// link ever merges into this branch.
+    @objc(CHDControlLinkEnabled)
+    var isControlLinkEnabled: Bool {
+        get { bool(forKey: "CHDControlLinkEnabled") }
+        set { set(newValue, forKey: "CHDControlLinkEnabled") }
     }
 
     @objc(CHDAirPodsPitchSensitivity)
