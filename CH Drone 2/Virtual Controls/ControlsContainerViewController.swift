@@ -9,6 +9,7 @@ import Combine
 import Foundation
 import SwiftUI
 import UIKit
+import UIKit.UIGestureRecognizerSubclass
 
 /// The layer the flight controls are laid out over — either the live camera feed and DJI
 /// widgets, or the simulator.
@@ -37,10 +38,13 @@ final class ControlsContainerViewController: UIViewController, UIGestureRecogniz
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        disengageTapGestureRecognizer.addTarget(self, action: #selector(handleDisengageTap))
-        disengageTapGestureRecognizer.cancelsTouchesInView = false
-        disengageTapGestureRecognizer.delegate = self
-        view.addGestureRecognizer(disengageTapGestureRecognizer)
+        // Disengages the moment a finger lands anywhere on the flight screen, not when it lifts.
+        // This is the pilot's stop gesture, so it must not wait for the tap to finish.
+        disengageTouchGestureRecognizer.touchDownHandler = { [weak self] in
+            self?.viewModel.disengageForScreenTouch()
+        }
+        disengageTouchGestureRecognizer.delegate = self
+        view.addGestureRecognizer(disengageTouchGestureRecognizer)
 
         // Rebuild the controls UI when a relevant setting changes
         UserDefaults.standard
@@ -57,7 +61,7 @@ final class ControlsContainerViewController: UIViewController, UIGestureRecogniz
 
     private var cancellables: [AnyCancellable] = []
     private weak var joystickViewController: JoystickViewController?
-    private let disengageTapGestureRecognizer = UITapGestureRecognizer()
+    private let disengageTouchGestureRecognizer = TouchDownGestureRecognizer()
 
     private lazy var controlsContainer = UIView()
         .assigning(\.translatesAutoresizingMaskIntoConstraints, to: false)
@@ -134,10 +138,6 @@ final class ControlsContainerViewController: UIViewController, UIGestureRecogniz
         ])
     }
 
-    @objc private func handleDisengageTap() {
-        viewModel.disengageOnScreenJoystickControl()
-    }
-
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         guard let joystickViewController else {
             return true
@@ -150,4 +150,59 @@ final class ControlsContainerViewController: UIViewController, UIGestureRecogniz
         true
     }
 
+}
+
+/// Calls ``touchDownHandler`` for every finger that lands, at the moment it lands, and otherwise
+/// stays out of the way.
+///
+/// `UITapGestureRecognizer` waits for the finger to lift, and both it and a zero-duration
+/// `UILongPressGestureRecognizer` fail outright when two fingers land together. This one never
+/// recognises: it reports from `touchesBegan` and fails once the last finger lifts, so it never
+/// cancels, delays or claims anything else's touches.
+private final class TouchDownGestureRecognizer: UIGestureRecognizer {
+    var touchDownHandler: (() -> Void)?
+
+    override init(target: Any?, action: Selector?) {
+        super.init(target: target, action: action)
+
+        cancelsTouchesInView = false
+        delaysTouchesEnded = false
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesBegan(touches, with: event)
+
+        touchesDown += touches.count
+        touchDownHandler?()
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesEnded(touches, with: event)
+
+        touchesLifted(touches.count)
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesCancelled(touches, with: event)
+
+        touchesLifted(touches.count)
+    }
+
+    override func reset() {
+        super.reset()
+
+        touchesDown = 0
+    }
+
+    // MARK: - Private
+
+    private var touchesDown = 0
+
+    private func touchesLifted(_ count: Int) {
+        touchesDown -= count
+
+        if touchesDown <= 0 {
+            state = .failed
+        }
+    }
 }

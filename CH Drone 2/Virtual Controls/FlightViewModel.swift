@@ -176,8 +176,8 @@ final class FlightViewModel: NSObject {
         accessibilityFocus = nil
     }
 
-    func disengageOnScreenJoystickControl() {
-        joystickControlsModel.interruptScreenControl()
+    func disengageForScreenTouch() {
+        joystickControlsModel.interruptForScreenTouch()
     }
 
     // MARK: - Button Controls

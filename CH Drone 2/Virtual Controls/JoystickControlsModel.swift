@@ -96,6 +96,17 @@ final class JoystickControlsModel {
         interrupt()
     }
 
+    /// A finger has touched the flight screen. Stops the on-screen joystick and head tracking,
+    /// and cancels a head tracking countdown that has not engaged yet — a pilot who touches
+    /// the screen to stop must not have head tracking take over a second later.
+    ///
+    /// A gamepad stick is left alone, as ``interruptNonJoystickControl()`` does: the gamepad
+    /// re-asserts a held stick on its next tick, so interrupting it would be undone at once.
+    func interruptForScreenTouch() {
+        cancelAirPodsCountdown()
+        interruptNonJoystickControl()
+    }
+
     // MARK: - Private
 
     private let userDefaults: UserDefaults
