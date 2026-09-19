@@ -196,6 +196,42 @@
 			<key>DefaultValue</key>
 			<true/>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Control Link (MQTT)</string>
+			<key>FooterText</key>
+			<string>The MQTT broker the Link button in the simulator connects to. A change applies the next time the link is turned on.</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Broker Host</string>
+			<key>Key</key>
+			<string>CHDControlLinkBrokerHost</string>
+			<key>KeyboardType</key>
+			<string>URL</string>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+			<key>DefaultValue</key>
+			<string>Christophers-MacBook-Pro-5.local</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>Broker Port</string>
+			<key>Key</key>
+			<string>CHDControlLinkBrokerPort</string>
+			<key>KeyboardType</key>
+			<string>NumberPad</string>
+			<key>DefaultValue</key>
+			<string>1883</string>
+		</dict>
 	</array>
 </dict>
 </plist>

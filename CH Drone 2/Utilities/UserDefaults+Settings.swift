@@ -17,8 +17,10 @@ extension UserDefaults {
             #selector(getter: UserDefaults.clearCommandsOnRelease).description: true,
             #selector(getter: UserDefaults.videoFeedEnabled).description: true,
             // Off unless asked for: the control link is a test-phase feature, and enabling
-            // it starts advertising on the local network.
+            // it connects out to a broker on the local network.
             #selector(getter: UserDefaults.isControlLinkEnabled).description: false,
+            #selector(getter: UserDefaults.controlLinkBrokerHost).description: UserDefaults.defaultControlLinkBrokerHost,
+            #selector(getter: UserDefaults.controlLinkBrokerPort).description: Int(ControlLinkProtocol.defaultPort),
             #selector(getter: UserDefaults.airPodsPitchSensitivity).description: 1.0,
             #selector(getter: UserDefaults.airPodsYawSensitivity).description: 1.0,
 
@@ -62,14 +64,38 @@ extension UserDefaults {
         set { set(newValue, forKey: "CHDVideoFeedEnabled") }
     }
 
-    /// Whether the control link streams virtual stick state to the receiver app.
+    /// Whether the control link streams stick state to the MQTT broker.
     ///
-    /// Shares the key name with the playground clone so the two converge if the control
-    /// link ever merges into this branch.
+    /// The key name dates from the TCP link, and still matches the playground clone's.
     @objc(CHDControlLinkEnabled)
     var isControlLinkEnabled: Bool {
         get { bool(forKey: "CHDControlLinkEnabled") }
         set { set(newValue, forKey: "CHDControlLinkEnabled") }
+    }
+
+    /// Christopher's Mac, which runs Mosquitto while the link is being tested.
+    static let defaultControlLinkBrokerHost = "Christophers-MacBook-Pro-5.local"
+
+    /// The MQTT broker the control link connects to. Typed into the Settings app, which
+    /// cannot validate, so a blank value falls back to the default here.
+    @objc(CHDControlLinkBrokerHost)
+    var controlLinkBrokerHost: String {
+        get {
+            let host = string(forKey: "CHDControlLinkBrokerHost")?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            return host.isEmpty ? Self.defaultControlLinkBrokerHost : host
+        }
+        set { set(newValue, forKey: "CHDControlLinkBrokerHost") }
+    }
+
+    /// The broker's port. Settings stores the field as text; anything that is not a valid
+    /// port falls back to MQTT's standard 1883.
+    @objc(CHDControlLinkBrokerPort)
+    var controlLinkBrokerPort: UInt16 {
+        get {
+            let port = integer(forKey: "CHDControlLinkBrokerPort")
+            return (1...Int(UInt16.max)).contains(port) ? UInt16(port) : ControlLinkProtocol.defaultPort
+        }
+        set { set(Int(newValue), forKey: "CHDControlLinkBrokerPort") }
     }
 
     @objc(CHDAirPodsPitchSensitivity)

@@ -15,7 +15,8 @@
 		7DADA4824F0BEF4AE8E6AE98 /* FlightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147102FC0A11100E5D001 /* FlightModel.swift */; };
 		A7626B7F4392C58CAA6CD37B /* ControlLinkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4B3DA07E366DA464B5A90E /* ControlLinkSession.swift */; };
 		A876EBB69FD02477DEE85C94 /* ControlLinkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CD1BF4AFBB2AD290E593B8 /* ControlLinkProtocol.swift */; };
-		CCCA026B461F960BAC697E5B /* ControlLinkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4952B9F096CD22572AB85C8 /* ControlLinkClient.swift */; };
+		0182379EACF80424A1F16E5D /* MQTTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE1450BF5B0EE7EA90B51A5 /* MQTTClient.swift */; };
+		B3CBB484FE7D40126C19D595 /* MQTTPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4877F2E027E85C91D40E98 /* MQTTPacket.swift */; };
 		DA4BD11E2F62E75A0019ED38 /* File.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA4BD11D2F62E75A0019ED38 /* File.txt */; };
 		DA5147112FC0A11100E5D001 /* FlightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147102FC0A11100E5D001 /* FlightModel.swift */; };
 		DA5147132FC0A11100E5D001 /* SimulatedFlightController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147122FC0A11100E5D001 /* SimulatedFlightController.swift */; };
@@ -26,6 +27,8 @@
 		DA51471E2FC0A11100E5D001 /* SimulatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA51471D2FC0A11100E5D001 /* SimulatorViewController.swift */; };
 		DA5147202FC0A11100E5D001 /* VirtualStickLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA51471F2FC0A11100E5D001 /* VirtualStickLimits.swift */; };
 		DA5147222FC0A11100E5D001 /* VirtualStickLimitsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5147212FC0A11100E5D001 /* VirtualStickLimitsTests.swift */; };
+		1B7C017D7DD76A8BD9A5FC15 /* MQTTPacketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37D43F665955EF11370478D /* MQTTPacketTests.swift */; };
+		4E6CFDBFA0E7B2B27C3A9F8D /* ControlLinkSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF04942F3DF5FB6A9AE7A25 /* ControlLinkSessionTests.swift */; };
 		DA742CE32FB2E844001188D2 /* GimbalPitchStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA742CE22FB2E844001188D2 /* GimbalPitchStepper.swift */; };
 		DA742CF12FB2E844001188D2 /* FlightControlling.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA742CF02FB2E844001188D2 /* FlightControlling.swift */; };
 		DA7C4A022FD10A4400B1E001 /* Drone.reality in Resources */ = {isa = PBXBuildFile; fileRef = DA7C4A012FD10A4400B1E001 /* Drone.reality */; };
@@ -130,7 +133,8 @@
 		8D4B3DA07E366DA464B5A90E /* ControlLinkSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlLinkSession.swift; sourceTree = "<group>"; };
 		8F735A2C5D1A8C46AFD2060A /* SceneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SceneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2AA3C8A18952A35E2129CC /* ProceduralMesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProceduralMesh.swift; sourceTree = "<group>"; };
-		C4952B9F096CD22572AB85C8 /* ControlLinkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlLinkClient.swift; sourceTree = "<group>"; };
+		FAE1450BF5B0EE7EA90B51A5 /* MQTTClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTClient.swift; sourceTree = "<group>"; };
+		CE4877F2E027E85C91D40E98 /* MQTTPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTPacket.swift; sourceTree = "<group>"; };
 		C60C76B28DA0396A80DFC0C0 /* Pods-CH Drone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CH Drone.debug.xcconfig"; path = "Target Support Files/Pods-CH Drone/Pods-CH Drone.debug.xcconfig"; sourceTree = "<group>"; };
 		CF35594363FD8B09624C217D /* ProceduralMeshTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProceduralMeshTests.swift; sourceTree = "<group>"; };
 		D4CD1BF4AFBB2AD290E593B8 /* ControlLinkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlLinkProtocol.swift; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 		DA51471D2FC0A11100E5D001 /* SimulatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulatorViewController.swift; sourceTree = "<group>"; };
 		DA51471F2FC0A11100E5D001 /* VirtualStickLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualStickLimits.swift; sourceTree = "<group>"; };
 		DA5147212FC0A11100E5D001 /* VirtualStickLimitsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualStickLimitsTests.swift; sourceTree = "<group>"; };
+		A37D43F665955EF11370478D /* MQTTPacketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTPacketTests.swift; sourceTree = "<group>"; };
+		DEF04942F3DF5FB6A9AE7A25 /* ControlLinkSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlLinkSessionTests.swift; sourceTree = "<group>"; };
 		DA742CE22FB2E844001188D2 /* GimbalPitchStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GimbalPitchStepper.swift; sourceTree = "<group>"; };
 		DA742CF02FB2E844001188D2 /* FlightControlling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightControlling.swift; sourceTree = "<group>"; };
 		DA7C4A012FD10A4400B1E001 /* Drone.reality */ = {isa = PBXFileReference; lastKnownFileType = file; path = Drone.reality; sourceTree = "<group>"; };
@@ -354,6 +360,8 @@
 			children = (
 				FA24E6DF26BE00DA00472A18 /* CHDroneTests.swift */,
 				DA5147212FC0A11100E5D001 /* VirtualStickLimitsTests.swift */,
+				A37D43F665955EF11370478D /* MQTTPacketTests.swift */,
+				DEF04942F3DF5FB6A9AE7A25 /* ControlLinkSessionTests.swift */,
 				DA5147142FC0A11100E5D001 /* FlightModelTests.swift */,
 				CF35594363FD8B09624C217D /* ProceduralMeshTests.swift */,
 				DBCE7C952F8D315100F35F1F /* JoystickControlsModelTests.swift */,
@@ -517,7 +525,8 @@
 			isa = PBXGroup;
 			children = (
 				D4CD1BF4AFBB2AD290E593B8 /* ControlLinkProtocol.swift */,
-				C4952B9F096CD22572AB85C8 /* ControlLinkClient.swift */,
+				CE4877F2E027E85C91D40E98 /* MQTTPacket.swift */,
+				FAE1450BF5B0EE7EA90B51A5 /* MQTTClient.swift */,
 				8D4B3DA07E366DA464B5A90E /* ControlLinkSession.swift */,
 			);
 			path = "Control Link";
@@ -819,6 +828,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA5147222FC0A11100E5D001 /* VirtualStickLimitsTests.swift in Sources */,
+				1B7C017D7DD76A8BD9A5FC15 /* MQTTPacketTests.swift in Sources */,
+				4E6CFDBFA0E7B2B27C3A9F8D /* ControlLinkSessionTests.swift in Sources */,
 				EAAE17A211491FD5DCF6302A /* ProceduralMeshTests.swift in Sources */,
 				DA5147152FC0A11100E5D001 /* FlightModelTests.swift in Sources */,
 				FA24E6E026BE00DA00472A18 /* CHDroneTests.swift in Sources */,
@@ -839,7 +850,8 @@
 				DA51471C2FC0A11100E5D001 /* SimulatorView.swift in Sources */,
 				DA51471E2FC0A11100E5D001 /* SimulatorViewController.swift in Sources */,
 				A876EBB69FD02477DEE85C94 /* ControlLinkProtocol.swift in Sources */,
-				CCCA026B461F960BAC697E5B /* ControlLinkClient.swift in Sources */,
+				B3CBB484FE7D40126C19D595 /* MQTTPacket.swift in Sources */,
+				0182379EACF80424A1F16E5D /* MQTTClient.swift in Sources */,
 				A7626B7F4392C58CAA6CD37B /* ControlLinkSession.swift in Sources */,
 				DA5147112FC0A11100E5D001 /* FlightModel.swift in Sources */,
 				DF09DA710F1E7020A29147A3 /* ProceduralMesh.swift in Sources */,
@@ -1057,7 +1069,7 @@
 				BUNDLE_NAME = "HO Flight";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_TEAM = 4R99ZUCJBW;
 				INFOPLIST_KEY_CFBundleDisplayName = "HandsOptional Flight Lab";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
@@ -1074,7 +1086,7 @@
 				BUNDLE_NAME = "HO Flight";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 57;
+				CURRENT_PROJECT_VERSION = 58;
 				DEVELOPMENT_TEAM = 4R99ZUCJBW;
 				INFOPLIST_KEY_CFBundleDisplayName = "HandsOptional Flight Lab";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";

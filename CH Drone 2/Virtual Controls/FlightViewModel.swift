@@ -54,8 +54,8 @@ final class FlightViewModel: NSObject {
 
     let movementMultipliers: MovementMultipliers
 
-    /// The control link to the receiver app. Held here because this is where the stick
-    /// state is assembled — see ``sendControlsData()``.
+    /// The MQTT control link to the joystick mover. Held here because this is where the
+    /// stick state is assembled — see ``sendControlsData()``.
     let controlLinkSession = ControlLinkSession()
 
     /// Non-nil when the controls are flying a simulation rather than an aircraft, which
@@ -515,7 +515,7 @@ private extension FlightViewModel {
         // send it to.
         controlLinkSession.send(
             controlsState: currentControlsState,
-            source: simulatedFlightController == nil ? nil : ControlLinkProtocol.simulatorSource
+            source: simulatedFlightController == nil ? ControlLinkProtocol.flightSource : ControlLinkProtocol.simulatorSource
         )
 
         guard let flightController = flightController else { return }

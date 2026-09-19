@@ -168,11 +168,11 @@ struct SimulatorView: View {
         .font(.callout.weight(.semibold))
     }
 
-    /// Turns the TCP control link to the receiver app on and off.
+    /// Turns the MQTT control link on and off.
     ///
-    /// **Test phase.** The link streams the stick positions the pilot is commanding to a
-    /// second device over the local network; nothing comes back, and nothing about the
-    /// simulation depends on it. It lives on the simulator screen because that is where the
+    /// **Test phase.** The link streams the stick positions the pilot is commanding to an
+    /// MQTT broker on the local network, for the joystick mover and the Mac monitor. Only
+    /// latency pings come back, and nothing about the simulation depends on it. It lives on the simulator screen because that is where the
     /// link can be exercised without an aircraft in the air.
     ///
     /// Styled as a secondary control so it cannot be mistaken for the flight buttons beside
@@ -183,7 +183,7 @@ struct SimulatorView: View {
             controlLinkSession.toggle()
         } label: {
             Label {
-                Text("Link", comment: "Toggles the test TCP link to the receiver app")
+                Text("Link", comment: "Toggles the test MQTT link to the broker")
             } icon: {
                 Image(systemName: controlLinkIconName)
             }
@@ -194,8 +194,8 @@ struct SimulatorView: View {
         .accessibilityValue(Text(controlLinkStatus))
         .accessibilityHint(Text(
             controlLinkSession.isEnabled
-                ? String(localized: "Turns off streaming the controls to the receiver app.", comment: "")
-                : String(localized: "Streams the controls to the receiver app for testing.", comment: "")
+                ? String(localized: "Turns off streaming the controls to the MQTT broker.", comment: "")
+                : String(localized: "Streams the controls to the MQTT broker for testing.", comment: "")
         ))
     }
 
@@ -220,7 +220,7 @@ struct SimulatorView: View {
             return .green
         case .failed:
             return .orange
-        case .idle, .browsing, .connecting:
+        case .idle, .connecting:
             return .yellow
         }
     }
@@ -235,10 +235,8 @@ struct SimulatorView: View {
         switch controlLinkSession.connectionState {
         case .idle:
             return String(localized: "On, starting up", comment: "")
-        case .browsing:
-            return String(localized: "On, looking for the receiver app", comment: "")
-        case .connecting:
-            return String(localized: "On, connecting", comment: "")
+        case .connecting(let broker):
+            return String(localized: "On, connecting to the broker at \(broker)", comment: "")
         case .connected(let endpoint):
             return String(localized: "Connected to \(endpoint)", comment: "")
         case .failed(let message):

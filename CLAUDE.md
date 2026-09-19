@@ -250,6 +250,30 @@ app untouched. Two things to know when working on it:
 - `SceneLabApp.swift` imports both SwiftUI and RealityKit, and both declare `Scene`, so the
   `App` conformance has to say `some SwiftUI.Scene`.
 
+## Control link (MQTT)
+
+`CH Drone 2/Control Link/` streams the pilot's stick state over MQTT for the **physical
+joystick mover** an electrical engineer is building. The contract (topics, JSON, axis
+directions and the mover's 300 ms neutral watchdog) is in `docs/control-link-mqtt.md`, and
+`ControlLinkProtocol.swift` is its code; change the two together. It replaced a TCP +
+Bonjour link on 2026-09-19.
+
+- `MQTTPacket.swift` and `MQTTClient.swift` are a small MQTT 3.1.1 client on
+  `NWConnection`, with Nagle's algorithm off (`noDelay`). They are pure Foundation and
+  Network, **no UIKit or DJI**, because `tools/ControlLinkMonitor` (a Mac app, generated
+  by `xcodegen` from its `project.yml`) compiles them and `ControlLinkProtocol.swift` by
+  reference. Keep them that way.
+- `ControlLinkSession` is the app's side. It is off by default, toggled by **Link** in the
+  simulator's top strip, and reads the broker host and port from Settings. It sends
+  **stick deflection**, not the drone command: `command / (|MovementType.baselineValue| ×
+  fastestMultiplier)`, so each speed step is a fixed fraction of full stick (Medium is
+  0.5). It keeps a retained status with a Will, and answers pings with pongs.
+- `CHDroneTests/MQTTPacketTests.swift` uses only the shared files, so it also runs on the
+  Mac. Put it in a throwaway Swift package with those files symlinked into a module named
+  `CH_Drone_2`, and run `swift test`. `ControlLinkSessionTests.swift` needs the app's types
+  and runs on the iPad only.
+- Test broker: `mosquitto -c tools/mosquitto/mosquitto.conf -v` (Homebrew).
+
 ## Style
 
 UIKit with Combine, plus SwiftUI for newer leaf views. `@ValueSubject` is the in-house
