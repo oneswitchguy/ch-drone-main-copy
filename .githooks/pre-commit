@@ -1,0 +1,100 @@
+#!/bin/sh
+#
+# Adds one to the app's build number (CURRENT_PROJECT_VERSION of the "CH Drone 2" target,
+# Debug and Release together) and puts the change into the commit being made.
+#
+# Install once per clone, from the repository root:
+#
+#     ln -sf ../../.githooks/pre-commit .git/hooks/pre-commit
+#
+# Leaves the number alone when the commit already changes it (set by hand, or taken from the
+# other branch when resolving a merge), and when amending a commit that already bumped it.
+# Skip it for one commit with SKIP_BUILD_NUMBER_BUMP=1 git commit …, or skip every hook with
+# --no-verify.
+#
+# `git merge` does not run pre-commit, so a merge commit it makes itself keeps the number it
+# merged in. Do not link this as pre-merge-commit either: git has already written the merge's
+# tree by then, so the bump is left staged instead of committed. A merge that stops on a
+# conflict, finished with `git commit`, does run this hook.
+#
+# Only the build number lines are touched: the bump goes into the staged copy of
+# project.pbxproj and the working copy separately, so unstaged edits to the project stay
+# unstaged. Kept to /bin/sh, awk and git, because Xcode runs hooks with a minimal PATH.
+
+[ -n "$SKIP_BUILD_NUMBER_BUMP" ] && exit 0
+
+target="CH Drone 2"
+project="CH Drone 2.xcodeproj/project.pbxproj"
+
+cd "$(git rev-parse --show-toplevel)" || exit 1
+git_dir=$(git rev-parse --absolute-git-dir) || exit 1
+
+# The build configurations listed for $target, then CURRENT_PROJECT_VERSION within them.
+# mode=get prints the highest value found; mode=set prints the file with each set to $new.
+build_number() {
+    awk -v mode="$1" -v new="$2" -v list_header="/* Build configuration list for PBXNativeTarget \"$target\" */ = {" '
+        NR == FNR {
+            if (index($0, list_header)) { in_list = 1; next }
+            if (in_list && $0 ~ /^\t\t};/) { in_list = 0; next }
+            if (in_list && $0 ~ /^\t\t\t\t[0-9A-F]+ \/\*/) { configs[$1] = 1 }
+            next
+        }
+        $0 ~ /^\t\t[0-9A-F]+ \/\* .* \*\/ = [{]$/ { in_config = ($1 in configs) }
+        $0 ~ /^\t\t};$/ { in_config = 0 }
+        in_config && match($0, /CURRENT_PROJECT_VERSION = [0-9]+;/) {
+            value = substr($0, RSTART + 26, RLENGTH - 27) + 0
+            if (value > highest) highest = value
+            if (mode == "set") sub(/CURRENT_PROJECT_VERSION = [0-9]+;/, "CURRENT_PROJECT_VERSION = " new ";")
+        }
+        mode == "set" { print }
+        END { if (mode == "get" && highest > 0) print highest }
+    ' "$3" "$3"
+}
+
+warn() {
+    echo "pre-commit: $*; build number not bumped." >&2
+    exit 0
+}
+
+tmp=$(mktemp -d "${TMPDIR:-/tmp}/build-number.XXXXXX") || exit 1
+trap 'rm -rf "$tmp"' EXIT
+
+# The copy being committed: whatever index this commit uses, which is a temporary one for
+# `git commit -a` and `git commit <paths>`.
+git show ":$project" > "$tmp/staged" 2>/dev/null || warn "$project is not in the index"
+staged=$(build_number get "" "$tmp/staged")
+[ -n "$staged" ] || warn "no CURRENT_PROJECT_VERSION found for target \"$target\""
+
+# What this commit is based on. An amend replaces HEAD, so compare with HEAD's parent.
+base=HEAD
+case "$(ps -o args= -p "$PPID" 2>/dev/null)" in
+    *--amend*) base=HEAD^ ;;
+esac
+if git show "$base:$project" > "$tmp/base" 2>/dev/null; then
+    [ "$(build_number get "" "$tmp/base")" = "$staged" ] || exit 0
+fi
+
+new=$((staged + 1))
+
+build_number set "$new" "$tmp/staged" > "$tmp/bumped" || exit 1
+mode=$(git ls-files -s -- "$project" | awk '{ print $1; exit }')
+blob=$(git hash-object -w -- "$tmp/bumped") || exit 1
+git update-index --cacheinfo "$mode,$blob,$project" || exit 1
+
+# `git commit <paths>` commits from a temporary index and afterwards installs index.lock as
+# the real index. Put the bump there too, or the real index would still hold the old number
+# and show the bump as reverted.
+index_file="${GIT_INDEX_FILE:-$git_dir/index}"
+case "$index_file" in /*) ;; *) index_file="$PWD/$index_file" ;; esac
+if [ "$index_file" != "$git_dir/index" ] && [ "$index_file" != "$git_dir/index.lock" ] &&
+    [ -f "$git_dir/index.lock" ]; then
+    GIT_INDEX_FILE="$git_dir/index.lock" git update-index --cacheinfo "$mode,$blob,$project" ||
+        echo "pre-commit: could not update the main index; run: git add \"$project\"" >&2
+fi
+
+# The working copy, only where it still holds the number that was staged.
+if [ "$(build_number get "" "$project")" = "$staged" ]; then
+    build_number set "$new" "$project" > "$tmp/working" && cat "$tmp/working" > "$project"
+fi
+
+echo "Build number $staged → $new" >&2

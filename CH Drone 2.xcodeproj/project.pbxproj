@@ -1005,7 +1005,7 @@
 				BUNDLE_NAME = "HO Flight";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 56;
 				DEVELOPMENT_TEAM = 4R99ZUCJBW;
 				INFOPLIST_KEY_CFBundleDisplayName = "HandsOptional Flight Lab";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
@@ -1022,7 +1022,7 @@
 				BUNDLE_NAME = "HO Flight";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 56;
 				DEVELOPMENT_TEAM = 4R99ZUCJBW;
 				INFOPLIST_KEY_CFBundleDisplayName = "HandsOptional Flight Lab";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";

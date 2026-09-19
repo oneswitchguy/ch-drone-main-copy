@@ -53,6 +53,24 @@ and hands it to whichever app delegate `main.swift` installed, through
 `WindowSceneConnecting`. Do not create windows in `didFinishLaunching`, and use scene
 callbacks rather than `application…Active` delegate methods, which UIKit no longer calls.
 
+## The build number goes up by one on every commit
+
+`.githooks/pre-commit` adds one to `CURRENT_PROJECT_VERSION` for the **CH Drone 2** target
+(Debug and Release together) and puts that change into the same commit, so every commit
+touches those two lines of `project.pbxproj`. SceneLab and the tests stay at 1. Git does not
+install hooks from a clone, so each clone needs this once:
+
+```sh
+ln -sf ../../.githooks/pre-commit .git/hooks/pre-commit
+```
+
+- It leaves the number alone when the commit already changes it, and when amending a commit
+  that already bumped it.
+- Skip it for one commit with `SKIP_BUILD_NUMBER_BUMP=1 git commit …`, or with `--no-verify`.
+- Two branches that both commit will conflict on those lines when merged. Keep either
+  number; if you keep the current branch's, the hook bumps it when you run `git commit`.
+- A clean merge that `git merge` commits by itself keeps the number it merged in.
+
 ## Adding source files requires editing project.pbxproj
 
 The project is `objectVersion = 54` with no file-system-synchronized groups, so **new files
