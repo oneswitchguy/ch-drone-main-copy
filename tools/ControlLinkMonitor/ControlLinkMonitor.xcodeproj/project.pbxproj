@@ -1,0 +1,441 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0EB3BF372C7653B9CB88055C /* ControlLinkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E12E247F2A4E75F4A2A9CC /* ControlLinkProtocol.swift */; };
+		1FB36C919120FD0DD6866886 /* MonitorStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05038A07325F9B864F64F2 /* MonitorStats.swift */; };
+		536647424683D3810080A5B7 /* MQTTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF84D1538D3363BE828BE229 /* MQTTClient.swift */; };
+		68F09F931DD97ED358C16D6C /* MQTTPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C727AE32104A1525F423681 /* MQTTPacket.swift */; };
+		B9801185C8C93C9BAEA32BD0 /* MonitorStatsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA23498DDD546DFF06338B13 /* MonitorStatsTests.swift */; };
+		C27A4EC133B179271F83D8EE /* MonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43ED1B3DBA3F8C111D4EAA0 /* MonitorView.swift */; };
+		C537B6E1F2B6924305F76B32 /* MonitorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24C22E8002136968F02F8C3 /* MonitorModel.swift */; };
+		EBE4BB871E3772144DAA66DB /* MonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1031C432DEEC243DBA3F7110 /* MonitorApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4362570620D69BCC6FE9A720 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5A98123A584CB5770E0233A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9E19E1C110E83E0DBE216C3;
+			remoteInfo = ControlLinkMonitor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1031C432DEEC243DBA3F7110 /* MonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorApp.swift; sourceTree = "<group>"; };
+		1266BB69B20974C94AB2CDAE /* ControlLinkMonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ControlLinkMonitorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		14E12E247F2A4E75F4A2A9CC /* ControlLinkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ControlLinkProtocol.swift; path = "../../CH Drone 2/Control Link/ControlLinkProtocol.swift"; sourceTree = "<group>"; };
+		5C727AE32104A1525F423681 /* MQTTPacket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MQTTPacket.swift; path = "../../CH Drone 2/Control Link/MQTTPacket.swift"; sourceTree = "<group>"; };
+		9B05038A07325F9B864F64F2 /* MonitorStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorStats.swift; sourceTree = "<group>"; };
+		AEC1D165CEA98E8F325DE46B /* ControlLinkMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlLinkMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF84D1538D3363BE828BE229 /* MQTTClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MQTTClient.swift; path = "../../CH Drone 2/Control Link/MQTTClient.swift"; sourceTree = "<group>"; };
+		B24C22E8002136968F02F8C3 /* MonitorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorModel.swift; sourceTree = "<group>"; };
+		C43ED1B3DBA3F8C111D4EAA0 /* MonitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorView.swift; sourceTree = "<group>"; };
+		DA23498DDD546DFF06338B13 /* MonitorStatsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorStatsTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0DD1371B03253869C73101DE = {
+			isa = PBXGroup;
+			children = (
+				54594F177F4FC4C8472C94B0 /* Shared */,
+				E7D8400CBB18581136A94021 /* Sources */,
+				154706650C733FFC7BBBC1C8 /* Tests */,
+				556FC2EBAFE73C6F3376109F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		154706650C733FFC7BBBC1C8 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				DA23498DDD546DFF06338B13 /* MonitorStatsTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		54594F177F4FC4C8472C94B0 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				14E12E247F2A4E75F4A2A9CC /* ControlLinkProtocol.swift */,
+				AF84D1538D3363BE828BE229 /* MQTTClient.swift */,
+				5C727AE32104A1525F423681 /* MQTTPacket.swift */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
+		556FC2EBAFE73C6F3376109F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AEC1D165CEA98E8F325DE46B /* ControlLinkMonitor.app */,
+				1266BB69B20974C94AB2CDAE /* ControlLinkMonitorTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E7D8400CBB18581136A94021 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				1031C432DEEC243DBA3F7110 /* MonitorApp.swift */,
+				B24C22E8002136968F02F8C3 /* MonitorModel.swift */,
+				9B05038A07325F9B864F64F2 /* MonitorStats.swift */,
+				C43ED1B3DBA3F8C111D4EAA0 /* MonitorView.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A9E19E1C110E83E0DBE216C3 /* ControlLinkMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9067561B39FB2293338370E2 /* Build configuration list for PBXNativeTarget "ControlLinkMonitor" */;
+			buildPhases = (
+				FA528DDCAD977D12662DAD15 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ControlLinkMonitor;
+			packageProductDependencies = (
+			);
+			productName = ControlLinkMonitor;
+			productReference = AEC1D165CEA98E8F325DE46B /* ControlLinkMonitor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F4CD82644C3B83C7944F240E /* ControlLinkMonitorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4B03F8C4D2FCE236285BC2A7 /* Build configuration list for PBXNativeTarget "ControlLinkMonitorTests" */;
+			buildPhases = (
+				D68B1115B722694F5BA7039A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2382B965D9F7BE15C56CB328 /* PBXTargetDependency */,
+			);
+			name = ControlLinkMonitorTests;
+			packageProductDependencies = (
+			);
+			productName = ControlLinkMonitorTests;
+			productReference = 1266BB69B20974C94AB2CDAE /* ControlLinkMonitorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B5A98123A584CB5770E0233A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					A9E19E1C110E83E0DBE216C3 = {
+						ProvisioningStyle = Manual;
+					};
+					F4CD82644C3B83C7944F240E = {
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = C2E054CAC320FA3C9497DFA8 /* Build configuration list for PBXProject "ControlLinkMonitor" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 0DD1371B03253869C73101DE;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 556FC2EBAFE73C6F3376109F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A9E19E1C110E83E0DBE216C3 /* ControlLinkMonitor */,
+				F4CD82644C3B83C7944F240E /* ControlLinkMonitorTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D68B1115B722694F5BA7039A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B9801185C8C93C9BAEA32BD0 /* MonitorStatsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA528DDCAD977D12662DAD15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EB3BF372C7653B9CB88055C /* ControlLinkProtocol.swift in Sources */,
+				536647424683D3810080A5B7 /* MQTTClient.swift in Sources */,
+				68F09F931DD97ED358C16D6C /* MQTTPacket.swift in Sources */,
+				EBE4BB871E3772144DAA66DB /* MonitorApp.swift in Sources */,
+				C537B6E1F2B6924305F76B32 /* MonitorModel.swift in Sources */,
+				1FB36C919120FD0DD6866886 /* MonitorStats.swift in Sources */,
+				C27A4EC133B179271F83D8EE /* MonitorView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2382B965D9F7BE15C56CB328 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9E19E1C110E83E0DBE216C3 /* ControlLinkMonitor */;
+			targetProxy = 4362570620D69BCC6FE9A720 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		5414BCD88C7E7B0C62BCA607 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Control Link Monitor";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Connects to an MQTT broker on your local network to watch the control link.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.ControlLinkMonitor;
+				PRODUCT_MODULE_NAME = ControlLinkMonitor;
+				PRODUCT_NAME = "Control Link Monitor";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		70959A30A97705BB157B7820 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.ControlLinkMonitorTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Control Link Monitor.app/Contents/MacOS/Control Link Monitor";
+			};
+			name = Release;
+		};
+		B85CB7AF72A96328828F1793 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Control Link Monitor";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Connects to an MQTT broker on your local network to watch the control link.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.ControlLinkMonitor;
+				PRODUCT_MODULE_NAME = ControlLinkMonitor;
+				PRODUCT_NAME = "Control Link Monitor";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BAD5346EC3CF6C4B5D4E9F58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhills.ControlLinkMonitorTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Control Link Monitor.app/Contents/MacOS/Control Link Monitor";
+			};
+			name = Debug;
+		};
+		BFD34B25E2915E692B4D7E95 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D1D3816FBDB53E6B50F6A255 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4B03F8C4D2FCE236285BC2A7 /* Build configuration list for PBXNativeTarget "ControlLinkMonitorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAD5346EC3CF6C4B5D4E9F58 /* Debug */,
+				70959A30A97705BB157B7820 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9067561B39FB2293338370E2 /* Build configuration list for PBXNativeTarget "ControlLinkMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5414BCD88C7E7B0C62BCA607 /* Debug */,
+				B85CB7AF72A96328828F1793 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C2E054CAC320FA3C9497DFA8 /* Build configuration list for PBXProject "ControlLinkMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1D3816FBDB53E6B50F6A255 /* Debug */,
+				BFD34B25E2915E692B4D7E95 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B5A98123A584CB5770E0233A /* Project object */;
+}

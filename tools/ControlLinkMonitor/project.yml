@@ -1,0 +1,67 @@
+# Control Link Monitor: a small Mac app for testing the MQTT control link.
+# See docs/control-link-mqtt.md. Regenerate the project after editing this file:
+#
+#   cd tools/ControlLinkMonitor && xcodegen generate
+#
+# The MQTT and protocol files are compiled by reference from the iPad app, so both ends
+# always speak the same protocol.
+name: ControlLinkMonitor
+options:
+  deploymentTarget:
+    macOS: "15.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  ControlLinkMonitor:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources
+      - path: "../../CH Drone 2/Control Link/MQTTPacket.swift"
+        group: Shared
+      - path: "../../CH Drone 2/Control Link/MQTTClient.swift"
+        group: Shared
+      - path: "../../CH Drone 2/Control Link/ControlLinkProtocol.swift"
+        group: Shared
+    settings:
+      base:
+        PRODUCT_NAME: Control Link Monitor
+        PRODUCT_MODULE_NAME: ControlLinkMonitor
+        PRODUCT_BUNDLE_IDENTIFIER: com.christopherhills.ControlLinkMonitor
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Control Link Monitor
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
+        INFOPLIST_KEY_NSLocalNetworkUsageDescription: Connects to an MQTT broker on your local network to watch the control link.
+        # Signed to run locally only; not sandboxed, so it can reach any broker.
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+        ENABLE_HARDENED_RUNTIME: NO
+  ControlLinkMonitorTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests
+    dependencies:
+      - target: ControlLinkMonitor
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.christopherhills.ControlLinkMonitorTests
+        # xcodegen assumes the app is named after the target; it is "Control Link Monitor".
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Control Link Monitor.app/Contents/MacOS/Control Link Monitor"
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+schemes:
+  ControlLinkMonitor:
+    build:
+      targets:
+        ControlLinkMonitor: all
+    run:
+      config: Debug
+    test:
+      targets:
+        - ControlLinkMonitorTests
