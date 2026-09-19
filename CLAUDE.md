@@ -42,8 +42,16 @@ xcodebuild -workspace "CH Drone 2.xcworkspace" -scheme "CH Drone 2" \
   CODE_SIGNING_ALLOWED=NO build
 ```
 
-Verified on Xcode 26.6 / iOS 26.5 SDK. Deployment floor is iOS 18.0 (app and test targets);
-the Pods targets are still 15.6, which is fine.
+Verified on Xcode 26.6 / iOS 26.5 SDK, and on Xcode 27.0 running on iOS 27.2. Deployment
+floor is iOS 18.0 (app and test targets); the Pods targets are still 15.6, which is fine.
+
+**The app must keep the UIScene life cycle.** Built with the iOS 27 SDK, an app without it is
+killed at launch with `EXC_BREAKPOINT` in
+`_UIApplicationEvaluateRuntimeIssueForNoSceneLifecycleAdoption`. `SceneDelegate` (in
+`AppDelegate.swift`, named by `UIApplicationSceneManifest` in Info.plist) creates the window
+and hands it to whichever app delegate `main.swift` installed, through
+`WindowSceneConnecting`. Do not create windows in `didFinishLaunching`, and use scene
+callbacks rather than `application…Active` delegate methods, which UIKit no longer calls.
 
 ## Adding source files requires editing project.pbxproj
 
