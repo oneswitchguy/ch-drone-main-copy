@@ -233,9 +233,10 @@ already disengaged, through `setKeyState`.
   | Drag on the thumb | withheld; the thumb's own pan still works | — | — |
 
 **Confirmed on hardware, 2026-09-19.** Christopher ran the build with the fix on the iPad
-(iPad Pro 12.9-inch, 6th generation, iOS 27.2) with AirPods head tracking engaged. Head
-tracking disengages on touch, which is step 4 under *Reproducing* now passing.
+(iPad Pro 12.9-inch, 6th generation, iOS 27.2) with AirPods, and both halves of the fix
+work:
 
-**Not yet tested on hardware:** cancelling the countdown. Tap the joystick thumb, touch
-elsewhere on the screen before the three-second count reaches zero, and head tracking should
-not engage.
+- With head tracking engaged, a touch on the screen disengages it. This is step 4 under
+  *Reproducing*, now passing.
+- Touching the screen during the three-second countdown cancels it, and head tracking does
+  not engage.
