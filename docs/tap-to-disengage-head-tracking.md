@@ -1,6 +1,6 @@
 # A tap on the screen does not disengage AirPods head tracking
 
-**Status:** fixed 2026-09-19 — on touch-down, not tap (see *Resolution* at the end)
+**Status:** fixed in `e36bd63` and confirmed on the iPad with AirPods, 2026-09-19 — on touch-down, not tap (see *Resolution* at the end)
 **Filed against:** this codebase (HandsOptional Flight Lab / CH Drone 2), `feature/flight-simulator-seam` at `edbc1be`
 **Severity:** accessibility and safety defect — the pilot's most instinctive "stop" gesture silently does nothing for the one control mode they cannot physically let go of
 **Date raised:** 2026-09-12
@@ -232,7 +232,10 @@ already disengaged, through `setKeyState`.
   | Tap and hold on a button | fires; button still fires on release | — | — |
   | Drag on the thumb | withheld; the thumb's own pan still works | — | — |
 
-**Still needs the iPad.** The DJI SDK has no arm64 simulator slice, so the whole path —
-AirPods engaged, touch the screen, the aircraft or simulator stops following the head — is
-unverified end to end. Steps 1–4 under *Reproducing* are the test. Step 4 should now show
-disengage the moment the finger lands.
+**Confirmed on hardware, 2026-09-19.** Christopher ran the build with the fix on the iPad
+(iPad Pro 12.9-inch, 6th generation, iOS 27.2) with AirPods head tracking engaged. Head
+tracking disengages on touch, which is step 4 under *Reproducing* now passing.
+
+**Not yet tested on hardware:** cancelling the countdown. Tap the joystick thumb, touch
+elsewhere on the screen before the three-second count reaches zero, and head tracking should
+not engage.
