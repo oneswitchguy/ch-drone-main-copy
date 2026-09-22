@@ -1,3 +1,6 @@
-- Updated control UI: Joystick and speed settings now appear in a separate sheet
-- AirPods Head Tracking. Wear AirPods to control joystick (refer to user guide, available on handsoptional.com)
 - Flight Simulator
+- When AirPods are used for head tracking, a tap on the screen now disengage head tracking and returns the joystick to the centre position
+- Updated aircraft model for simulator
+- Switch Control can now be used without the an external game controller
+- Control link now uses MQTT
+- iOS 27 support
